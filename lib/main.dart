@@ -1,28 +1,59 @@
 import 'package:flutter/material.dart';
 
-/// main() -> Entry points of code
-/// runApp() -> Entry points of Apps
-/// MaterialApp, Scaffold, AppBar, Text etc are 'class / Widgets'
-/// home: , appBar: , title: etc are called 'property / attributes'
-
-
-main() {
-  //print('Entry point');
-  runApp(HelloWorldApp());
+main(){
+  runApp(const MyApp());
 }
 
-/// converting a class into widgets so inherits the StatelessWidget
-class HelloWorldApp extends StatelessWidget {
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp( //MaterialApp is a predifine class of flutter which indicates to set the apps ui / apps theme
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          elevation: 8,
-          title: Text('Hasan App'),
-        ),
-        body: Text('Hey I am Hasan Ahmad. This is my new flutter app project'),
+      home: AppsHome(),
+    );
+  }
+}
+
+class AppsHome extends StatelessWidget {
+  const AppsHome({Key? key}) : super(key: key);
+
+  // SnackBar message code
+  SnackBarMessage(message,context){
+    return ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message))
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Flutter with Hasan"),
+        //titleSpacing: 15,
+        centerTitle: true,
+        toolbarOpacity: 1,
+        toolbarHeight: 85,
+        elevation: 25,
+        backgroundColor: Colors.blueAccent,
+
+        // set action icon in appbar
+        actions: [
+          IconButton(onPressed: (){
+            SnackBarMessage('Search',context);},
+              icon: Icon(Icons.search)),
+          IconButton(onPressed: (){
+            SnackBarMessage('Call', context);},
+              icon: Icon(Icons.add_call)),
+          IconButton(onPressed: (){
+            SnackBarMessage('Settings', context);},
+              icon: Icon(Icons.settings_applications))
+        ],
+      ),
+
+      body: Center(
+        child: Text('Welcome to learning flutter with me'),
       ),
     );
   }
