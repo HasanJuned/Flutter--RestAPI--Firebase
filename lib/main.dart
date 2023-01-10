@@ -8,14 +8,16 @@ import 'package:flutter/material.dart';
 
 main() {
   //print('Entry point');
-  runApp(HelloWorldApp());
+  runApp(const HelloWorldApp());
 }
 
 /// converting a class into widgets so inherits the StatelessWidget
 class HelloWorldApp extends StatelessWidget {
+  const HelloWorldApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp( //MaterialApp is a predifine class of flutter which indicates to set the apps ui / apps theme
+    return MaterialApp( /// MaterialApp is a predifine class of flutter which indicates to set the apps ui / apps theme
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
