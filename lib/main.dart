@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 
-/// main() -> Entry points of code
-/// runApp() -> Entry points of Apps
-/// MaterialApp, Scaffold, AppBar, Text etc are 'class / Widgets'
-/// home: , appBar: , title: etc are called 'property / attributes'
 
-
+/// This is practise file not mandatory
 main() {
-  print('Entry point');
   runApp(HelloWorldApp());
 }
 
