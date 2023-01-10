@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-main() {
-  runApp(const MyApp());
+main(){
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -11,212 +12,223 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AppsHome(),
+      home: HomePage(),
     );
   }
 }
 
-class AppsHome extends StatelessWidget {
-  const AppsHome({Key? key}) : super(key: key);
+class HomePage extends StatelessWidget {
+  HomePage({Key? key}) : super(key: key);
 
-  /// SnackBar message code
-  SnackBarMessage(message, context) {
-    return ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+  ConfirmationAlertBox(context){
+    showDialog(context: context, builder: (context){
+      return AlertDialog(
+        title: Text('Confirmation'),
+        content: Text('Are you sure for submit'),
+        actions: [
+          TextButton(onPressed: (){}, child: Text('No')),
+          TextButton(onPressed: (){}, child: Text('Yes')),
+        ],
+      );
+    }
+    );
   }
+
+  TextEditingController controller1 = TextEditingController();
+  TextEditingController controller2 = TextEditingController();
+  TextEditingController controller3 = TextEditingController();
+  TextEditingController controller4 = TextEditingController();
+  TextEditingController controller5 = TextEditingController();
+  TextEditingController controller6 = TextEditingController();
+  TextEditingController controller7 = TextEditingController();
+  TextEditingController controller8 = TextEditingController();
+  TextEditingController controller9 = TextEditingController();
+  TextEditingController controller10 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      /// AppBar
       appBar: AppBar(
-        /// appBar
-        title: Text("Mess App"),
-        //titleSpacing: 15,
-        centerTitle: true,
-        toolbarOpacity: 1,
+        title: Text('Cover Page'),
         toolbarHeight: 85,
-        elevation: 25,
-        backgroundColor: Colors.blueAccent,
-
-        /// set action icon in appbar
-        actions: [
-          IconButton(
-            onPressed: () {
-              SnackBarMessage('Search', context);
-            },
-            icon: Icon(Icons.search),
-          ),
-          IconButton(
-              onPressed: () {
-                SnackBarMessage('Call', context);
-              },
-              icon: Icon(Icons.add_call)),
-          IconButton(
-              onPressed: () {
-                SnackBarMessage('Settings', context);
-              },
-              icon: Icon(Icons.settings_applications))
-        ],
+        centerTitle: true,
+        backgroundColor: Colors.black,
       ),
 
-      /// Body
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        //crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          // Text('1'),
-          // Text('2'),
-          // Text('3'),
-          // Text('4'),
-
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //   //crossAxisAlignment: CrossAxisAlignment.center,
-          //   children: [
-          //     Text('a'),
-          //     Text('b'),
-          //     Text('c'),
-          //     Text('d'),
-          //   ],
-          // )
-
-          /// Container
           Container(
-            height: 200,
-            width: 200,
-            padding: EdgeInsets.all(5),
-            margin: EdgeInsets.all(20),
-            //color: Colors.redAccent,
-            child: Text('This is Container', style: TextStyle(fontSize: 24)),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.greenAccent, width: 5),
-              color: Colors.redAccent,
+            color: Colors.black12,
+            margin: EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+            child: Container(
+              child: TextFormField(
+                controller: controller1,
+                onChanged: (value) {},
+                onTap: () {},
+                onSaved: (value) {},
+                decoration: InputDecoration(
+                  hintText: 'Name',
+                  border: OutlineInputBorder(),
+                ),
+              ),
             ),
           ),
-
-          /// Button
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blueAccent,
-              foregroundColor: Colors.black,
-              elevation: 25,
-              padding: EdgeInsets.all(20),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(40),
+          Container(
+            color: Colors.black12,
+            margin: EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+            child: Container(
+              child: TextFormField(
+                controller: controller2,
+                keyboardType: TextInputType.number,
+                onChanged: (value) {},
+                onTap: () {},
+                onSaved: (value) {},
+                decoration: InputDecoration(
+                  hintText: 'ID',
+                  border: OutlineInputBorder(),
+                ),
               ),
-              textStyle: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
-              )
             ),
-            onPressed: (){
-            SnackBarMessage('Tap me', context);
+          ),
+          Container(
+            color: Colors.black12,
+            margin: EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+            child: Container(
+              child: TextFormField(
+                controller: controller3,
+                onChanged: (value) {},
+                onTap: () {},
+                onSaved: (value) {},
+                decoration: InputDecoration(
+                  hintText: 'Course Code',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            color: Colors.black12,
+            margin: EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+            child: Container(
+              child: TextFormField(
+                controller: controller4,
+                onChanged: (value) {},
+                onTap: () {},
+                onSaved: (value) {},
+                decoration: InputDecoration(
+                  hintText: 'Course Title',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            color: Colors.black12,
+            margin: EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+            child: Container(
+              child: TextFormField(
+                controller: controller5,
+                onChanged: (value) {},
+                onTap: () {},
+                onSaved: (value) {},
+                decoration: InputDecoration(
+                  hintText: 'Batch-(section)',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            color: Colors.black12,
+            margin: EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+            child: Container(
+              child: TextFormField(
+                controller: controller6,
+                onChanged: (value) {},
+                onTap: () {},
+                onSaved: (value) {},
+                decoration: InputDecoration(
+                  hintText: 'Department',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            color: Colors.black12,
+            margin: EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+            child: Container(
+              child: TextFormField(
+                controller: controller7,
+                onChanged: (value) {},
+                onTap: () {},
+                onSaved: (value) {},
+                decoration: InputDecoration(
+                  hintText: 'University Name',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+          ),
+          ElevatedButton(onPressed: (){
+            print(controller1.text);
+            print(controller2.text);
+            print(controller3.text);
+            print(controller4.text);
+            print(controller5.text);
+            print(controller6.text);
+            print(controller7.text);
+
+            ConfirmationAlertBox(context);
           },
-              child: Text('Tap me'),
-          )
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+                elevation: 8,
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+
+                )
+              ),
+              child: Text('Submit')),
         ],
       ),
 
-      /// floating action button
-      floatingActionButton: FloatingActionButton(
-        elevation: 2,
-        child: Icon(Icons.camera_alt_outlined),
-        onPressed: () {
-          SnackBarMessage('This is Camera action', context);
-        },
-        backgroundColor: Colors.blueAccent,
-        hoverColor: Colors.blueGrey,
-      ),
-
-      /// bottom navigation bar / tab
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 1,
-        selectedFontSize: 18,
-        unselectedFontSize: 8,
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.notification_add_sharp), label: 'Notification'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.read_more), label: 'Read more')
-        ],
-        onTap: (int index) {
-          if (index == 0) {
-            SnackBarMessage('See Notifications', context);
-          }
-          if (index == 1) {
-            SnackBarMessage('Goto Home', context);
-          }
-          if (index == 2) {
-            SnackBarMessage('Read  more', context);
-          }
-        },
-      ),
-
-      /// Navigation Drawer
       drawer: Drawer(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20)
+        ),
         child: ListView(
           children: [
             DrawerHeader(
-                padding: EdgeInsets.all(0),
+              padding: EdgeInsets.all(0),
                 child: UserAccountsDrawerHeader(
-                  decoration: BoxDecoration(color: Colors.blueGrey),
-                  accountName: Text('Mess Name', style: TextStyle(color: Colors.white),),
-                  accountEmail: Text('messSylhet2023@gmail.com', style: TextStyle(color: Colors.white)),
-                  currentAccountPicture: Image.network('https://cdn0.iconfinder.com/data/icons/education-school-science/100/29-512.png'),
-                  //currentAccountPictureSize: Size.square(150),
-                )
-            ),
+                decoration:BoxDecoration(color:Colors.brown),
+                accountName: Text('Developed by Hasan'),
+                accountEmail: Text('Hasan Ahmad'),
+            )),
             ListTile(
-              leading: Icon(Icons.person),
-              title: Text('My Profile'),
+              leading: Icon(Icons.phone),
+              title: Text('Phone'),
+              subtitle: Text('(+880) 1716-874981'),
               hoverColor: Colors.grey,
               onTap: () {
-                SnackBarMessage('My Profile', context);
+
               },
+
             ),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
-              hoverColor: Colors.grey,
-              onTap: () {
-                SnackBarMessage('Goto Home', context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.call),
-              title: Text('Contact with Manager'),
-              hoverColor: Colors.grey,
-              onTap: () {
-                SnackBarMessage('Call to Manager', context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.report_gmailerrorred_outlined),
-              title: Text('Report to Manager'),
-              hoverColor: Colors.grey,
-              onTap: () {
-                SnackBarMessage('Report to Manager', context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.question_mark),
+              leading: Icon(Icons.question_mark_outlined),
               title: Text('About'),
+              subtitle: Text(''),
               hoverColor: Colors.grey,
               onTap: () {
-                SnackBarMessage('About Us', context);
+
               },
-            ),
+
+            )
           ],
         ),
       ),
-
     );
   }
 }
