@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 
 main() {
-  print('Entry point');
+  //print('Entry point');
   runApp(HelloWorldApp());
 }
 
