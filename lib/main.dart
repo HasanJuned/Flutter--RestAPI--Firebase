@@ -17,12 +17,19 @@ class MyApp extends StatelessWidget {
 }
 
 class AppsHome extends StatelessWidget {
-  const AppsHome({Key? key}) : super(key: key);
+  AppsHome({Key? key}) : super(key: key);
+
+  TextEditingController controllerOne = TextEditingController();
+  TextEditingController controllerTwo = TextEditingController();
+  TextEditingController controllerThree = TextEditingController();
+  TextEditingController controllerFour = TextEditingController();
+  TextEditingController controllerFive = TextEditingController();
 
   /// SnackBar message code
   SnackBarMessage(message, context) {
-    return ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+    return ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message))
+    );
   }
 
   @override
@@ -31,6 +38,7 @@ class AppsHome extends StatelessWidget {
 
       /// AppBar
       appBar: AppBar(
+
         /// appBar
         title: Text("Mess App"),
         //titleSpacing: 15,
@@ -102,25 +110,94 @@ class AppsHome extends StatelessWidget {
           /// Button
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blueAccent,
-              foregroundColor: Colors.black,
-              elevation: 25,
-              padding: EdgeInsets.all(20),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(40),
-              ),
-              textStyle: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
-              )
+                backgroundColor: Colors.blueAccent,
+                foregroundColor: Colors.black,
+                elevation: 25,
+                padding: EdgeInsets.all(20),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                textStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                )
             ),
             onPressed: (){
-            SnackBarMessage('Tap me', context);
-          },
-              child: Text('Tap me'),
-          )
+              SnackBarMessage('Tap me', context);
+            },
+            child: Text('Tap me'),
+          ),
+
+          /// Simple form
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: TextField(
+              controller: controllerOne,
+              onChanged: (value){
+                //print(value);
+              },
+              onSubmitted: (value){
+                //print(value);
+              },
+              onTap: (){
+                //SnackBarMessage('Pressed', context);
+              },
+              decoration: InputDecoration(
+                hintText: 'Enter your name',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(10),
+            //margin: EdgeInsets.all(10),
+            //color: Colors.red,
+            child: TextField(
+              controller: controllerTwo,
+              onChanged: (value){
+                //print(value);
+              },
+              onSubmitted: (value){
+                //print(value);
+              },
+              onTap: (){
+                //SnackBarMessage('Pressed', context);
+              },
+              decoration: InputDecoration(
+                hintText: 'Enter your age',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+          ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.teal,
+                  foregroundColor: Colors.black87,
+                  elevation: 8,
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  )),
+              onPressed: () {
+                print(controllerOne.text);
+                print(controllerTwo.text);
+                //controllerOne.text = 'hassan';
+                showDialog(context: context, builder: (context){
+                  return AlertDialog(
+                    title: Text('Confirmation'),
+                    content: Text('Are you sure for submission?'),
+                    actions: [
+                      TextButton(onPressed: (){}, child: Text('No')),
+                      TextButton(onPressed: (){}, child: Text('Yes')),
+                    ],
+                  );
+                });
+              },
+              child: Text('Sign in')),
         ],
+
       ),
+
+
 
       /// floating action button
       floatingActionButton: FloatingActionButton(
