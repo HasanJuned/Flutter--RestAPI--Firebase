@@ -17,13 +17,30 @@ class MyApp extends StatelessWidget {
 }
 
 class AppsHome extends StatelessWidget {
-  const AppsHome({Key? key}) : super(key: key);
+  AppsHome({Key? key}) : super(key: key);
 
   /// SnackBar message code
   SnackBarMessage(message, context) {
-    return ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+    return ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message))
+    );
   }
+  /// Alert Dialgue
+  MyAlertDialague(context){
+    showDialog(context: context, builder: (context){
+      return AlertDialog(
+        title: Text('Confirmation'),
+        content: Text('Are you sure for submission?'),
+        actions: [
+          TextButton(onPressed: (){}, child: Text('No')),
+          TextButton(onPressed: (){SnackBarMessage('Alert', context);}, child: Text('Yes')),
+        ],
+      );
+    }
+    );
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +48,9 @@ class AppsHome extends StatelessWidget {
 
       /// AppBar
       appBar: AppBar(
+
         /// appBar
-        title: Text("Mess App"),
+        title: Text("Meal App"),
         //titleSpacing: 15,
         centerTitle: true,
         toolbarOpacity: 1,
@@ -62,105 +80,46 @@ class AppsHome extends StatelessWidget {
       ),
 
       /// Body
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        //crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          // Text('1'),
-          // Text('2'),
-          // Text('3'),
-          // Text('4'),
+      body:
+      Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          //crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
 
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //   //crossAxisAlignment: CrossAxisAlignment.center,
-          //   children: [
-          //     Text('a'),
-          //     Text('b'),
-          //     Text('c'),
-          //     Text('d'),
-          //   ],
-          // )
-
-          /// Container
-          Container(
-            height: 200,
-            width: 200,
-            padding: EdgeInsets.all(5),
-            margin: EdgeInsets.all(20),
-            //color: Colors.redAccent,
-            child: Text('This is Container', style: TextStyle(fontSize: 24)),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.greenAccent, width: 5),
-              color: Colors.redAccent,
-            ),
-          ),
-
-          /// Button
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blueAccent,
-              foregroundColor: Colors.black,
-              elevation: 25,
-              padding: EdgeInsets.all(20),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(40),
+            /// Button
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  foregroundColor: Colors.black,
+                  elevation: 25,
+                  padding: EdgeInsets.all(20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                  )
               ),
-              textStyle: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
-              )
+              onPressed: (){
+                MyAlertDialague(context);
+              },
+              child: Text('Click this Button'),
             ),
-            onPressed: (){
-            SnackBarMessage('Tap me', context);
-          },
-              child: Text('Tap me'),
-          )
-        ],
-      ),
 
-      /// floating action button
-      floatingActionButton: FloatingActionButton(
-        elevation: 2,
-        child: Icon(Icons.camera_alt_outlined),
-        onPressed: () {
-          SnackBarMessage('This is Camera action', context);
-        },
-        backgroundColor: Colors.blueAccent,
-        hoverColor: Colors.blueGrey,
-      ),
 
-      /// bottom navigation bar / tab
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 1,
-        selectedFontSize: 18,
-        unselectedFontSize: 8,
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.notification_add_sharp), label: 'Notification'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.read_more), label: 'Read more')
-        ],
-        onTap: (int index) {
-          if (index == 0) {
-            SnackBarMessage('See Notifications', context);
-          }
-          if (index == 1) {
-            SnackBarMessage('Goto Home', context);
-          }
-          if (index == 2) {
-            SnackBarMessage('Read  more', context);
-          }
-        },
+          ],
+
+        ),
       ),
 
       /// Navigation Drawer
       drawer: Drawer(
+        //backgroundColor: Colors.brown,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(bottomRight: Radius.circular(20))
+        ),
         child: ListView(
           children: [
             DrawerHeader(
