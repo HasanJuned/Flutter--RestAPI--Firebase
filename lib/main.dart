@@ -31,6 +31,22 @@ class AppsHome extends StatelessWidget {
         SnackBar(content: Text(message))
     );
   }
+  /// Alert Dialgue
+  MyAlertDialague(context){
+    showDialog(context: context, builder: (context){
+      return AlertDialog(
+        title: Text('Confirmation'),
+        content: Text('Are you sure for submission?'),
+        actions: [
+          TextButton(onPressed: (){}, child: Text('No')),
+          TextButton(onPressed: (){SnackBarMessage('message', context);}, child: Text('Yes')),
+        ],
+      );
+    }
+    );
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +122,29 @@ class AppsHome extends StatelessWidget {
               color: Colors.redAccent,
             ),
           ),
+          
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Radio(value: false, groupValue: 'Gender', onChanged: (value){}),
+              Text('Male'),
+              Radio(value: true, groupValue: 'Gender', onChanged: (value){}),
+              Text('Female'),
+              Radio(value: true, groupValue: 'Gender', onChanged: (value){}),
+              Text('Others')
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Checkbox(value: true, onChanged: (value){}),
+              Text('Student'),
+              Checkbox(value: false, onChanged: (value){}),
+              Text('Job holder'),
+              Checkbox(value: false, onChanged: (value){}),
+              Text('IELTS Student'),
+            ],
+          ),
 
           /// Button
           ElevatedButton(
@@ -152,19 +191,28 @@ class AppsHome extends StatelessWidget {
             padding: EdgeInsets.all(10),
             //margin: EdgeInsets.all(10),
             //color: Colors.red,
-            child: TextField(
+            child: TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (String? value){
+                if(value!.isEmpty)
+                  {
+                    return 'Enter your password';
+                  }
+                return null;
+              },
+              obscureText: true,
               controller: controllerTwo,
               onChanged: (value){
                 //print(value);
               },
-              onSubmitted: (value){
-                //print(value);
-              },
+              // onSubmitted: (value){
+              //   //print(value);
+              // },
               onTap: (){
                 //SnackBarMessage('Pressed', context);
               },
               decoration: InputDecoration(
-                hintText: 'Enter your age',
+                hintText: 'Password',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -181,16 +229,7 @@ class AppsHome extends StatelessWidget {
                 print(controllerOne.text);
                 print(controllerTwo.text);
                 //controllerOne.text = 'hassan';
-                showDialog(context: context, builder: (context){
-                  return AlertDialog(
-                    title: Text('Confirmation'),
-                    content: Text('Are you sure for submission?'),
-                    actions: [
-                      TextButton(onPressed: (){}, child: Text('No')),
-                      TextButton(onPressed: (){}, child: Text('Yes')),
-                    ],
-                  );
-                });
+                MyAlertDialague(context);
               },
               child: Text('Sign in')),
         ],
@@ -238,6 +277,10 @@ class AppsHome extends StatelessWidget {
 
       /// Navigation Drawer
       drawer: Drawer(
+        //backgroundColor: Colors.brown,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(bottomRight: Radius.circular(20))
+        ),
         child: ListView(
           children: [
             DrawerHeader(
