@@ -86,138 +86,141 @@ class AppsHome extends StatelessWidget {
       ),
 
       /// Body
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        //crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
+      body: 
+      SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          //crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
 
-          /// Container
-          Container(
-            height: 200,
-            width: 200,
-            padding: EdgeInsets.all(5),
-            margin: EdgeInsets.all(20),
-            //color: Colors.redAccent,
-            child: Text('This is Container', style: TextStyle(fontSize: 24)),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.greenAccent, width: 5),
-              color: Colors.redAccent,
-            ),
-          ),
-          
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Radio(value: false, groupValue: 'Gender', onChanged: (value){}),
-              Text('Male'),
-              Radio(value: true, groupValue: 'Gender', onChanged: (value){}),
-              Text('Female'),
-              Radio(value: true, groupValue: 'Gender', onChanged: (value){}),
-              Text('Others')
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Checkbox(value: true, onChanged: (value){}),
-              Text('Student'),
-              Checkbox(value: false, onChanged: (value){}),
-              Text('Job holder'),
-              Checkbox(value: false, onChanged: (value){}),
-              Text('IELTS Student'),
-            ],
-          ),
-
-          /// Button
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blueAccent,
-                foregroundColor: Colors.black,
-                elevation: 25,
-                padding: EdgeInsets.all(20),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                )
-            ),
-            onPressed: (){
-              SnackBarMessage('Tap me', context);
-            },
-            child: Text('Tap me'),
-          ),
-
-          /// Simple form
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: TextField(
-              controller: controllerOne,
-              onChanged: (value){
-                //print(value);
-              },
-              onSubmitted: (value){
-                //print(value);
-              },
-              onTap: (){
-                //SnackBarMessage('Pressed', context);
-              },
-              decoration: InputDecoration(
-                hintText: 'Enter your name',
-                border: OutlineInputBorder(),
+            /// Container
+            Container(
+              height: 200,
+              width: 200,
+              padding: EdgeInsets.all(5),
+              margin: EdgeInsets.all(20),
+              //color: Colors.redAccent,
+              child: Text('This is Container', style: TextStyle(fontSize: 24)),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.greenAccent, width: 5),
+                color: Colors.redAccent,
               ),
             ),
-          ),
-          Container(
-            padding: EdgeInsets.all(10),
-            //margin: EdgeInsets.all(10),
-            //color: Colors.red,
-            child: TextFormField(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: (String? value){
-                if(value!.isEmpty)
-                  {
-                    return 'Enter your password';
-                  }
-                return null;
-              },
-              obscureText: true,
-              controller: controllerTwo,
-              onChanged: (value){
-                //print(value);
-              },
-              // onSubmitted: (value){
-              //   //print(value);
-              // },
-              onTap: (){
-                //SnackBarMessage('Pressed', context);
-              },
-              decoration: InputDecoration(
-                hintText: 'Password',
-                border: OutlineInputBorder(),
-              ),
+            
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Radio(value: false, groupValue: 'Gender', onChanged: (value){}),
+                Text('Male'),
+                Radio(value: true, groupValue: 'Gender', onChanged: (value){}),
+                Text('Female'),
+                Radio(value: true, groupValue: 'Gender', onChanged: (value){}),
+                Text('Others')
+              ],
             ),
-          ),
-          ElevatedButton(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Checkbox(value: true, onChanged: (value){}),
+                Text('Student'),
+                Checkbox(value: false, onChanged: (value){}),
+                Text('Job holder'),
+                Checkbox(value: false, onChanged: (value){}),
+                Text('IELTS Student'),
+              ],
+            ),
+
+            /// Button
+            ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.teal,
-                  foregroundColor: Colors.black87,
-                  elevation: 8,
+                  backgroundColor: Colors.blueAccent,
+                  foregroundColor: Colors.black,
+                  elevation: 25,
+                  padding: EdgeInsets.all(20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   textStyle: TextStyle(
                     fontWeight: FontWeight.bold,
-                  )),
-              onPressed: () {
-                print(controllerOne.text);
-                print(controllerTwo.text);
-                //controllerOne.text = 'hassan';
-                MyAlertDialague(context);
+                    fontSize: 24,
+                  )
+              ),
+              onPressed: (){
+                SnackBarMessage('Tap me', context);
               },
-              child: Text('Sign in')),
-        ],
+              child: Text('Tap me'),
+            ),
 
+            /// Simple form
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: TextField(
+                controller: controllerOne,
+                onChanged: (value){
+                  //print(value);
+                },
+                onSubmitted: (value){
+                  //print(value);
+                },
+                onTap: (){
+                  //SnackBarMessage('Pressed', context);
+                },
+                decoration: InputDecoration(
+                  hintText: 'Enter your name',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(10),
+              //margin: EdgeInsets.all(10),
+              //color: Colors.red,
+              child: TextFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (String? value){
+                  if(value!.isEmpty)
+                    {
+                      return 'Enter your password';
+                    }
+                  return null;
+                },
+                obscureText: true,
+                controller: controllerTwo,
+                onChanged: (value){
+                  //print(value);
+                },
+                // onSubmitted: (value){
+                //   //print(value);
+                // },
+                onTap: (){
+                  //SnackBarMessage('Pressed', context);
+                },
+                decoration: InputDecoration(
+                  hintText: 'Password',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.teal,
+                    foregroundColor: Colors.black87,
+                    elevation: 8,
+                    textStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    )),
+                onPressed: () {
+                  print(controllerOne.text);
+                  print(controllerTwo.text);
+                  //controllerOne.text = 'hassan';
+                  MyAlertDialague(context);
+                },
+                child: Text('Sign in')),
+          ],
+
+        ),
       ),
 
 
@@ -248,13 +251,17 @@ class AppsHome extends StatelessWidget {
         ],
         onTap: (int index) {
           if (index == 0) {
-            SnackBarMessage('See Notifications', context);
+            //SnackBarMessage('See Notifications', context);
+            /// Routing
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificationScreen()));
           }
           if (index == 1) {
             SnackBarMessage('Goto Home', context);
           }
           if (index == 2) {
-            SnackBarMessage('Read  more', context);
+            //SnackBarMessage('Read  more', context);
+            /// Routing
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>ReadMorePage()));
           }
         },
       ),
@@ -321,6 +328,154 @@ class AppsHome extends StatelessWidget {
         ),
       ),
 
+    );
+  }
+}
+
+/// push -> route to next page
+/// pop -> back previous page
+/// pushReplacement -> Replace current page
+/// pushAndRemoveUntil -> REMOVE ALL PREVIOUS PAGE EXCEPT THE LAST PAGE
+
+class NotificationScreen extends StatelessWidget {
+  NotificationScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Notification Page'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child:
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(onPressed: (){
+              /// Routing to Contact page and all pages will be vanished
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>ContactUsPage()),
+                      (route) => false);
+
+            }, child: Text('Goto Contact Us page')),
+            ElevatedButton(onPressed: (){
+              Navigator.pop(context); /// Back to previous page
+            }, child: Text('Back Homepage')),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ContactUsPage extends StatelessWidget {
+  ContactUsPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Meal App'),
+        centerTitle: true,
+      ),
+
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('This is Contact Us page'),
+            ElevatedButton(onPressed: (){
+              Navigator.pop(context); /* --> */ /// pressing this button but don't go back to previous page because of previous all pages are vanished
+                                                /// Use case example: Normally it is Used in Login / Registration page
+            }, child: Text('Back page'))
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ReadMorePage extends StatelessWidget {
+  ReadMorePage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Readmore Page'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(onPressed: () {
+              /// Routing to next page
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> VideoPage(name: '50 Taka from previous page',)));
+            }, child: Text('Goto video page')),
+            ElevatedButton(onPressed: (){
+              Navigator.pop(context); /// Back previous page
+            }, child: Text('Back page'))
+          ],
+        )
+      ),
+    );
+  }
+}
+
+class VideoPage extends StatelessWidget {
+  String name; /// Reciving data from another page / Passing data from one to another page through Constructor
+  VideoPage({required this.name,Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Video Page'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(name), /// This is that data which is passed from other page
+
+            ElevatedButton(onPressed: () async { /// returned data, from another page (from Image page)
+             var value = await Navigator.push(context, MaterialPageRoute(builder: (context)=>ImagePage(name: name)));
+             print(value);
+            }, child: Text('Goto Image Page')),
+            ElevatedButton(onPressed: (){
+              Navigator.pop(context); /// back to previous page
+            }, child: Text('Back'))
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ImagePage extends StatelessWidget {
+  String name;
+  ImagePage({required this.name, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Image page'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(name),
+            ElevatedButton(onPressed: (){
+              Navigator.pop(context,'50 Taka back from Image page'); /// return a data to another page (return to video page)
+            }, child: Text('Back'))
+          ],
+        ),
+      ),
     );
   }
 }
