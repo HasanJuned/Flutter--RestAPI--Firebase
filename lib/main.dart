@@ -90,22 +90,6 @@ class AppsHome extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         //crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          // Text('1'),
-          // Text('2'),
-          // Text('3'),
-          // Text('4'),
-
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //   //crossAxisAlignment: CrossAxisAlignment.center,
-          //   children: [
-          //     Text('a'),
-          //     Text('b'),
-          //     Text('c'),
-          //     Text('d'),
-          //   ],
-          // )
 
           /// Container
           Container(
