@@ -472,10 +472,96 @@ class ImagePage extends StatelessWidget {
             Text(name),
             ElevatedButton(onPressed: (){
               Navigator.pop(context,'50 Taka back from Image page'); /// return a data to another page (return to video page)
-            }, child: Text('Back'))
+            }, child: Text('Back')),
+            ElevatedButton(onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>LoadingPage())); /// return a data to another page (return to video page)
+            }, child: Text('Goto Loading page'))
           ],
         ),
       ),
     );
   }
 }
+
+class LoadingPage extends StatelessWidget {
+  LoadingPage({Key? key}) : super(key: key);
+
+  /// in this class here used
+  /// Circular progress
+  /// Linear progress
+  /// Circular avatar (most use for profile pic)
+  /// ListTile
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Loading Page'),
+        centerTitle: true,
+      ),
+
+      body:
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 20),
+            child: Center(
+              child: CircularProgressIndicator(
+                color: Colors.deepPurple,
+                strokeWidth: 8,
+                backgroundColor: Colors.black45,
+                /// value: 0.8,
+                /// valueColor: Colors.red,
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 20),
+            child: Center(
+              child:
+              SizedBox(
+                width: 300,
+                child: LinearProgressIndicator(
+                  minHeight: 18,
+                  color: Colors.red,
+                  backgroundColor: Colors.pink.shade50,
+                  value: .3,
+
+                ),
+              )
+            ),
+          ),
+          CircleAvatar(
+            radius: 50,
+            backgroundColor: Colors.deepPurple,
+            backgroundImage: NetworkImage('https://assets.change.org/photos/1/hc/ru/ChhcRUUJnEWDtth-1600x900-noPad.jpg?1516317148'),
+            //child: Icon(Icons.icecream,size: 65,),
+
+          ),
+          ListTile(
+            title: Text('Hasan Ahmad'),
+            subtitle: Text('Student'),
+            tileColor: Colors.blueGrey,
+            leading: 
+            CircleAvatar(
+                child: Text('01')
+            ),
+            trailing: Icon(Icons.person),
+            onTap: (){
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Short pressed'))
+              );
+            },
+            onLongPress: (){
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Long pressed'))
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
