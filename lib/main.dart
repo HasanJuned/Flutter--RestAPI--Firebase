@@ -86,7 +86,9 @@ class RegisterPage extends StatelessWidget {
         title: Text('Confirmation'),
         content: Text('Are you sure for submit'),
         actions: [
-          TextButton(onPressed: (){}, child: Text('No')),
+          TextButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeEntryPage()));
+          }, child: Text('No')),
           TextButton(onPressed: (){
             _navigateToNextScreen(context);
           }, child: Text('Yes')),
@@ -333,28 +335,28 @@ class RegisterPage extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),Container(
-                color: Colors.black12,
-                margin: EdgeInsets.symmetric(horizontal: 30,vertical: 5),
-                child: Container(
-                  child: TextFormField(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (String? value){
-                      if(value!.isEmpty){
-                        return 'Your Profession';
-                      }
-                      return null;
-                    },
-                    controller: controller8,
-                    onChanged: (value) {},
-                    onTap: () {},
-                    onSaved: (value) {},
-                    decoration: InputDecoration(
-                      hintText: 'Student / Job holder / IELTS Student',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Checkbox(value: true, onChanged: (value){}),
+                  Text('Student'),
+                  Checkbox(value: false, onChanged: (value){}),
+                  Text('Job holder'),
+                  Checkbox(value: false, onChanged: (value){}),
+                  Text('IELTS Student'),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Radio(value: false, groupValue: 'Gender', onChanged: (value){}),
+                  Text('Male'),
+                  Radio(value: true, groupValue: 'Gender', onChanged: (value){}),
+                  Text('Female'),
+                  Radio(value: true, groupValue: 'Gender', onChanged: (value){}),
+                  Text('Others')
+                ],
               ),
               ElevatedButton(onPressed: (){
                 print(controller0.text);
@@ -442,7 +444,7 @@ class Login extends StatelessWidget {
             ),
             Container(
               height: 40,
-              width: 80,
+              width: 300,
               margin: EdgeInsets.all(30),
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -451,7 +453,7 @@ class Login extends StatelessWidget {
                     onPressed: (){
                       _navigateToNextScreen(context);
 
-                }, child: Icon(Icons.arrow_circle_right,size: 28)))
+                }, child: Icon(Icons.arrow_circle_right,size: 25)))
           ],
         ),
       ),
@@ -497,210 +499,40 @@ class AppsHome extends StatelessWidget {
 
       /// AppBar
       appBar: AppBar(
-
-        /// appBar
-        title: Text("Mess App"),
-        //titleSpacing: 15,
+        backgroundColor: Colors.black,
+        title: Text('Meal App'),
         centerTitle: true,
-        toolbarOpacity: 1,
-        toolbarHeight: 85,
-        elevation: 25,
-        backgroundColor: Colors.blueAccent,
-
-        /// set action icon in appbar
-        actions: [
-          IconButton(
-            onPressed: () {
-              SnackBarMessage('Search', context);
-            },
-            icon: Icon(Icons.search),
-          ),
-          IconButton(
-              onPressed: () {
-                SnackBarMessage('Call', context);
-              },
-              icon: Icon(Icons.add_call)),
-          IconButton(
-              onPressed: () {
-                SnackBarMessage('Settings', context);
-              },
-              icon: Icon(Icons.settings_applications))
-        ],
+        toolbarHeight: 80,
+        elevation: 13,
       ),
 
       /// Body
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        //crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
+      body:
+      Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          //crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text('Join a Meal Service',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 24),)
 
-          /// Container
-          Container(
-            height: 200,
-            width: 200,
-            padding: EdgeInsets.all(5),
-            margin: EdgeInsets.all(20),
-            //color: Colors.redAccent,
-            child: Text('This is Container', style: TextStyle(fontSize: 24)),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.greenAccent, width: 5),
-              color: Colors.redAccent,
-            ),
-          ),
+          ],
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Radio(value: false, groupValue: 'Gender', onChanged: (value){}),
-              Text('Male'),
-              Radio(value: true, groupValue: 'Gender', onChanged: (value){}),
-              Text('Female'),
-              Radio(value: true, groupValue: 'Gender', onChanged: (value){}),
-              Text('Others')
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Checkbox(value: true, onChanged: (value){}),
-              Text('Student'),
-              Checkbox(value: false, onChanged: (value){}),
-              Text('Job holder'),
-              Checkbox(value: false, onChanged: (value){}),
-              Text('IELTS Student'),
-            ],
-          ),
-
-          /// Button
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blueAccent,
-                foregroundColor: Colors.black,
-                elevation: 25,
-                padding: EdgeInsets.all(20),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                textStyle: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                )
-            ),
-            onPressed: (){
-              SnackBarMessage('Tap me', context);
-            },
-            child: Text('Tap me'),
-          ),
-
-          /// Simple form
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: TextField(
-              controller: controllerOne,
-              onChanged: (value){
-                //print(value);
-              },
-              onSubmitted: (value){
-                //print(value);
-              },
-              onTap: (){
-                //SnackBarMessage('Pressed', context);
-              },
-              decoration: InputDecoration(
-                hintText: 'Enter your name',
-                border: OutlineInputBorder(),
-              ),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(10),
-            //margin: EdgeInsets.all(10),
-            //color: Colors.red,
-            child: TextFormField(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: (String? value){
-                if(value!.isEmpty)
-                {
-                  return 'Enter your password';
-                }
-                return null;
-              },
-              obscureText: true,
-              controller: controllerTwo,
-              onChanged: (value){
-                //print(value);
-              },
-              // onSubmitted: (value){
-              //   //print(value);
-              // },
-              onTap: (){
-                //SnackBarMessage('Pressed', context);
-              },
-              decoration: InputDecoration(
-                hintText: 'Password',
-                border: OutlineInputBorder(),
-              ),
-            ),
-          ),
-          ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.teal,
-                  foregroundColor: Colors.black87,
-                  elevation: 8,
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  )),
-              onPressed: () {
-                print(controllerOne.text);
-                print(controllerTwo.text);
-                //controllerOne.text = 'hassan';
-                MyAlertDialague(context);
-              },
-              child: Text('Sign in')),
-        ],
-
+        ),
       ),
-
 
 
       /// floating action button
       floatingActionButton: FloatingActionButton(
         elevation: 2,
-        child: Icon(Icons.camera_alt_outlined),
+        child: Icon(Icons.add),
         onPressed: () {
-          SnackBarMessage('This is Camera action', context);
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SearchMealService()));
         },
-        backgroundColor: Colors.blueAccent,
+
+        backgroundColor: Colors.black,
         hoverColor: Colors.blueGrey,
       ),
 
-      /// bottom navigation bar / tab
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 1,
-        selectedFontSize: 18,
-        unselectedFontSize: 8,
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.notification_add_sharp), label: 'Notification'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.read_more), label: 'Read more')
-        ],
-        onTap: (int index) {
-          if (index == 0) {
-            SnackBarMessage('See Notifications', context);
-          }
-          if (index == 1) {
-            SnackBarMessage('Goto Home', context);
-          }
-          if (index == 2) {
-            SnackBarMessage('Read  more', context);
-          }
-        },
-      ),
 
       /// Navigation Drawer
       drawer: Drawer(
@@ -741,7 +573,7 @@ class AppsHome extends StatelessWidget {
               title: Text('Contact with Manager'),
               hoverColor: Colors.grey,
               onTap: () {
-                SnackBarMessage('Call to Manager', context);
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>ContactWithManager()));
               },
             ),
             ListTile(
@@ -749,7 +581,7 @@ class AppsHome extends StatelessWidget {
               title: Text('Report to Manager'),
               hoverColor: Colors.grey,
               onTap: () {
-                SnackBarMessage('Report to Manager', context);
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>ReportManager()));
               },
             ),
             ListTile(
@@ -757,13 +589,310 @@ class AppsHome extends StatelessWidget {
               title: Text('About'),
               hoverColor: Colors.grey,
               onTap: () {
-                SnackBarMessage('About Us', context);
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AboutUs()));
               },
             ),
           ],
         ),
       ),
 
+    );
+  }
+}
+
+class SearchMealService extends StatelessWidget {
+  SearchMealService({Key? key}) : super(key: key);
+
+  TextEditingController controller1 = TextEditingController();
+  TextEditingController controller2 = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text('Meal App'),
+        centerTitle: true,
+        toolbarHeight: 80,
+        elevation: 13,
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 10,horizontal: 30),
+            child: TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: controller1,
+              validator: (String? value){
+                if(value!.isEmpty){
+                  return 'Enter Country';
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                hintText: 'Country',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 10,horizontal: 30),
+            child: TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: controller2,
+              validator: (String? value){
+                if(value!.isEmpty){
+                  return 'Enter Country';
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                hintText: 'City',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+          ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+              ),
+              onPressed: (){
+                var value1 = controller1.text;
+                var value2 = controller2.text;
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context)=>AvailableMealServices(value1:value1,value2:value2)));
+              }, child: Text('Go'))
+        ],
+      ),
+    );
+  }
+}
+
+class AvailableMealServices extends StatelessWidget {
+  var value1;
+  var value2;
+  AvailableMealServices({required this.value1, required this.value2, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text('Meal App'),
+        centerTitle: true,
+        toolbarHeight: 80,
+        elevation: 13,
+      ),
+      body: 
+      SingleChildScrollView(
+        child: Column(
+          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+            Row(
+              children: [
+                Radio(
+                    value: true, groupValue: 'AvailableMeal', onChanged: (value) {}),
+                Text('Pangkha Catering Service'),
+              ],
+            ),
+            Row(
+              children: [
+                Radio(
+                    value: true, groupValue: 'AvailableMeal', onChanged: (value) {}),
+                Text('Khabar Meal Service'),
+              ],
+            ),
+            Row(
+              children: [
+                Radio(
+                    value: true, groupValue: 'AvailableMeal', onChanged: (value) {}),
+                Text('Gor Meal Service'),
+              ],
+            ),
+            Row(
+              children: [
+                Radio(
+                    value: true, groupValue: 'AvailableMeal', onChanged: (value) {}),
+                Text('Khabab Meal Service'),
+              ],
+            ),
+            Row(
+              children: [
+                Radio(
+                    value: true, groupValue: 'AvailableMeal', onChanged: (value) {}),
+                Text('Panshi Home Meal Service'),
+              ],
+            ),
+            Row(
+              children: [
+                Radio(
+                    value: true, groupValue: 'AvailableMeal', onChanged: (value) {}),
+                Text('Rujina Home Meal Service'),
+              ],
+            ),
+            Row(
+              children: [
+                Radio(
+                    value: true, groupValue: 'AvailableMeal', onChanged: (value) {}),
+                Text('Meal Amberkhana'),
+              ],
+            ),
+            Row(
+              children: [
+                Radio(
+                    value: true, groupValue: 'AvailableMeal', onChanged: (value) {}),
+                Text('Amar Khabar Meal Service'),
+              ],
+            ),
+            Container(
+                height: 40,
+                width: 350,
+                margin: EdgeInsets.all(30),
+                child: ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                    onPressed: () {
+                      //_navigateToNextScreen(context);
+                    },
+                    child: Icon(Icons.arrow_circle_right, size: 25)))
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text('Meal App'),
+        centerTitle: true,
+        toolbarHeight: 80,
+        elevation: 13,
+      ),
+
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 1,
+        selectedFontSize: 16,
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.notification_add_sharp), label: 'Notification'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.read_more), label: 'Read more')
+        ],
+      ),
+    );
+  }
+}
+
+class ContactWithManager extends StatelessWidget {
+  const ContactWithManager({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text('Meal App'),
+        centerTitle: true,
+        toolbarHeight: 80,
+        elevation: 13,
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 20),
+                  child:
+                  Center(
+                      child: Text('Call : 01716-874981',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.green),))),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ReportManager extends StatelessWidget {
+  const ReportManager({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text('Meal App'),
+        centerTitle: true,
+        toolbarHeight: 80,
+        elevation: 13,
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.red)
+            ),
+            alignment: Alignment.center,
+            width: 400,
+            height: 100,
+            child: Text('If you are face any problem with our service please tell us\nby this\n\nE-mail : MessManager01@gmail.com',textAlign: TextAlign.center,),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class AboutUs extends StatelessWidget {
+  AboutUs({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text('Meal App'),
+        centerTitle: true,
+        toolbarHeight: 80,
+        elevation: 13,
+      ),
+      body:
+      Center(
+        child: Container(
+          alignment: Alignment.center,
+          height: 250,
+          width: 400,
+          margin: EdgeInsets.symmetric(horizontal: 30,vertical: 200),
+          //color: Colors.red,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.red),
+          ),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('This Software is made for Meal Service app which developed by Hasan Ahmad from Bangladesh.\n\n\n\nFor contact:\n\nCall: (+880) 1716-874981\nE-mail:hasanahmad9812021@gmail.com',textAlign: TextAlign.center,style: TextStyle(fontStyle: FontStyle.normal),),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
