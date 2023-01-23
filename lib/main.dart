@@ -470,7 +470,7 @@ class Login extends StatelessWidget {
   Login({Key? key}) : super(key: key);
 
   void _navigateToNextScreen(BuildContext context){
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Home()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ListViewTwo()));
   }
 
   TextEditingController controller1 = TextEditingController();
@@ -703,251 +703,6 @@ class AvailableMealServices extends StatelessWidget {
   }
 }
 
-class Home extends StatelessWidget {
-  const Home({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text('Meal App'),
-        centerTitle: true,
-        toolbarHeight: 80,
-        elevation: 13,
-      ),
-
-      body:
-      SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-              height: 60,
-              width: 400,
-              child: Card(
-                elevation: 10,
-                child: Container(
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.brown
-                      ),
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MembersPage()));
-
-                  }, child: Text('Meal Members',style: TextStyle(fontSize: 27),)),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              height: 60,
-              width: 400,
-              child: Card(
-                elevation: 10,
-                child: Container(
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                      ),
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MembersPage()));
-
-                  }, child: Text('My Meal',style: TextStyle(fontSize: 20),)),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              height: 60,
-              width: 400,
-              child: Card(
-                elevation: 10,
-                child: Container(
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                      ),
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MembersPage()));
-
-                  }, child: Text('My Monthly Account',style: TextStyle(fontSize: 20),)),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              height: 60,
-              width: 400,
-              child: Card(
-                elevation: 10,
-                child: Container(
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepPurple
-                      ),
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MembersPage()));
-
-                  }, child: Text('Todays Bazar',style: TextStyle(fontSize: 20),)),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              height: 60,
-              width: 400,
-              child: Card(
-                elevation: 10,
-                child: Container(
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue
-                      ),
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MembersPage()));
-
-                  }, child: Text('Current Month Bazar',style: TextStyle(fontSize: 20),)),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              height: 60,
-              width: 400,
-              child: Card(
-                elevation: 10,
-                child: Container(
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blueGrey
-                      ),
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MembersPage()));
-
-                  }, child: Text('Todays Meal Update',style: TextStyle(fontSize: 20),)),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              height: 60,
-              width: 400,
-              child: Card(
-                elevation: 10,
-                child: Container(
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.cyan
-                      ),
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MembersPage()));
-
-                  }, child: Text('Current Month Meal Update',style: TextStyle(fontSize: 20),)),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              height: 60,
-              width: 400,
-              child: Card(
-                elevation: 10,
-                child: Container(
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red
-                      ),
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MembersPage()));
-
-                  }, child: Text('Total Monthly Account',style: TextStyle(fontSize: 20),)),
-                ),
-              ),
-            ),
-          ],
-
-        ),
-      ),
-
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 1,
-        selectedFontSize: 16,
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.notification_add_sharp), label: 'Notification'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.read_more), label: 'Read more')
-        ],
-      ),
-
-      /// Navigation Drawer
-      drawer: Drawer(
-        //backgroundColor: Colors.brown,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(bottomRight: Radius.circular(20))
-        ),
-        child: ListView(
-          children: [
-            DrawerHeader(
-                padding: EdgeInsets.all(0),
-                child: UserAccountsDrawerHeader(
-                  decoration: BoxDecoration(color: Colors.blueGrey),
-                  accountName: Text('Mess Name', style: TextStyle(color: Colors.white),),
-                  accountEmail: Text('messSylhet2023@gmail.com', style: TextStyle(color: Colors.white)),
-                  currentAccountPicture: Image.network('https://cdn0.iconfinder.com/data/icons/education-school-science/100/29-512.png'),
-                  //currentAccountPictureSize: Size.square(150),
-                )
-            ),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('My Profile'),
-              hoverColor: Colors.grey,
-              onTap: () {
-                //SnackBarMessage('My Profile', context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
-              hoverColor: Colors.grey,
-              onTap: () {
-                //SnackBarMessage('Goto Home', context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.call),
-              title: Text('Contact with Manager'),
-              hoverColor: Colors.grey,
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>ContactWithManager()));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.report_gmailerrorred_outlined),
-              title: Text('Report to Manager'),
-              hoverColor: Colors.grey,
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>ReportManager()));
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.question_mark),
-              title: Text('About'),
-              hoverColor: Colors.grey,
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>AboutUs()));
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class MembersPage extends StatelessWidget {
   const MembersPage({Key? key}) : super(key: key);
 
@@ -964,7 +719,6 @@ class MembersPage extends StatelessWidget {
     );
   }
 }
-
 
 class ContactWithManager extends StatelessWidget {
   const ContactWithManager({Key? key}) : super(key: key);
@@ -1061,6 +815,411 @@ class AboutUs extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ListViewTwo extends StatelessWidget {
+  ListViewTwo({Key? key}) : super(key: key);
+
+
+  /// Json Data for routing when click on the image in List View
+  var Routing = [
+    {'routePage':Members()},
+    {'routePage':MyMeal()},
+    {'routePage':MyAccount()},
+    {'routePage':TodaysBazar()},
+    {'routePage':CurrentMonthBazarReport()},
+    {'routePage':TodaysMealReport()},
+    {'routePage':CurrentMonthMealReport()},
+    {'routePage':MonthlyAccountsReport()},
+  ];
+
+
+  /// Json data used to set the data for accessing dynamically in the List view
+  var ListItems = [
+    {
+      'image':
+      'https://tse3.mm.bing.net/th?id=OIP.0OEV4fG5oQLTxmsHMYxj9wHaE8&pid=Api&P=0',
+      'title': 'Members'
+    },
+    {
+      'image':
+      'https://tse3.mm.bing.net/th?id=OIP.j_NOuF0uzbiz4vCuNZSYHgHaE8&pid=Api&P=0',
+      'title': 'My Meal'
+    },
+    {
+      'image':
+      'https://tse2.mm.bing.net/th?id=OIP.qnGQP5dDfNYShRLc3pseZgHaE8&pid=Api&P=0',
+      'title': 'My Monthly Account Report'
+    },
+    {
+      'image':
+      'https://tse4.mm.bing.net/th?id=OIP.N0zjhirTnY4vPhTLmUQqwwHaE7&pid=Api&P=0',
+      'title': 'Todays Bazar'
+    },
+    {
+      'image':
+      'https://tse3.mm.bing.net/th?id=OIP.3l8g-bt0nCQcexpx5CVhDAHaE6&pid=Api&P=0',
+      'title': 'Current Month Bazar Report'
+    },
+    {
+      'image':
+      'https://tse3.mm.bing.net/th?id=OIP.83zGw1zjBlMeNp3TOvzSdwHaE8&pid=Api&P=0',
+      'title': 'Todays Meal Report'
+    },
+    {
+      'image':
+      'https://tse3.mm.bing.net/th?id=OIP.k8FUKCiuicKLPRO-uLBRcgHaE8&pid=Api&P=0',
+      'title': 'Current Month Meal Report'
+    },
+    {
+      'image':
+      'https://tse3.mm.bing.net/th?id=OIP.I6UFUD6CQU2dujDGixgwIQHaE7&pid=Api&P=0',
+      'title': 'Total Monthly Account Report'
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Home'),
+        backgroundColor: Colors.black,
+      ),
+
+      body:
+      Scrollbar(
+        thickness: 7,
+        radius: Radius.circular(30),
+        child: ListView.separated(
+          itemCount: ListItems.length,
+          itemBuilder: (context,index){
+            return GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Routing[index]['routePage']!));
+
+              },
+              child:
+              Column(
+                children: [
+                  Text(ListItems[index]['title']!,style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color: Colors.white,backgroundColor: Colors.deepPurple),),
+                  Container(
+                    height: 190,
+                    width: double.infinity,
+                    margin: EdgeInsets.all(10),
+                    child:
+                    Image.network(ListItems[index]['image']!,fit: BoxFit.fill,),
+
+                  ),
+                ],
+              ),
+            );
+
+          },
+          separatorBuilder: (context,index){
+            return Divider(
+              height: 40,
+              thickness: 3,
+              color: Colors.blueGrey.shade200
+              ,
+            );
+
+          },
+
+        ),
+      ),
+
+      /// Navigation Drawer
+      drawer: Drawer(
+        //backgroundColor: Colors.brown,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(bottomRight: Radius.circular(20))
+        ),
+        child: ListView(
+          children: [
+            DrawerHeader(
+                padding: EdgeInsets.all(0),
+                child: UserAccountsDrawerHeader(
+                  decoration: BoxDecoration(color: Colors.blueGrey),
+                  accountName: Text('Mess Name', style: TextStyle(color: Colors.white),),
+                  accountEmail: Text('messSylhet2023@gmail.com', style: TextStyle(color: Colors.white)),
+                  currentAccountPicture: Image.network('https://cdn0.iconfinder.com/data/icons/education-school-science/100/29-512.png'),
+                  //currentAccountPictureSize: Size.square(150),
+                )
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('My Profile'),
+              hoverColor: Colors.grey,
+              onTap: () {
+                //SnackBarMessage('My Profile', context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Home'),
+              hoverColor: Colors.grey,
+              onTap: () {
+                //SnackBarMessage('Goto Home', context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.call),
+              title: Text('Contact with Manager'),
+              hoverColor: Colors.grey,
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>ContactWithManager()));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.report_gmailerrorred_outlined),
+              title: Text('Report to Manager'),
+              hoverColor: Colors.grey,
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>ReportManager()));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.question_mark),
+              title: Text('About'),
+              hoverColor: Colors.grey,
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>AboutUs()));
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Members extends StatelessWidget {
+  Members({Key? key}) : super(key: key);
+
+  var MembersList = [
+    {'member':'Hasan'},
+    {'member':'Rahat'},
+    {'member':'Sammun'},
+    {'member':'Sayem'},
+    {'member':'Jawad'},
+    {'member':'Shakib'},
+    {'member':'Shanto'},
+    {'member':'Rana'},
+    {'member':'Kohinoor'},
+    {'member':'Jamshed'},
+    {'member':'Hasan'},
+    {'member':'Rahat'},
+    {'member':'Sammun'},
+    {'member':'Sayem'},
+    {'member':'Jawad'},
+    {'member':'Shakib'},
+    {'member':'Shanto'},
+    {'member':'Rana'},
+    {'member':'Kohinoor'},
+    {'member':'Jamshed'},
+    {'member':'Hasan'},
+    {'member':'Rahat'},
+    {'member':'Sammun'},
+    {'member':'Sayem'},
+    {'member':'Jawad'},
+    {'member':'Shakib'},
+    {'member':'Shanto'},
+    {'member':'Rana'},
+    {'member':'Kohinoor'},
+    {'member':'Jamshed'},
+
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Members'),
+        backgroundColor: Colors.black,
+      ),
+      body:
+      Scrollbar(
+        radius: Radius.circular(20),
+        thickness: 6,
+        child: ListView.separated(
+            itemCount: MembersList.length,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile()));
+                  },
+                  child:
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 9,horizontal: 15),
+                    child: ListTile(
+                      trailing: Icon(Icons.arrow_forward_rounded),
+                      tileColor: Colors.blueGrey.shade200,
+                      title: Text(MembersList[index]['member']!),
+                      subtitle: Text('Member'),
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.indigo,
+                        child: Icon(Icons.person),
+                        //backgroundColor: ,
+                      ),
+                    ),
+                  )
+              );
+            },
+            separatorBuilder: (context, index) {
+              return Divider(
+                thickness: 3,
+                height: 10,
+                color: Colors.indigo.shade100,
+              );
+            }),
+      ),
+    );
+  }
+}
+class MyMeal extends StatelessWidget {
+  const MyMeal({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('My Meal'),
+        backgroundColor: Colors.black,
+      ),
+      body: Center(
+        child: Image.network('https://tse1.mm.bing.net/th?id=OIP.KrNb8nkzUtP0Eeh5S7zr7gHaFu&pid=Api&P=0'),
+      ),
+    );
+  }
+}
+class MyAccount extends StatelessWidget {
+  const MyAccount({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('My Account'),
+        backgroundColor: Colors.black,
+      ),
+      body: Center(
+        child: Image.network('https://tse2.mm.bing.net/th?id=OIP.O6ZrINksshP955zkHwmRIwHaFQ&pid=Api&P=0'),
+      ),
+    );
+  }
+}
+class TodaysBazar extends StatelessWidget {
+  const TodaysBazar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Todays Bazar'),
+        backgroundColor: Colors.black,
+      ),
+      body: Center(
+        child: Text('Todays Bazar Page'),
+      ),
+    );
+  }
+}
+class CurrentMonthBazarReport extends StatelessWidget {
+  const CurrentMonthBazarReport({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Current Month Bazar'),
+        backgroundColor: Colors.black,
+      ),
+      body: Center(
+        child: Image.network('https://tse2.mm.bing.net/th?id=OIP.O6ZrINksshP955zkHwmRIwHaFQ&pid=Api&P=0'),
+      ),
+    );
+  }
+}
+class TodaysMealReport extends StatelessWidget {
+  const TodaysMealReport({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Todays Meal Report'),
+        backgroundColor: Colors.black,
+      ),
+      body: Center(
+        child: Image.network('https://tse1.mm.bing.net/th?id=OIP.rmu8iEpSxP3GgnrnYtEDtAHaFn&pid=Api&P=0'),
+      ),
+    );
+  }
+}
+class CurrentMonthMealReport extends StatelessWidget {
+  const CurrentMonthMealReport({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Current Months Meal Report'),
+        backgroundColor: Colors.black,
+      ),
+      body: Center(
+        child: Image.network('https://tse2.mm.bing.net/th?id=OIP.O6ZrINksshP955zkHwmRIwHaFQ&pid=Api&P=0'),
+      ),
+    );
+  }
+}
+class MonthlyAccountsReport extends StatelessWidget {
+  const MonthlyAccountsReport({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Monthly Accounts Report'),
+        backgroundColor: Colors.black,
+      ),
+      body: Center(
+        child: Image.network('https://tse2.mm.bing.net/th?id=OIP.O6ZrINksshP955zkHwmRIwHaFQ&pid=Api&P=0'),
+      ),
+    );
+  }
+}
+
+class Profile extends StatelessWidget {
+  const Profile({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Profile'),
+        backgroundColor: Colors.black,
+      ),
+      body:
+      Center(
+        child : Text('Members Profile'),
+      ),
+    );
+  }
+}
+class YourMeal extends StatelessWidget {
+  const YourMeal({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('My Meal'),
+        backgroundColor: Colors.black,
+      ),
+      body: Center(
+        child: Image.network('https://tse2.mm.bing.net/th?id=OIP.O6ZrINksshP955zkHwmRIwHaFQ&pid=Api&P=0'),
       ),
     );
   }
