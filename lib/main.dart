@@ -909,8 +909,11 @@ class ListViewTwo extends StatelessWidget {
                     height: 190,
                     width: double.infinity,
                     margin: EdgeInsets.all(10),
-                    child:
-                    Image.network(ListItems[index]['image']!,fit: BoxFit.fill,),
+                    alignment: Alignment.center,
+
+                    child: AspectRatio(
+                        aspectRatio: 16/9,
+                      child: Image.network(ListItems[index]['image']!,fit: BoxFit.fill,)),
 
                   ),
                 ],
