@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:softbyhasan/ui/screens/sign-up-screen.dart';
+import 'package:softbyhasan/ui/widgets/app-text-button.dart';
 import 'package:softbyhasan/ui/widgets/screen-Background-images.dart';
 
 import '../utils/text-styles.dart';
+import '../widgets/app-elevated-button.dart';
 import '../widgets/app-text-form-field.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,29 +19,56 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ScreenBackground(
-          widget: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Text('Get Started With', style: screenTitleTextStyle,),
-              ),
-              const SizedBox(height: 24,),
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Get Started With', style: screenTitleTextStyle,),
+                const SizedBox(height: 24,),
 
-              AppTextFormFieldWidget(
-                hintText: 'Email',
-                controller: TextEditingController(),
-              ),
-              SizedBox(height: 16,),
-              AppTextFormFieldWidget(
-                obscureText: true,
-                  hintText: 'Password',
+                AppTextFormFieldWidget(
+                  hintText: 'Email',
                   controller: TextEditingController(),
-              )
-            ],
-        )
+                ),
+                const SizedBox(height: 16,),
+                AppTextFormFieldWidget(
+                  obscureText: true,
+                    hintText: 'Password',
+                    controller: TextEditingController(),
+                ),
+                const SizedBox(height: 16,),
+
+                AppElevatedButton(
+                  child: const Icon(Icons.arrow_forward_ios),
+                  ontap: (){
+                    
+                  },
+                ),
+                const SizedBox(height: 16,),
+                Center(
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero
+                      ),
+                    onPressed: () {},
+                    child: const Text(
+                      'Forgot Password?',
+                      style: TextStyle(color: Colors.grey),
+                    ),),
+                ),
+                const AppTextButton(
+                    text1: "Don't Have an Account?",
+                    text2: 'Sign in'
+                )
+                
+
+              ],
+        ),
+          )
       ),
     );
   }
 }
+
