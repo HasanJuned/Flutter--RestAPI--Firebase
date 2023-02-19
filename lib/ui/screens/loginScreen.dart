@@ -32,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: 16,),
               AppTextFormFieldWidget(
+                obscureText: true,
                   hintText: 'Password',
                   controller: TextEditingController(),
               )
