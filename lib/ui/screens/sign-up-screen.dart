@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:softbyhasan/ui/screens/loginScreen.dart';
 import 'package:softbyhasan/ui/utils/text-styles.dart';
 import 'package:softbyhasan/ui/widgets/app-elevated-button.dart';
 import 'package:softbyhasan/ui/widgets/app-text-button.dart';
@@ -44,9 +45,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(height: 24),
                 AppElevatedButton(child: const Icon(Icons.arrow_forward_ios), ontap: (){}),
                 const SizedBox(height: 16),
-                const AppTextButton(
+                AppTextButton(
                   text1: 'Have account?',
                   text2: 'Sign in',
+                  ontap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const LoginScreen()));
+                  },
                 )
               ],
             ),

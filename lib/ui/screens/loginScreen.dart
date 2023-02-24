@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:softbyhasan/ui/screens/sign-up-screen.dart';
+import 'package:softbyhasan/ui/screens/verify-with-email.dart';
 import 'package:softbyhasan/ui/widgets/app-text-button.dart';
 import 'package:softbyhasan/ui/widgets/screen-Background-images.dart';
 
@@ -52,15 +53,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero
                       ),
-                    onPressed: () {},
+                    onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> const VerifyWithEmail()));
+                    },
                     child: const Text(
                       'Forgot Password?',
                       style: TextStyle(color: Colors.grey),
                     ),),
                 ),
-                const AppTextButton(
+                AppTextButton(
                     text1: "Don't Have an Account?",
-                    text2: 'Sign in'
+                    text2: 'Sign up',
+                    ontap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> const SignUpScreen()));
+                    },
                 )
                 
 
