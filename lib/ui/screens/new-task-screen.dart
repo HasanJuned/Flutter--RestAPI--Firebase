@@ -20,7 +20,6 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
         child: ScreenBackground(
           child: Column(
             children: [
-
               Row(
                 children: const [
                   Expanded(
@@ -57,6 +56,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                   description: 'kjfkjref',
                   date: '22/22/22',
                   type: 'New',
+                  backgroundColor: Colors.lightBlueAccent,
                   onEdit: () {},
                   onDelete: () {},
                 );

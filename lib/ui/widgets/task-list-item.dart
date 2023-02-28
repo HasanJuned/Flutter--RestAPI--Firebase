@@ -8,10 +8,12 @@ class TaskListItem extends StatelessWidget {
     required this.type,
     required this.onEdit,
     required this.onDelete,
+    this.backgroundColor,
   }) : super(key: key);
 
   final String subject, description, date, type;
   final VoidCallback onEdit, onDelete;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class TaskListItem extends StatelessWidget {
       elevation: 3,
       margin: const EdgeInsets.all(8),
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(9.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -41,13 +43,20 @@ class TaskListItem extends StatelessWidget {
             Row(
               children: [
                 Chip(
-                  label: Text(type),
-                  backgroundColor: Colors.blueAccent,
+                  label: Text(
+                    type,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14
+                    ),
+
+                  ),
+                  backgroundColor: backgroundColor,
                 ),
                 const Spacer(),
-                IconButton(onPressed: onEdit, icon: Icon(Icons.edit)),
+                IconButton(onPressed: onEdit, icon: Icon(Icons.sticky_note_2_outlined), color: Colors.green,),
                 IconButton(
-                    onPressed: onDelete, icon: Icon(Icons.delete_outline)),
+                    onPressed: onDelete, icon: Icon(Icons.delete_sweep_sharp), color: Colors.redAccent,),
               ],
             )
           ],

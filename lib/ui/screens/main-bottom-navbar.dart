@@ -47,7 +47,10 @@ class _MainBottomNavBarState extends State<MainBottomNavBar> {
         currentIndex: _selectedScreen,
         elevation: 4,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.new_label), label: 'New'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.new_label),
+              label: 'New',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.done), label: 'Completed'),
           BottomNavigationBarItem(icon: Icon(Icons.cancel_outlined), label: 'Cancelled'),
           BottomNavigationBarItem(icon: Icon(Icons.downloading), label: 'Progress'),

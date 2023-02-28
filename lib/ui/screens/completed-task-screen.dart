@@ -23,6 +23,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
                   description: 'kjfkjref',
                   date: '22/22/22',
                   type: 'Completed',
+                  backgroundColor: Colors.green,
                   onEdit: () {},
                   onDelete: () {},
                 );

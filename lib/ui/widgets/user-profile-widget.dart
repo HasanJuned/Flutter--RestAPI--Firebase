@@ -18,8 +18,8 @@ class UserProfileWidget extends StatelessWidget {
           vertical: 0
       ),
       leading: CircleAvatar(child: Icon(Icons.person)),
-      title: Text('Hasan Ahmad'),
-      subtitle: Text('hasan@gmail.com'),
+      title: Text('Hasan Ahmad', style: const TextStyle(color: Colors.white),),
+      subtitle: Text('hasan@gmail.com', style: const TextStyle(color: Colors.white),),
       tileColor: Colors.green,
     );
   }

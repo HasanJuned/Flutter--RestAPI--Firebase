@@ -7,12 +7,14 @@ class AppTextFormFieldWidget extends StatelessWidget {
     required this.controller,
     this.obscureText,
     this.maxLine,
+    this.validator,
   }) : super(key: key);
 
   final String hintText;
   final TextEditingController controller;
   final bool? obscureText;
   final int? maxLine;
+  final Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +22,12 @@ class AppTextFormFieldWidget extends StatelessWidget {
       maxLines: maxLine ?? 1,
       obscureText: obscureText ?? false,
       controller: controller,
+      validator: (value){
+        if(validator != null){
+          return validator!(value);
+        }
+        return null;
+      },
       decoration: InputDecoration(
           hintText: hintText,
           fillColor: Colors.white,

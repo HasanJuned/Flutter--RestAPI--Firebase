@@ -22,7 +22,8 @@ class _InprogressTaskScreenState extends State<InprogressTaskScreen> {
                   subject: 'Subject',
                   description: 'kjfkjref',
                   date: '22/22/22',
-                  type: 'In Progress',
+                  type: 'Progress',
+                  backgroundColor: Colors.purple,
                   onEdit: () {},
                   onDelete: () {},
                 );

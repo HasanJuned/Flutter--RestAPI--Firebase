@@ -23,6 +23,7 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
                   description: 'kjfkjref',
                   date: '22/22/22',
                   type: 'Cancelled',
+                  backgroundColor: Colors.redAccent,
                   onEdit: () {},
                   onDelete: () {},
                 );
