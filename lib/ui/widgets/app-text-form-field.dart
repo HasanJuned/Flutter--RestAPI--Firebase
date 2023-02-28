@@ -6,26 +6,25 @@ class AppTextFormFieldWidget extends StatelessWidget {
     required this.hintText,
     required this.controller,
     this.obscureText,
+    this.maxLine,
   }) : super(key: key);
 
   final String hintText;
   final TextEditingController controller;
   final bool? obscureText;
+  final int? maxLine;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLine ?? 1,
       obscureText: obscureText ?? false,
       controller: controller,
       decoration: InputDecoration(
           hintText: hintText,
           fillColor: Colors.white,
           filled: true,
-          border: const OutlineInputBorder(
-              borderSide: BorderSide.none
-          )
-      ),
-
+          border: const OutlineInputBorder(borderSide: BorderSide.none)),
     );
   }
 }

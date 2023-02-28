@@ -3,7 +3,8 @@ import 'package:softbyhasan/ui/screens/Inprogress-task-screen.dart';
 import 'package:softbyhasan/ui/screens/cancelled-task-screen.dart';
 import 'package:softbyhasan/ui/screens/completed-task-screen.dart';
 import 'package:softbyhasan/ui/screens/new-task-screen.dart';
-import 'package:softbyhasan/ui/widgets/screen-Background-images.dart';
+
+import '../widgets/user-profile-widget.dart';
 
 class MainBottomNavBar extends StatefulWidget {
   const MainBottomNavBar({Key? key}) : super(key: key);
@@ -26,8 +27,14 @@ class _MainBottomNavBarState extends State<MainBottomNavBar> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      body: _screens[_selectedScreen],
+      body: SafeArea(
+        child: Column(
+            children: [
+              const UserProfileWidget(),
+              Expanded(child: _screens[_selectedScreen])
 
+            ]),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.green,
         unselectedItemColor: Colors.black38,
@@ -51,3 +58,4 @@ class _MainBottomNavBarState extends State<MainBottomNavBar> {
     );
   }
 }
+
