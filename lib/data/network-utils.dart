@@ -16,7 +16,7 @@ class NetworkUtils{
           onUnAuthorize();
         }
       } else {
-        print('Something went wrong');
+        print('Something went wrong ${response.statusCode}');
       }
     } catch(e){
       print(e);
