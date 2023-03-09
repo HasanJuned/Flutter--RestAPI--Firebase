@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:softbyhasan/data/models/task-model.dart';
+import 'package:softbyhasan/data/network-utils.dart';
 import 'package:softbyhasan/ui/screens/add-new-task-screen.dart';
+import 'package:softbyhasan/ui/utils/snackbar-message.dart';
 import 'package:softbyhasan/ui/widgets/screen-Background-images.dart';
 
 import '../widgets/dashboard.dart';
@@ -13,6 +16,30 @@ class NewTaskScreen extends StatefulWidget {
 }
 
 class _NewTaskScreenState extends State<NewTaskScreen> {
+  TaskModel newTaskModel = TaskModel();
+  bool inProgress = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getNewTasks();
+  }
+
+  Future<void> getNewTasks() async {
+    inProgress = true;
+    setState(() {});
+    final response = await NetworkUtils()
+        .getMethod('https://task.teamrabbil.com/api/v1/listTaskByStatus/New');
+
+    if (response != null) {
+      newTaskModel = TaskModel.fromJson(response);
+    } else {
+      showSnackBarMessage(context, 'Unable to fetch data. Try again!', true);
+    }
+    inProgress = false;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,19 +75,33 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                   ),
                 ],
               ),
-              Expanded(child: ListView.builder(
-                itemCount: 12,
-                  itemBuilder: (context, index) {
-                return TaskListItem(
-                  subject: 'Subject',
-                  description: 'kjfkjref',
-                  date: '22/22/22',
-                  type: 'New',
-                  backgroundColor: Colors.lightBlueAccent,
-                  onEdit: () {},
-                  onDelete: () {},
-                );
-              })),
+              Expanded(
+                  child: inProgress
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : RefreshIndicator(
+                          onRefresh: () async {
+                            getNewTasks();
+                          },
+                          child: ListView.builder(
+                              itemCount: newTaskModel.data?.length ?? 0,
+                              itemBuilder: (context, index) {
+                                return TaskListItem(
+                                  subject: newTaskModel.data?[index].title ??
+                                      'Unknown',
+                                  description:
+                                      newTaskModel.data?[index].description ??
+                                          'Unknown',
+                                  date: newTaskModel.data?[index].createdDate ??
+                                      'Unknown',
+                                  type: 'New',
+                                  backgroundColor: Colors.lightBlueAccent,
+                                  onEdit: () {},
+                                  onDelete: () {},
+                                );
+                              }),
+                        )),
             ],
           ),
         ),
@@ -68,9 +109,11 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: Colors.green,
-        onPressed: (){
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const AddNewTaskScreen()));
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const AddNewTaskScreen()));
         },
       ),
     );
