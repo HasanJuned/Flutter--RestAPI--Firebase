@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:softbyhasan/data/network-utils.dart';
+import 'package:softbyhasan/ui/utils/auth-utils.dart';
+import 'package:softbyhasan/ui/utils/snackbar-message.dart';
 import 'package:softbyhasan/ui/widgets/app-text-form-field.dart';
 
 import '../utils/text-styles.dart';
@@ -6,6 +9,7 @@ import '../widgets/app-elevated-button.dart';
 import '../widgets/app-text-button.dart';
 import '../widgets/screen-Background-images.dart';
 import 'loginScreen.dart';
+
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({Key? key}) : super(key: key);
 
@@ -14,58 +18,96 @@ class ResetPasswordScreen extends StatefulWidget {
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+  final TextEditingController newPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ScreenBackground(
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: SafeArea(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Set Password', style: screenTitleTextStyle,),
-                  const SizedBox(height: 8),
-                  Text('Minimum length password 8 character with Letter & Number combination', style: screenSubTitleStyle),
-                  const SizedBox(height: 24),
-              AppTextFormFieldWidget(
-                  hintText: 'Password', controller: TextEditingController()),
-              const SizedBox(height: 16,),
-              AppTextFormFieldWidget(
+        padding: const EdgeInsets.all(24.0),
+        child: SafeArea(
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Set Password',
+                  style: screenTitleTextStyle,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                    'Minimum length password 8 character with Letter & Number combination',
+                    style: screenSubTitleStyle),
+                const SizedBox(height: 24),
+                AppTextFormFieldWidget(
+                  hintText: 'Password',
+                  controller: newPasswordController,
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return 'Enter your new password';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                AppTextFormFieldWidget(
                   hintText: 'Confirm Password',
-                  controller: TextEditingController()),
-              const SizedBox(height: 24),
-              AppElevatedButton(
-                    child: const Text('Confirm'),
-                    ontap: (){
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginScreen()),
-                              (route) => false);
-                },
-                  ),
-                  const SizedBox(height: 16,),
-                  AppTextButton(
-                    text1: "Have account?",
-                    text2: 'Sign in',
-                    ontap: (){
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginScreen()),
-                              (route) => false);
-                    },
-                  )
-
-
-                ],
-              ),
+                  controller: confirmPasswordController,
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return 'Enter your correct password';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 24),
+                AppElevatedButton(
+                  child: const Text('Confirm'),
+                  ontap: () async {
+                    if (formKey.currentState!.validate()) {
+                      final result = await NetworkUtils().postMethod(
+                          'https://task.teamrabbil.com/api/v1/registration',
+                          body: {
+                            'password': newPasswordController.text
+                          });
+                      if (result != null) {
+                        showSnackBarMessage(context, 'Password Changed');
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginScreen()),
+                            (route) => false);
+                      }
+                    }
+                  },
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                AppTextButton(
+                  text1: "Have account?",
+                  text2: 'Sign in',
+                  ontap: () {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginScreen()),
+                        (route) => false);
+                  },
+                )
+              ],
             ),
-          )
-      ),
-
+          ),
+        ),
+      )),
     );
   }
 }

@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:softbyhasan/ui/screens/loginScreen.dart';
+import 'package:softbyhasan/ui/screens/SplashScreen.dart';
 
 main(){
-  runApp(const TaskManager());
+  runApp(TaskManager());
 }
 
-class TaskManager extends StatelessWidget {
-  const TaskManager({Key? key}) : super(key: key);
+class TaskManager extends StatefulWidget {
+  TaskManager({Key? key}) : super(key: key);
+
+  static GlobalKey<NavigatorState> globalKey = GlobalKey<NavigatorState>();
 
   @override
+  State<TaskManager> createState() => _TaskManagerState();
+}
+
+class _TaskManagerState extends State<TaskManager> {
+  @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      key: TaskManager.globalKey,
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: SplashScreen(),
     );
   }
 }

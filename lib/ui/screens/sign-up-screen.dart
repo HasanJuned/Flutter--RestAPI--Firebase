@@ -16,7 +16,6 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-
   TextEditingController emailTextController = TextEditingController();
   TextEditingController firstNameTextController = TextEditingController();
   TextEditingController lastNameTextController = TextEditingController();
@@ -24,11 +23,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController passwordTextController = TextEditingController();
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool inProgress = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: ScreenBackground(
         child: SafeArea(
           child: SingleChildScrollView(
@@ -37,22 +36,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: Form(
                 key: formKey,
                 child: Column(
-                children: [
-                  const SizedBox(height: 32),
-                  Text('Join With Us', style: screenTitleTextStyle,),
-                  const SizedBox(height: 24),
-                  AppTextFormFieldWidget(
-                    hintText: 'Email',
-                    controller: emailTextController,
-                    validator: (value){
-                      if(value?.isEmpty ?? true){
-                        return 'Enter your email';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 8),
-                  AppTextFormFieldWidget(
+                  children: [
+                    const SizedBox(height: 32),
+                    Text(
+                      'Join With Us',
+                      style: screenTitleTextStyle,
+                    ),
+                    const SizedBox(height: 24),
+                    AppTextFormFieldWidget(
+                      hintText: 'Email',
+                      controller: emailTextController,
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'Enter your email';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 8),
+                    AppTextFormFieldWidget(
                       hintText: 'First Name',
                       controller: firstNameTextController,
                       validator: (value) {
@@ -63,7 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       },
                     ),
                     const SizedBox(height: 8),
-                  AppTextFormFieldWidget(
+                    AppTextFormFieldWidget(
                       hintText: 'Last Name',
                       controller: lastNameTextController,
                       validator: (value) {
@@ -74,7 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       },
                     ),
                     const SizedBox(height: 8),
-                  AppTextFormFieldWidget(
+                    AppTextFormFieldWidget(
                       hintText: 'Mobile',
                       controller: mobileTextController,
                       validator: (value) {
@@ -85,61 +87,81 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       },
                     ),
                     const SizedBox(height: 8),
-                  AppTextFormFieldWidget(
+                    AppTextFormFieldWidget(
                       hintText: 'Password',
                       controller: passwordTextController,
                       validator: (value) {
-                        if ((value?.isEmpty ?? true) && (value?.length ?? 0) < 6 ) {
+                        if ((value?.isEmpty ?? true) &&
+                            (value?.length ?? 0) < 6) {
                           return 'Enter your password more than 6 letter';
                         }
                         return null;
                       },
                     ),
                     const SizedBox(height: 24),
-                    AppElevatedButton(
-                        child: const Icon(Icons.arrow_forward_ios),
-                        ontap: () async {
-                          if(formKey.currentState!.validate()){
-                            final result = await NetworkUtils().postMethod('https://task.teamrabbil.com/api/v1/registration',
-                                body: {
-                                  'email' : emailTextController.text.trim(),
-                                  'mobile': mobileTextController.text.trim(),
-                                  'password': passwordTextController.text,
-                                  'firstName': firstNameTextController.text.trim(),
-                                  'lastName': lastNameTextController.text.trim(),
-                                }
-                            );
-                            if(result != null && result['status'] == 'success'){
+                    if (inProgress)
+                      const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    else
+                      AppElevatedButton(
+                          child: const Icon(Icons.arrow_forward_ios),
+                          ontap: () async {
+                            if (formKey.currentState!.validate()) {
+                              inProgress = true;
+                              setState(() {
 
-                              emailTextController.clear();
-                              mobileTextController.clear();
-                              passwordTextController.clear();
-                              firstNameTextController.clear();
-                              lastNameTextController.clear();
+                              });
+                              final result = await NetworkUtils().postMethod(
+                                  'https://task.teamrabbil.com/api/v1/registration',
+                                  body: {
+                                    'email': emailTextController.text.trim(),
+                                    'mobile': mobileTextController.text.trim(),
+                                    'password': passwordTextController.text,
+                                    'firstName':
+                                        firstNameTextController.text.trim(),
+                                    'lastName':
+                                        lastNameTextController.text.trim(),
+                                  });
 
-                              showSnackBarMessage(context, 'Registration Successfull !');
+                              inProgress = false;
+                              setState(() {});
+                              if (result != null && result['status'] == 'success') {
+                                emailTextController.clear();
+                                mobileTextController.clear();
+                                passwordTextController.clear();
+                                firstNameTextController.clear();
+                                lastNameTextController.clear();
 
-                            } else{
-                              showSnackBarMessage(context, 'Registration Failed !', true);
+                                showSnackBarMessage(context, 'Registration Successfull !');
+                                Navigator.pushAndRemoveUntil(context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const LoginScreen()), (
+                                        route) => false);
+                              } else {
+                                showSnackBarMessage(
+                                    context, 'Registration Failed !', true);
+                              }
                             }
-                          }
-                        }),
+                          }),
                     const SizedBox(height: 16),
-                  AppTextButton(
-                    text1: 'Have account?',
-                    text2: 'Sign in',
-                    ontap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> const LoginScreen()));
-                    },
-                  )
-                ],
-            ),
+                    AppTextButton(
+                      text1: 'Have account?',
+                      text2: 'Sign in',
+                      ontap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginScreen()));
+                      },
+                    )
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ),
-
     );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:softbyhasan/data/network-utils.dart';
 import 'package:softbyhasan/ui/screens/otp-verification-screen.dart';
+import 'package:softbyhasan/ui/utils/snackbar-message.dart';
 import 'package:softbyhasan/ui/utils/text-styles.dart';
 import 'package:softbyhasan/ui/widgets/app-text-form-field.dart';
 import 'package:softbyhasan/ui/widgets/screen-Background-images.dart';
@@ -15,45 +17,91 @@ class VerifyWithEmail extends StatefulWidget {
 }
 
 class _VerifyWithEmailState extends State<VerifyWithEmail> {
+  bool inProgess = false;
+
+  final TextEditingController emailController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ScreenBackground(
           child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Your Email Address', style: screenTitleTextStyle,),
-                  const SizedBox(height: 8),
-                  Text('A 6 digits verification pin will be sent to your email address', style: screenSubTitleStyle),
-                  const SizedBox(height: 24),
-                  AppTextFormFieldWidget(
-                      hintText: 'Email',
-                      controller: TextEditingController()),
-                  const SizedBox(height: 24,),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Your Email Address',
+                  style: screenTitleTextStyle,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                    'A 6 digits verification pin will be sent to your email address',
+                    style: screenSubTitleStyle),
+                const SizedBox(height: 24),
+                AppTextFormFieldWidget(
+                    validator: (value) {
+                      if (value?.isEmpty ?? true) {
+                        return 'Enter your email';
+                      }
+                      return null;
+                    },
+                    hintText: 'Email',
+                    controller: emailController),
+                const SizedBox(
+                  height: 24,
+                ),
+                if (inProgess)
+                  const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                else
                   AppElevatedButton(
                     child: const Icon(Icons.arrow_forward_ios),
-                    ontap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> const OtpVerificationScreen()));
-
+                    ontap: () async {
+                      if (formKey.currentState!.validate()) {
+                        inProgess = true;
+                        setState(() {});
+                        final result = await NetworkUtils().postMethod(
+                            'https://task.teamrabbil.com/api/v1/login',
+                            body: {
+                              'email': emailController.text.trim(),
+                            }, onUnAuthorize: () {
+                          showSnackBarMessage(
+                              context, 'Enter valid email address', true);
+                        });
+                        inProgess = false;
+                        setState(() {});
+                        if (result['status'] == 'success') {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const OtpVerificationScreen()));
+                        }
+                      }
                     },
                   ),
-                  const SizedBox(height: 16,),
-                  AppTextButton(
-                    text1: "Have account?",
-                    text2: 'Sign in',
-                    ontap: (){
-                      Navigator.pop(context);
-                    },
-                  )
-                ],
-              ),
+                const SizedBox(
+                  height: 16,
+                ),
+                AppTextButton(
+                  text1: "Have account?",
+                  text2: 'Sign in',
+                  ontap: () {
+                    Navigator.pop(context);
+                  },
+                )
+              ],
             ),
-          )
-      ),
+          ),
+        ),
+      )),
     );
   }
 }

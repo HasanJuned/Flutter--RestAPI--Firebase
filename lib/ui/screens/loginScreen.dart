@@ -3,6 +3,7 @@ import 'package:softbyhasan/data/network-utils.dart';
 import 'package:softbyhasan/ui/screens/main-bottom-navbar.dart';
 import 'package:softbyhasan/ui/screens/sign-up-screen.dart';
 import 'package:softbyhasan/ui/screens/verify-with-email.dart';
+import 'package:softbyhasan/ui/utils/auth-utils.dart';
 import 'package:softbyhasan/ui/utils/snackbar-message.dart';
 import 'package:softbyhasan/ui/widgets/app-text-button.dart';
 import 'package:softbyhasan/ui/widgets/screen-Background-images.dart';
@@ -22,6 +23,39 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailTextController = TextEditingController();
   TextEditingController passwordTextController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  bool inProgress = false;
+
+  Future<void> login() async {
+    inProgress = true;
+    setState(() {});
+    final result = await NetworkUtils()
+        .postMethod('https://task.teamrabbil.com/api/v1/login', body: {
+      'email': emailTextController.text.trim(),
+      'password': passwordTextController.text
+    }, onUnAuthorize: () {
+      showSnackBarMessage(
+          context, 'Email or Password is incorrect. Try again!', true);
+    });
+    inProgress = false;
+    setState(() {});
+    if (result != null && result['status'] == 'success') {
+      /// save user information
+      await AuthUtils.saveUserData(
+        result['data']['firstName'],
+        result['data']['lastName'],
+        result['token'],
+        result['data']['photo'],
+        result['data']['mobile'],
+        result['data']['email'],
+      );
+
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const MainBottomNavBar()),
+          (route) => false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,30 +103,19 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 16,
               ),
-              AppElevatedButton(
-                child: const Icon(Icons.arrow_forward_ios),
-                ontap: () async {
-                  if (formKey.currentState!.validate()) {
-                    final result = await NetworkUtils().postMethod(
-                        'https://task.teamrabbil.com/api/v1/login',
-                        body: {
-                          'email': emailTextController.text.trim(),
-                          'password': passwordTextController.text
-                        },
-                      onUnAuthorize: (){
-                          showSnackBarMessage(context, 'Email or Password is incorrect. Try again!', true);
-                      }
-                    );
-                    if (result != null && result['status'] == 'success') {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const MainBottomNavBar()),
-                          (route) => false);
+              if (inProgress)
+                const Center(
+                  child: CircularProgressIndicator(),
+                )
+              else
+                AppElevatedButton(
+                  child: const Icon(Icons.arrow_forward_ios),
+                  ontap: () async {
+                    if (formKey.currentState!.validate()) {
+                      login();
                     }
-                  }
-                },
-              ),
+                  },
+                ),
               const SizedBox(
                 height: 16,
               ),
