@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:softbyhasan/ui/screens/SplashScreen.dart';
 
 main(){
-  runApp(TaskManager());
+  runApp(const TaskManager());
 }
 
 class TaskManager extends StatefulWidget {
-  TaskManager({Key? key}) : super(key: key);
+  const TaskManager({Key? key}) : super(key: key);
 
   static GlobalKey<NavigatorState> globalKey = GlobalKey<NavigatorState>();
 

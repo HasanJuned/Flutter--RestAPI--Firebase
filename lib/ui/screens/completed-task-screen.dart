@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:softbyhasan/ui/widgets/screen-Background-images.dart';
+import 'package:softbyhasan/ui/widgets/status-change-bottom-sheet.dart';
 
 import '../../data/models/task-model.dart';
 import '../../data/network-utils.dart';
@@ -27,8 +28,8 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
   Future<void> completedNewTasks() async {
     inProgress = true;
     setState(() {});
-    final response = await NetworkUtils()
-        .getMethod('https://task.teamrabbil.com/api/v1/listTaskByStatus/Completed');
+    final response = await NetworkUtils().getMethod(
+        'https://task.teamrabbil.com/api/v1/listTaskByStatus/Completed');
 
     if (response != null) {
       completedTaskModel = TaskModel.fromJson(response);
@@ -59,16 +60,25 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
                               itemCount: completedTaskModel.data?.length ?? 0,
                               itemBuilder: (context, index) {
                                 return TaskListItem(
-                                  subject: completedTaskModel.data?[index].title ??
-                                      'Unknown',
-                                  description:
-                                      completedTaskModel.data?[index].description ??
+                                  subject:
+                                      completedTaskModel.data?[index].title ??
                                           'Unknown',
-                                  date: completedTaskModel.data?[index].createdDate ??
+                                  description: completedTaskModel
+                                          .data?[index].description ??
+                                      'Unknown',
+                                  date: completedTaskModel
+                                          .data?[index].createdDate ??
                                       'Unknown',
                                   type: 'Completed',
                                   backgroundColor: Colors.lightBlueAccent,
-                                  onEdit: () {},
+                                  onEdit: () {
+                                    showChangedTaskStatus(
+                                        'Completed',
+                                        completedTaskModel.data?[index].sId ??
+                                            '', () {
+                                      completedNewTasks();
+                                    });
+                                  },
                                   onDelete: () {},
                                 );
                               }),

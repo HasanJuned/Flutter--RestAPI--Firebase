@@ -6,6 +6,7 @@ import 'package:softbyhasan/ui/utils/snackbar-message.dart';
 import 'package:softbyhasan/ui/widgets/screen-Background-images.dart';
 
 import '../widgets/dashboard.dart';
+import '../widgets/status-change-bottom-sheet.dart';
 import '../widgets/task-list-item.dart';
 
 class NewTaskScreen extends StatefulWidget {
@@ -98,7 +99,11 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                                       'Unknown',
                                   type: 'New',
                                   backgroundColor: Colors.lightBlueAccent,
-                                  onEdit: () {},
+                                  onEdit: () {
+                                    showChangedTaskStatus('New',newTaskModel.data?[index].sId ?? '',(){
+                                      getNewTasks();
+                                    });
+                                  },
                                   onDelete: () {},
                                 );
                               }),
@@ -119,4 +124,68 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       ),
     );
   }
+
+  // showChangedTaskStatus(String taskId,) {
+  //   String statusValue = 'New';
+  //
+  //   showModalBottomSheet(
+  //       context: context,
+  //       builder: (context) {
+  //         return StatefulBuilder(builder: (context, changeState) {
+  //           return Column(
+  //             children: [
+  //               RadioListTile(
+  //                   value: 'New',
+  //                   title: Text('New'),
+  //                   groupValue: statusValue,
+  //                   onChanged: (state) {
+  //                     statusValue = state!;
+  //                     changeState(() {});
+  //                   }),
+  //               RadioListTile(
+  //                   value: 'Completed',
+  //                   title: Text('Completed'),
+  //                   groupValue: statusValue,
+  //                   onChanged: (state) {
+  //                     statusValue = state!;
+  //                     changeState(() {});
+  //                   }),
+  //               RadioListTile(
+  //                   value: 'Cancelled',
+  //                   title: Text('Cancelled'),
+  //                   groupValue: statusValue,
+  //                   onChanged: (state) {
+  //                     statusValue = state!;
+  //                     changeState(() {});
+  //                   }),
+  //               RadioListTile(
+  //                   value: 'Progress',
+  //                   title: Text('Progress'),
+  //                   groupValue: statusValue,
+  //                   onChanged: (state) {
+  //                     statusValue = state!;
+  //                     changeState(() {});
+  //                   }),
+  //               Padding(
+  //                 padding: const EdgeInsets.all(16.0),
+  //                 child: AppElevatedButton(
+  //                     child: const Text('Change Status'),
+  //                     ontap: () async {
+  //                       final response = await NetworkUtils().getMethod(Urls.changeTaskStatus(taskId, statusValue));
+  //                       if (response != null) {
+  //                         getNewTasks();
+  //                         Navigator.pop(context);
+  //                       } else {
+  //                         showSnackBarMessage(
+  //                             context, 'Status change failed. Try again!', true);
+  //                       }
+  //                     }),
+  //               )
+  //             ],
+  //           );
+  //         });
+  //       });
+  // }
+
+
 }
