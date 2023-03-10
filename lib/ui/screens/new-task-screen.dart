@@ -31,8 +31,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   Future<void> getNewTasks() async {
     inProgress = true;
     setState(() {});
-    final response = await NetworkUtils()
-        .getMethod('https://task.teamrabbil.com/api/v1/listTaskByStatus/New');
+    final response = await NetworkUtils().getMethod('https://task.teamrabbil.com/api/v1/listTaskByStatus/New');
 
     if (response != null) {
       newTaskModel = TaskModel.fromJson(response);
@@ -187,7 +186,4 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
           });
         });
   }
-
-
-
 }
