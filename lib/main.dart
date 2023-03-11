@@ -18,7 +18,7 @@ class _TaskManagerState extends State<TaskManager> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      key: TaskManager.globalKey,
+      navigatorKey: TaskManager.globalKey,
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
     );
