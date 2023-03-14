@@ -7,14 +7,14 @@ import 'package:softbyhasan/ui/screens/loginScreen.dart';
 import 'package:softbyhasan/ui/utils/auth-utils.dart';
 
 class NetworkUtils {
-  /// Get Method for Api
+  /// Api Get Method
   Future<dynamic> getMethod(String url,
-      {Map<String, String>? body,
-      VoidCallback? onUnAuthorize,
-      String? token}) async {
+      {Map<String, String>? body, VoidCallback? onUnAuthorize}) async {
     try {
-      final http.Response response = await http.get(Uri.parse(url),
-          headers: {'Content-type': 'application/json', 'token': AuthUtils.token ?? ''});
+      final http.Response response = await http.get(Uri.parse(url), headers: {
+        'Content-type': 'application/json',
+        'token': AuthUtils.token ?? ''
+      });
       log(response.body);
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
@@ -32,14 +32,15 @@ class NetworkUtils {
     }
   }
 
-  /// Post Method for Api
+  /// Api Post Method
   Future<dynamic> postMethod(String url,
-      {Map<String, String>? body,
-      VoidCallback? onUnAuthorize,
-      String? token}) async {
+      {Map<String, String>? body, VoidCallback? onUnAuthorize}) async {
     try {
       final http.Response response = await http.post(Uri.parse(url),
-          headers: {'Content-type': 'application/json', 'token': AuthUtils.token ?? ''},
+          headers: {
+            'Content-type': 'application/json',
+            'token': AuthUtils.token ?? ''
+          },
           body: jsonEncode(body));
 
       if (response.statusCode == 200) {
@@ -49,6 +50,31 @@ class NetworkUtils {
           onUnAuthorize();
         } else {
           moveToLogin();
+        }
+      } else {
+        log('Something went wrong ${response.statusCode}');
+      }
+    } catch (e) {
+      log('Error $e');
+    }
+  }
+
+  /// Api delete Method
+  Future<dynamic> deleteMethod(String url,
+      {Map<String, String>? body, VoidCallback? onUnAuthorize}) async {
+    try {
+      final http.Response response = await http.get(Uri.parse(url), headers: {
+        'Content-type': 'application/json',
+        'token': AuthUtils.token ?? ''
+      });
+
+      if (response.statusCode == 200 && jsonDecode(response.body)['status'] == 'success') {
+        return true;
+        return jsonDecode(response.body);
+        //return true;
+      } else if (response.statusCode == 401) {
+        if (onUnAuthorize != null) {
+          onUnAuthorize();
         }
       } else {
         log('Something went wrong ${response.statusCode}');

@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:softbyhasan/data/urls.dart';
 
+import '../../data/models/task-model.dart';
+import '../../data/network-utils.dart';
+import '../utils/snackbar-message.dart';
+import '../widgets/changeTaskStatus-show-bottom-sheet.dart';
 import '../widgets/screen-Background-images.dart';
 import '../widgets/task-list-item.dart';
+import 'add-new-task-screen.dart';
 
 class CancelledTaskScreen extends StatefulWidget {
   const CancelledTaskScreen({Key? key}) : super(key: key);
@@ -11,23 +17,118 @@ class CancelledTaskScreen extends StatefulWidget {
 }
 
 class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
+  TaskModel cancelledTaskModel = TaskModel();
+  bool inProgress = false;
+
+  @override
+  void initState() {
+    super.initState();
+    cancelTasks();
+  }
+
+  Future<void> deleteTask(dynamic Id) async {
+    showDialog(context: context, builder: (context){
+
+      return AlertDialog(
+        title: const Text('Delete!'),
+        content: const Text("Once delete, you won't be get it back"),
+        actions: [
+          OutlinedButton(onPressed: () async {
+            Navigator.pop(context);
+            inProgress = true;
+            setState(() {});
+            await NetworkUtils().deleteMethod(Urls.deleteTaskStatus(Id));
+            inProgress = false;
+            setState(() {});
+            cancelTasks();
+
+          }, child: const Text('Yes')),
+          OutlinedButton(onPressed: (){
+            Navigator.pop(context);
+          }, child: const Text('No')),
+
+        ],
+
+      );
+
+    });
+
+  }
+
+  Future<void> cancelTasks() async {
+    inProgress = true;
+    setState(() {});
+    final response = await NetworkUtils().getMethod(
+        'https://task.teamrabbil.com/api/v1/listTaskByStatus/Cancelled');
+
+    if (response != null) {
+      cancelledTaskModel = TaskModel.fromJson(response);
+    } else {
+      showSnackBarMessage(context, 'Unable to fetch data. Try again!', true);
+    }
+    inProgress = false;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ScreenBackground(
-      child: Expanded(
-          child: ListView.builder(
-              itemCount: 12,
-              itemBuilder: (context, index) {
-                return TaskListItem(
-                  subject: 'Subject',
-                  description: 'kjfkjref',
-                  date: '22/22/22',
-                  type: 'Cancelled',
-                  backgroundColor: Colors.redAccent,
-                  onEdit: () {},
-                  onDelete: () {},
-                );
-              })),
+    return Scaffold(
+      body: SafeArea(
+        child: ScreenBackground(
+          child: Column(
+            children: [
+              Expanded(
+                  child: inProgress
+                      ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                      : RefreshIndicator(
+                    onRefresh: () async {
+                      cancelTasks();
+                    },
+                    child: ListView.builder(
+                        itemCount: cancelledTaskModel.data?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          return TaskListItem(
+                            subject:
+                            cancelledTaskModel.data?[index].title ??
+                                'Unknown',
+                            description: cancelledTaskModel
+                                .data?[index].description ??
+                                'Unknown',
+                            date: cancelledTaskModel
+                                .data?[index].createdDate ??
+                                'Unknown',
+                            type: 'Cancelled',
+                            backgroundColor: Colors.purple,
+                            onEdit: () {
+                              showChangedTaskStatus(
+                                  'Cancelled',
+                                  cancelledTaskModel.data?[index].sId ??
+                                      '', () {
+                                cancelTasks();
+                              });
+                            },
+                            onDelete: () {
+                              deleteTask(cancelledTaskModel.data?[index].sId);
+                            },
+                          );
+                        }),
+                  )),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        backgroundColor: Colors.green,
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const AddNewTaskScreen()));
+        },
+      ),
     );
   }
 }

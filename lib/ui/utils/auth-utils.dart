@@ -47,5 +47,4 @@ class AuthUtils {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.clear();
   }
-
 }

@@ -109,9 +109,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ontap: () async {
                             if (formKey.currentState!.validate()) {
                               inProgress = true;
-                              setState(() {
-
-                              });
+                              setState(() {});
                               final result = await NetworkUtils().postMethod(
                                   'https://task.teamrabbil.com/api/v1/registration',
                                   body: {

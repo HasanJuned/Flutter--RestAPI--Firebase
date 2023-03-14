@@ -6,7 +6,6 @@ import 'package:softbyhasan/ui/utils/snackbar-message.dart';
 import 'package:softbyhasan/ui/widgets/screen-Background-images.dart';
 
 import '../../data/urls.dart';
-import '../widgets/app-elevated-button.dart';
 import '../widgets/changeTaskStatus-show-bottom-sheet.dart';
 import '../widgets/dashboard.dart';
 import '../widgets/task-list-item.dart';
@@ -27,6 +26,31 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   void initState() {
     super.initState();
     getNewTasks();
+  }
+
+  Future<void> deleteTask(dynamic Id) async {
+    showDialog(context: context, builder: (context){
+
+      return AlertDialog(
+        title: const Text('Delete!'),
+        content: const Text("Once delete, you won't be get it back"),
+        actions: [
+          OutlinedButton(onPressed: () async {
+            Navigator.pop(context);
+            inProgress = true;
+            setState(() {});
+            await NetworkUtils().deleteMethod(Urls.deleteTaskStatus(Id));
+            inProgress = false;
+            setState(() {});
+            getNewTasks();
+
+          }, child: const Text('Yes')),
+          OutlinedButton(onPressed: (){
+            Navigator.pop(context);
+          }, child: const Text('No')),
+        ],
+      );
+    });
   }
 
   Future<void> getNewTasks() async {
@@ -55,7 +79,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                   Expanded(
                     child: DashboardItem(
                       typeOfTask: 'New',
-                      numberOfTask: 20,
+                      numberOfTask: 2,
                     ),
                   ),
                   Expanded(
@@ -73,7 +97,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                   Expanded(
                     child: DashboardItem(
                       typeOfTask: 'In Progress',
-                      numberOfTask: 20,
+                      numberOfTask: 2,
                     ),
                   ),
                 ],
@@ -105,7 +129,11 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                                       getNewTasks();
                                     });
                                   },
-                                  onDelete: () {},
+                                  onDelete: () {
+                                    //print(newTaskModel.data?[index].sId);
+                                    deleteTask(newTaskModel.data?[index].sId);
+
+                                  },
                                 );
                               }),
                         )),
@@ -117,6 +145,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
         child: Icon(Icons.add),
         backgroundColor: Colors.green,
         onPressed: () {
+          //taskStatusCount();
           Navigator.push(
               context,
               MaterialPageRoute(

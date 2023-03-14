@@ -5,7 +5,6 @@ import '../../data/models/task-model.dart';
 import '../../data/network-utils.dart';
 import '../../data/urls.dart';
 import '../utils/snackbar-message.dart';
-import '../widgets/app-elevated-button.dart';
 import '../widgets/changeTaskStatus-show-bottom-sheet.dart';
 import '../widgets/task-list-item.dart';
 import 'add-new-task-screen.dart';
@@ -25,6 +24,35 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
   void initState() {
     super.initState();
     completedNewTasks();
+  }
+
+  Future<void> deleteTask(dynamic Id) async {
+    showDialog(context: context, builder: (context){
+
+      return AlertDialog(
+        title: const Text('Delete !'),
+        content: const Text("Once delete, you won't be get it back"),
+        actions: [
+          OutlinedButton(onPressed: () async {
+            Navigator.pop(context);
+            inProgress = true;
+            setState(() {});
+            await NetworkUtils().deleteMethod(Urls.deleteTaskStatus(Id));
+            inProgress = false;
+            setState(() {});
+            completedNewTasks();
+
+          }, child: const Text('Yes')),
+          OutlinedButton(onPressed: (){
+            Navigator.pop(context);
+          }, child: const Text('No')),
+
+        ],
+
+      );
+
+    });
+
   }
 
   Future<void> completedNewTasks() async {
@@ -72,7 +100,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
                                           .data?[index].createdDate ??
                                       'Unknown',
                                   type: 'Completed',
-                                  backgroundColor: Colors.lightBlueAccent,
+                                  backgroundColor: Colors.green,
                                   onEdit: () {
                                     showChangedTaskStatus(
                                         'Completed',
@@ -81,7 +109,9 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
                                       completedNewTasks();
                                     });
                                   },
-                                  onDelete: () {},
+                                  onDelete: () {
+                                    deleteTask(completedTaskModel.data?[index].sId);
+                                  },
                                 );
                               }),
                         )),

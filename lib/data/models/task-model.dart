@@ -30,8 +30,9 @@ class Data {
   String? description;
   String? status;
   String? createdDate;
+  String? productId;
 
-  Data({this.sId, this.title, this.description, this.status, this.createdDate});
+  Data({this.sId, this.title, this.description, this.status, this.createdDate, this.productId});
 
   Data.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -39,6 +40,7 @@ class Data {
     description = json['description'];
     status = json['status'];
     createdDate = json['createdDate'];
+    productId = json['_id'];
   }
 
   Map<String, dynamic> toJson() {
