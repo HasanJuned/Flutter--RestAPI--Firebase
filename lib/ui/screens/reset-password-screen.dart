@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:softbyhasan/data/network-utils.dart';
-import 'package:softbyhasan/ui/utils/auth-utils.dart';
 import 'package:softbyhasan/ui/utils/snackbar-message.dart';
 import 'package:softbyhasan/ui/widgets/app-text-form-field.dart';
 
+import '../../data/urls.dart';
 import '../utils/text-styles.dart';
 import '../widgets/app-elevated-button.dart';
 import '../widgets/app-text-button.dart';
@@ -11,7 +11,10 @@ import '../widgets/screen-Background-images.dart';
 import 'loginScreen.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({Key? key}) : super(key: key);
+  final String email, otp;
+
+  const ResetPasswordScreen({Key? key, required this.email, required this.otp})
+      : super(key: key);
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
@@ -48,7 +51,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 AppTextFormFieldWidget(
                   hintText: 'Password',
                   controller: newPasswordController,
-                  validator: (value) {
+                  validator: (String? value) {
                     if (value?.isEmpty ?? true) {
                       return 'Enter your new password';
                     }
@@ -61,9 +64,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 AppTextFormFieldWidget(
                   hintText: 'Confirm Password',
                   controller: confirmPasswordController,
-                  validator: (value) {
-                    if (value?.isEmpty ?? true) {
-                      return 'Enter your correct password';
+                  validator: (String? value) {
+                    if ((value?.isEmpty ?? true) || ((value ?? '') != newPasswordController.text)) {
+                      return 'Password mismatch';
                     }
                     return null;
                   },
@@ -73,18 +76,28 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   child: const Text('Confirm'),
                   ontap: () async {
                     if (formKey.currentState!.validate()) {
-                      final result = await NetworkUtils().postMethod(
-                          'https://task.teamrabbil.com/api/v1/registration',
-                          body: {
-                            'password': newPasswordController.text
-                          });
-                      if (result != null) {
-                        showSnackBarMessage(context, 'Password Changed');
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginScreen()),
-                            (route) => false);
+                      if (mounted) {
+                        final response = await NetworkUtils()
+                            .postMethod(Urls.resetPasswordUrl, body: {
+                          "email": widget.email,
+                          "OTP": widget.otp,
+                          "password": newPasswordController.text
+                        });
+                        if (response != null && response['status'] == 'success') {
+                          if (mounted) {
+                            showSnackBarMessage(
+                                context, 'Password reset success!');
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LoginScreen()),
+                                (route) => false);
+                          }
+                        } else{
+                          if(mounted){
+                            showSnackBarMessage(context, 'Passoword reset failed. Try again!',true);
+                          }
+                        }
                       }
                     }
                   },

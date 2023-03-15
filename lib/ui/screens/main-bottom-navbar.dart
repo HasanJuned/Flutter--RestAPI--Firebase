@@ -23,12 +23,13 @@ class _MainBottomNavBarState extends State<MainBottomNavBar> {
     InprogressTaskScreen()
   ];
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: SafeArea(
         child: Column(
+          //crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const UserProfileWidget(),
               Expanded(child: _screens[_selectedScreen])

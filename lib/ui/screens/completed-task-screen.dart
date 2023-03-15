@@ -26,7 +26,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
     completedNewTasks();
   }
 
-  Future<void> deleteTask(dynamic Id) async {
+  Future<void> deleteTask(dynamic id) async {
     showDialog(context: context, builder: (context){
 
       return AlertDialog(
@@ -37,7 +37,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
             Navigator.pop(context);
             inProgress = true;
             setState(() {});
-            await NetworkUtils().deleteMethod(Urls.deleteTaskStatus(Id));
+            await NetworkUtils().deleteMethod(Urls.deleteTaskUrl(id));
             inProgress = false;
             setState(() {});
             completedNewTasks();
@@ -64,7 +64,9 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
     if (response != null) {
       completedTaskModel = TaskModel.fromJson(response);
     } else {
-      showSnackBarMessage(context, 'Unable to fetch data. Try again!', true);
+      if (mounted) {
+        showSnackBarMessage(context, 'Unable to fetch data. Try again!', true);
+      }
     }
     inProgress = false;
     setState(() {});
@@ -120,7 +122,6 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
         backgroundColor: Colors.green,
         onPressed: () {
           Navigator.push(
@@ -128,6 +129,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
               MaterialPageRoute(
                   builder: (context) => const AddNewTaskScreen()));
         },
+        child: const Icon(Icons.add),
       ),
     );
   }

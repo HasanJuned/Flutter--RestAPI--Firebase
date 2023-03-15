@@ -50,10 +50,12 @@ class _LoginScreenState extends State<LoginScreen> {
         result['data']['email'],
       );
 
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => const MainBottomNavBar()),
-          (route) => false);
+      if (mounted) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const MainBottomNavBar()),
+            (route) => false);
+      }
     }
   }
 

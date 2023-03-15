@@ -131,14 +131,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 firstNameTextController.clear();
                                 lastNameTextController.clear();
 
-                                showSnackBarMessage(context, 'Registration Successfull !');
-                                Navigator.pushAndRemoveUntil(context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const LoginScreen()), (
-                                        route) => false);
+                                if (mounted) {
+                                  showSnackBarMessage(context, 'Registration Successfull !');
+                                  Navigator.pushAndRemoveUntil(context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const LoginScreen()), (
+                                          route) => false);
+                                }
                               } else {
-                                showSnackBarMessage(
-                                    context, 'Registration Failed !', true);
+                                if (mounted) {
+                                  showSnackBarMessage(
+                                      context, 'Registration Failed !', true);
+                                }
                               }
                             }
                           }),

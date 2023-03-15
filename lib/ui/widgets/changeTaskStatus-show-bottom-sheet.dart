@@ -52,7 +52,7 @@ showChangedTaskStatus(String currentStatus, String taskId, VoidCallback onChange
                 child: AppElevatedButton(
                     child: const Text('Change Status'),
                     ontap: () async {
-                      final response = await NetworkUtils().getMethod(Urls.changeTaskStatus(taskId, statusValue));
+                      final response = await NetworkUtils().getMethod(Urls.changeTaskUrl(taskId, statusValue));
                       if (response != null) {
                         onChangeTaskStatus();
                         Navigator.pop(context);

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ScreenBackground extends StatelessWidget {
-  ScreenBackground({Key? key, required this.child}) : super(key: key);
+  const ScreenBackground({Key? key, required this.child}) : super(key: key);
 
   final Widget child;
 

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthUtils {
@@ -41,10 +43,17 @@ class AuthUtils {
     lastName = sharedPreferences.getString('lastName');
     profilePic = sharedPreferences.getString('photo');
     mobile = sharedPreferences.getString('mobile');
+    email = sharedPreferences.getString('email');
   }
 
   static Future<void> clearData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.clear();
+  }
+
+  static showBase64Image(base64Image){
+    UriData? data = Uri.parse(base64Image).data;
+    Uint8List myImage = data!.contentAsBytes();
+    return myImage;
   }
 }

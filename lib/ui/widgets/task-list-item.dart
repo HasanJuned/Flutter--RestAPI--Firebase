@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+
 class TaskListItem extends StatelessWidget {
-  const TaskListItem({
+   TaskListItem({
     Key? key,
     required this.subject,
     required this.description,
@@ -11,9 +12,10 @@ class TaskListItem extends StatelessWidget {
     this.backgroundColor,
   }) : super(key: key);
 
-  final String subject, description, date, type;
+  final String subject, description, type;
   final VoidCallback onEdit, onDelete;
   final Color? backgroundColor;
+  dynamic date;
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +56,9 @@ class TaskListItem extends StatelessWidget {
                   backgroundColor: backgroundColor,
                 ),
                 const Spacer(),
-                IconButton(onPressed: onEdit, icon: Icon(Icons.sticky_note_2_outlined), color: Colors.green,),
+                IconButton(onPressed: onEdit, icon: const Icon(Icons.sticky_note_2_outlined), color: Colors.green,),
                 IconButton(
-                    onPressed: onDelete, icon: Icon(Icons.delete_sweep_sharp), color: Colors.redAccent,),
+                    onPressed: onDelete, icon: const Icon(Icons.delete_sweep_sharp), color: Colors.redAccent,),
               ],
             )
           ],

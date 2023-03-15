@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:softbyhasan/data/network-utils.dart';
+import 'package:softbyhasan/data/urls.dart';
 import 'package:softbyhasan/ui/screens/otp-verification-screen.dart';
 import 'package:softbyhasan/ui/utils/snackbar-message.dart';
 import 'package:softbyhasan/ui/utils/text-styles.dart';
@@ -67,23 +68,29 @@ class _VerifyWithEmailState extends State<VerifyWithEmail> {
                       if (formKey.currentState!.validate()) {
                         inProgess = true;
                         setState(() {});
-                        final result = await NetworkUtils().postMethod(
-                            'https://task.teamrabbil.com/api/v1/login',
-                            body: {
-                              'email': emailController.text.trim(),
-                            }, onUnAuthorize: () {
-                          showSnackBarMessage(
-                              context, 'Enter valid email address', true);
-                        });
+
+                        final response = await NetworkUtils().getMethod(
+                            Urls.recoveryEmailUrl(emailController.text.trim()));
+                        if (response != null &&
+                            response['status'] == 'success') {
+                          if (mounted) {
+                            showSnackBarMessage(
+                                context, 'OTP sent to email address');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => OtpVerificationScreen(
+                                          email: emailController.text.trim(),
+                                        )));
+                          }
+                        } else {
+                          if (mounted) {
+                            showSnackBarMessage(
+                                context, 'OTP sent failed. Try again!', true);
+                          }
+                        }
                         inProgess = false;
                         setState(() {});
-                        if (result['status'] == 'success') {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const OtpVerificationScreen()));
-                        }
                       }
                     },
                   ),

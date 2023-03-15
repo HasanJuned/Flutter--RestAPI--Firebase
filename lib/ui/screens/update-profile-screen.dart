@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:softbyhasan/data/network-utils.dart';
@@ -10,6 +9,7 @@ import '../widgets/app-elevated-button.dart';
 import '../widgets/app-text-form-field.dart';
 import '../widgets/screen-Background-images.dart';
 import '../widgets/user-profile-widget.dart';
+import 'main-bottom-navbar.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({Key? key}) : super(key: key);
@@ -28,17 +28,18 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   XFile? pickedImage;
-  String? base64Image;
+  static String? base64Image;
   bool inProgress = false;
 
-  Future<void> updateProfile() async {
+
+  Future<void>updateProfile() async {
     inProgress = true;
     setState(() {});
     if (pickedImage != null) {
       List<int> imageBytes = await pickedImage!.readAsBytes();
-      print(imageBytes);
+      //print(imageBytes);
       base64Image = base64Encode(imageBytes);
-      print(base64Image);
+      //log(base64Image!);
     }
 
     Map<String, String> bodyParams = {
@@ -61,10 +62,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       // lastNameController.clear();
       // mobileController.clear();
       // passwordController.clear();
-      showSnackBarMessage(context, 'Profile Updated');
-      setState(() {
-
-      });
+      if (mounted) {
+        showSnackBarMessage(context, 'Profile Updated');
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MainBottomNavBar()), (route) => false);
+      }
+      setState(() {});
       AuthUtils.saveUserData(
           result['data']['firstName'] = firstNameController.text.trim(),
           result['data']['lastName'] = lastNameController.text.trim(),
@@ -72,12 +74,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           result['data']['photo'] = base64Image ?? '',
           result['data']['mobile'] = mobileController.text.trim(),
           result['data']['email'] = emailController.text.trim());
-      log('No worries');
-      setState(() {
-        UserProfileWidget();
-      });
     } else {
-      showSnackBarMessage(context, 'Update falied. Try again!', true);
+      if (mounted) {
+        showSnackBarMessage(context, 'Update failed. Try again!', true);
+      }
     }
     inProgress = false;
     setState(() {});
@@ -222,7 +222,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             height: 24,
                           ),
                           if (inProgress)
-                            Center(
+                            const Center(
                               child: CircularProgressIndicator(),
                             )
                           else
@@ -232,9 +232,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                 ontap: () {
                                   if (formKey.currentState!.validate()) {
                                     updateProfile();
-
-                                    // Navigator.pushAndRemoveUntil(
-                                    //     context, MaterialPageRoute(builder: (context) => const MainBottomNavBar()), (route) => false);
                                   }
                                 })
                         ],
@@ -263,12 +260,13 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   title: const Text('Gallery'),
                   leading: const Icon(Icons.image),
                   onTap: () async {
-                    pickedImage = await ImagePicker()
-                        .pickImage(source: ImageSource.gallery);
+                    pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
                     if (pickedImage != null) {
                       setState(() {});
                     }
-                    Navigator.pop(context);
+                    if (mounted) {
+                      Navigator.pop(context);
+                    }
                   },
                 ),
                 ListTile(
@@ -280,7 +278,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     if (pickedImage != null) {
                       setState(() {});
                     }
-                    Navigator.pop(context);
+                    if (mounted) {
+                      Navigator.pop(context);
+                    }
                   },
                 )
               ],

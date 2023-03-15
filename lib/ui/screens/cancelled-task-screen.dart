@@ -19,6 +19,7 @@ class CancelledTaskScreen extends StatefulWidget {
 class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
   TaskModel cancelledTaskModel = TaskModel();
   bool inProgress = false;
+  dynamic count2;
 
   @override
   void initState() {
@@ -26,7 +27,7 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
     cancelTasks();
   }
 
-  Future<void> deleteTask(dynamic Id) async {
+  Future<void> deleteTask(dynamic id) async {
     showDialog(context: context, builder: (context){
 
       return AlertDialog(
@@ -37,7 +38,7 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
             Navigator.pop(context);
             inProgress = true;
             setState(() {});
-            await NetworkUtils().deleteMethod(Urls.deleteTaskStatus(Id));
+            await NetworkUtils().deleteMethod(Urls.deleteTaskUrl(id));
             inProgress = false;
             setState(() {});
             cancelTasks();
@@ -46,13 +47,9 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
           OutlinedButton(onPressed: (){
             Navigator.pop(context);
           }, child: const Text('No')),
-
         ],
-
       );
-
     });
-
   }
 
   Future<void> cancelTasks() async {
@@ -64,7 +61,9 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
     if (response != null) {
       cancelledTaskModel = TaskModel.fromJson(response);
     } else {
-      showSnackBarMessage(context, 'Unable to fetch data. Try again!', true);
+      if (mounted) {
+        showSnackBarMessage(context, 'Unable to fetch data. Try again!', true);
+      }
     }
     inProgress = false;
     setState(() {});
@@ -120,7 +119,6 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
         backgroundColor: Colors.green,
         onPressed: () {
           Navigator.push(
@@ -128,6 +126,7 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
               MaterialPageRoute(
                   builder: (context) => const AddNewTaskScreen()));
         },
+        child: const Icon(Icons.add),
       ),
     );
   }

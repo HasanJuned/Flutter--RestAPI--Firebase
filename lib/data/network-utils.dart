@@ -70,7 +70,6 @@ class NetworkUtils {
 
       if (response.statusCode == 200 && jsonDecode(response.body)['status'] == 'success') {
         return true;
-        return jsonDecode(response.body);
         //return true;
       } else if (response.statusCode == 401) {
         if (onUnAuthorize != null) {

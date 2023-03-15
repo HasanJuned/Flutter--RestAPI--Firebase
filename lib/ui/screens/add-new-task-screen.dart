@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:softbyhasan/data/network-utils.dart';
 import 'package:softbyhasan/ui/utils/snackbar-message.dart';
@@ -6,6 +8,8 @@ import 'package:softbyhasan/ui/widgets/app-elevated-button.dart';
 import 'package:softbyhasan/ui/widgets/app-text-form-field.dart';
 import 'package:softbyhasan/ui/widgets/screen-Background-images.dart';
 import 'package:softbyhasan/ui/widgets/user-profile-widget.dart';
+
+import 'main-bottom-navbar.dart';
 
 class AddNewTaskScreen extends StatefulWidget {
   const AddNewTaskScreen({Key? key}) : super(key: key);
@@ -95,14 +99,23 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                                       });
                                   inProgress = false;
                                   setState(() {});
-                                  print(result);
+                                  //log(result);
 
                                   if(result != null && result['status'] == 'success'){
                                      subjectController.clear();
                                      descriptionController.clear();
-                                     showSnackBarMessage(context, 'Task added');
+                                       if (mounted) {
+                                         showSnackBarMessage(context, 'Task added successfully!');
+                                         Navigator.pushAndRemoveUntil(context,
+                                           MaterialPageRoute(builder: (
+                                               context) => const MainBottomNavBar()), (
+                                               route) => false);
+                                       }
+
                                   } else{
-                                    showSnackBarMessage(context, 'Task adding failed! Try again',true);
+                                    if (mounted) {
+                                      showSnackBarMessage(context, 'Task adding failed! Try again',true);
+                                    }
                                   }
                                 }
                               })

@@ -20,7 +20,7 @@ class _TaskManagerState extends State<TaskManager> {
     return MaterialApp(
       navigatorKey: TaskManager.globalKey,
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }

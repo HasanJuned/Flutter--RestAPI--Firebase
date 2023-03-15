@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:softbyhasan/data/models/task-model.dart';
 import 'package:softbyhasan/data/network-utils.dart';
 import 'package:softbyhasan/ui/screens/add-new-task-screen.dart';
+import 'package:softbyhasan/ui/screens/update-profile-screen.dart';
 import 'package:softbyhasan/ui/utils/snackbar-message.dart';
 import 'package:softbyhasan/ui/widgets/screen-Background-images.dart';
 
@@ -9,7 +10,6 @@ import '../../data/urls.dart';
 import '../widgets/changeTaskStatus-show-bottom-sheet.dart';
 import '../widgets/dashboard.dart';
 import '../widgets/task-list-item.dart';
-
 class NewTaskScreen extends StatefulWidget {
   const NewTaskScreen({Key? key}) : super(key: key);
 
@@ -18,54 +18,101 @@ class NewTaskScreen extends StatefulWidget {
 }
 
 class _NewTaskScreenState extends State<NewTaskScreen> {
-
   TaskModel newTaskModel = TaskModel();
   bool inProgress = false;
+  dynamic count1;
+  dynamic count2;
+  dynamic count3;
+  dynamic count4;
 
   @override
   void initState() {
     super.initState();
     getNewTasks();
+    statusCount();
+    setState(() {});
   }
 
-  Future<void> deleteTask(dynamic Id) async {
-    showDialog(context: context, builder: (context){
-
-      return AlertDialog(
-        title: const Text('Delete!'),
-        content: const Text("Once delete, you won't be get it back"),
-        actions: [
-          OutlinedButton(onPressed: () async {
-            Navigator.pop(context);
-            inProgress = true;
-            setState(() {});
-            await NetworkUtils().deleteMethod(Urls.deleteTaskStatus(Id));
-            inProgress = false;
-            setState(() {});
-            getNewTasks();
-
-          }, child: const Text('Yes')),
-          OutlinedButton(onPressed: (){
-            Navigator.pop(context);
-          }, child: const Text('No')),
-        ],
-      );
-    });
+  Future<void> deleteTask(dynamic id) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Delete!'),
+            content: const Text("Once delete, you won't be get it back"),
+            actions: [
+              OutlinedButton(
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    inProgress = true;
+                    setState(() {});
+                    await NetworkUtils().deleteMethod(Urls.deleteTaskUrl(id));
+                    inProgress = false;
+                    setState(() {});
+                    getNewTasks();
+                    statusCount();
+                    statusCount();
+                  },
+                  child: const Text('Yes')),
+              OutlinedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('No')),
+            ],
+          );
+        });
   }
 
   Future<void> getNewTasks() async {
     inProgress = true;
     setState(() {});
-    final response = await NetworkUtils().getMethod('https://task.teamrabbil.com/api/v1/listTaskByStatus/New');
+    final response = await NetworkUtils()
+        .getMethod('https://task.teamrabbil.com/api/v1/listTaskByStatus/New');
 
     if (response != null) {
       newTaskModel = TaskModel.fromJson(response);
     } else {
-      showSnackBarMessage(context, 'Unable to fetch data. Try again!', true);
+      if (mounted) {
+        showSnackBarMessage(context, 'Unable to fetch data. Try again!', true);
+      }
     }
     inProgress = false;
     setState(() {});
   }
+
+  Future<void> statusCount() async {
+    final responseNewTask = await NetworkUtils()
+        .getMethod('https://task.teamrabbil.com/api/v1/listTaskByStatus/New');
+    final getNewTaskModel = TaskModel.fromJson(responseNewTask);
+
+    setState(() {
+      count1 = "${getNewTaskModel.data?.length ?? 0}";
+    });
+
+    final responseCancelTask = await NetworkUtils()
+        .getMethod('https://task.teamrabbil.com/api/v1/listTaskByStatus/Cancelled');
+    final getCaneTaskModel = TaskModel.fromJson(responseCancelTask);
+    setState(() {
+      count2 = "${getCaneTaskModel.data?.length?? 0}";
+    });
+
+    final responseCompletedTask = await NetworkUtils()
+        .getMethod('https://task.teamrabbil.com/api/v1/listTaskByStatus/Completed');
+    final getCompletedTaskModel = TaskModel.fromJson(responseCompletedTask);
+    setState(() {
+      count3 = "${getCompletedTaskModel.data?.length ?? 0}";
+    });
+
+    final responseProgressTask = await NetworkUtils()
+        .getMethod('https://task.teamrabbil.com/api/v1/listTaskByStatus/Progress');
+    final getProgressTaskModel = TaskModel.fromJson(responseProgressTask);
+    setState(() {
+      count4 = "${getProgressTaskModel.data?.length ?? 0}";
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,29 +122,29 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
           child: Column(
             children: [
               Row(
-                children: const [
+                children: [
                   Expanded(
                     child: DashboardItem(
                       typeOfTask: 'New',
-                      numberOfTask: 2,
+                      numberOfTask: count1,
                     ),
                   ),
                   Expanded(
                     child: DashboardItem(
                       typeOfTask: 'Completed',
-                      numberOfTask: 20,
+                      numberOfTask: count3,
                     ),
                   ),
                   Expanded(
                     child: DashboardItem(
                       typeOfTask: 'Cancelled',
-                      numberOfTask: 20,
+                      numberOfTask: count2,
                     ),
                   ),
                   Expanded(
                     child: DashboardItem(
                       typeOfTask: 'In Progress',
-                      numberOfTask: 2,
+                      numberOfTask: count4,
                     ),
                   ),
                 ],
@@ -110,6 +157,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                       : RefreshIndicator(
                           onRefresh: () async {
                             getNewTasks();
+                            statusCount();
                           },
                           child: ListView.builder(
                               itemCount: newTaskModel.data?.length ?? 0,
@@ -125,14 +173,16 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                                   type: 'New',
                                   backgroundColor: Colors.lightBlueAccent,
                                   onEdit: () {
-                                    showChangedTaskStatus('New',newTaskModel.data?[index].sId ?? '',(){
+                                    showChangedTaskStatus('New',
+                                        newTaskModel.data?[index].sId ?? '',
+                                        () {
                                       getNewTasks();
+                                      statusCount();
+                                      setState(() {});
                                     });
                                   },
                                   onDelete: () {
-                                    //print(newTaskModel.data?[index].sId);
                                     deleteTask(newTaskModel.data?[index].sId);
-
                                   },
                                 );
                               }),
@@ -142,17 +192,15 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
         backgroundColor: Colors.green,
         onPressed: () {
-          //taskStatusCount();
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => const AddNewTaskScreen()));
         },
+        child: const Icon(Icons.add),
       ),
     );
   }
-
 }

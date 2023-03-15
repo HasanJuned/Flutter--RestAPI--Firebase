@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../screens/sign-up-screen.dart';
 class AppTextButton extends StatelessWidget {
   const AppTextButton({
     Key? key,
@@ -26,7 +25,7 @@ class AppTextButton extends StatelessWidget {
             onPressed: ontap,
             child: Text(
               text2!,
-              style: TextStyle(color: Colors.green),
+              style: const TextStyle(color: Colors.green),
             ))
       ],
     );

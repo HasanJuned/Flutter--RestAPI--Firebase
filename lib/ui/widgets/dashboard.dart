@@ -3,11 +3,11 @@ class DashboardItem extends StatelessWidget {
   const DashboardItem({
     Key? key,
     required this.typeOfTask,
-    required this.numberOfTask,
+    this.numberOfTask,
   }) : super(key: key);
 
   final String typeOfTask;
-  final int numberOfTask;
+  final dynamic numberOfTask;
 
   @override
   Widget build(BuildContext context) {

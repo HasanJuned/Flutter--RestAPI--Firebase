@@ -23,20 +23,20 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void checkUserAuthState() async{
-
     final bool result = await AuthUtils.checkLoginState();
-
     if(result){
       await AuthUtils.getAuthData();
-      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (context) => MainBottomNavBar()), (
-              route) => false);
+      if (mounted) {
+        Navigator.pushAndRemoveUntil(context,
+            MaterialPageRoute(builder: (context) => const MainBottomNavBar()), (
+                route) => false);
+      }
     } else{
-      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (context) => LoginScreen()), (
-              route) => false);
+      if (mounted) {
+        Navigator.pushAndRemoveUntil(context,
+            MaterialPageRoute(builder: (context) => const LoginScreen()), (route) => false);
+      }
     }
-
   }
 
   @override
@@ -45,9 +45,9 @@ class _SplashScreenState extends State<SplashScreen> {
       body: ScreenBackground(
         child: Center(
         child: SvgPicture.asset(
-          'assets/images/mealLogo.svg',
+          'assets/images/Logo.svg',
           fit: BoxFit.scaleDown,
-          width: 160,
+          width: 175,
         ),
       ),)
     );
