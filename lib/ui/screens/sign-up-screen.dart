@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:softbyhasan/data/network-utils.dart';
 import 'package:softbyhasan/ui/screens/loginScreen.dart';
 import 'package:softbyhasan/ui/utils/snackbar-message.dart';
@@ -133,10 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                                 if (mounted) {
                                   showSnackBarMessage(context, 'Registration Successfull !');
-                                  Navigator.pushAndRemoveUntil(context,
-                                      MaterialPageRoute(
-                                          builder: (context) => const LoginScreen()), (
-                                          route) => false);
+                                  Get.offAll(const LoginScreen(), predicate: (route) => false);
                                 }
                               } else {
                                 if (mounted) {
@@ -151,10 +150,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       text1: 'Have account?',
                       text2: 'Sign in',
                       ontap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginScreen()));
+                        Get.to(const LoginScreen());
                       },
                     )
                   ],

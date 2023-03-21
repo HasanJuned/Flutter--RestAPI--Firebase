@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:softbyhasan/data/network-utils.dart';
 import 'package:softbyhasan/data/urls.dart';
 import 'package:softbyhasan/ui/screens/otp-verification-screen.dart';
@@ -76,12 +78,7 @@ class _VerifyWithEmailState extends State<VerifyWithEmail> {
                           if (mounted) {
                             showSnackBarMessage(
                                 context, 'OTP sent to email address');
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => OtpVerificationScreen(
-                                          email: emailController.text.trim(),
-                                        )));
+                            Get.to(OtpVerificationScreen(email: emailController.text.trim()));
                           }
                         } else {
                           if (mounted) {
@@ -101,7 +98,7 @@ class _VerifyWithEmailState extends State<VerifyWithEmail> {
                   text1: "Have account?",
                   text2: 'Sign in',
                   ontap: () {
-                    Navigator.pop(context);
+                    Get.back();
                   },
                 )
               ],

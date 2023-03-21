@@ -1,5 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:softbyhasan/data/network-utils.dart';
 import 'package:softbyhasan/ui/screens/loginScreen.dart';
@@ -90,13 +92,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   if (response != null && response['status'] == 'success') {
                     if (mounted) {
                       showSnackBarMessage(context, "OTP verification done!");
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ResetPasswordScreen(
-                                    email: widget.email,
-                                    otp: otpController.text,
-                                  )));
+                      Get.to(ResetPasswordScreen(email: widget.email, otp: otpController.text));
                     }
                   } else {
                     if (mounted) {
@@ -112,11 +108,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 text1: "Have account?",
                 text2: 'Sign in',
                 ontap: () {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginScreen()),
-                      (route) => false);
+                  Get.offAll(const LoginScreen(), predicate: (route) => false);
                 },
               )
             ],

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:softbyhasan/ui/screens/loginScreen.dart';
 import 'package:softbyhasan/ui/screens/main-bottom-navbar.dart';
 import 'package:softbyhasan/ui/utils/auth-utils.dart';
@@ -27,14 +29,11 @@ class _SplashScreenState extends State<SplashScreen> {
     if(result){
       await AuthUtils.getAuthData();
       if (mounted) {
-        Navigator.pushAndRemoveUntil(context,
-            MaterialPageRoute(builder: (context) => const MainBottomNavBar()), (
-                route) => false);
+        Get.offAll(const MainBottomNavBar(), predicate: (route) => false);
       }
     } else{
       if (mounted) {
-        Navigator.pushAndRemoveUntil(context,
-            MaterialPageRoute(builder: (context) => const LoginScreen()), (route) => false);
+        Get.offAll(const LoginScreen(), predicate: (route) => false);
       }
     }
   }

@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:softbyhasan/data/network-utils.dart';
 import 'package:softbyhasan/ui/utils/snackbar-message.dart';
 import 'package:softbyhasan/ui/utils/text-styles.dart';
@@ -106,10 +108,7 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
                                      descriptionController.clear();
                                        if (mounted) {
                                          showSnackBarMessage(context, 'Task added successfully!');
-                                         Navigator.pushAndRemoveUntil(context,
-                                           MaterialPageRoute(builder: (
-                                               context) => const MainBottomNavBar()), (
-                                               route) => false);
+                                         Get.offAll(const MainBottomNavBar());
                                        }
 
                                   } else{

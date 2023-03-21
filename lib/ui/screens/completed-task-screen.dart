@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:softbyhasan/ui/widgets/screen-Background-images.dart';
 
 import '../../data/models/task-model.dart';
@@ -34,7 +36,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
         content: const Text("Once delete, you won't be get it back"),
         actions: [
           OutlinedButton(onPressed: () async {
-            Navigator.pop(context);
+            Get.back();
             inProgress = true;
             setState(() {});
             await NetworkUtils().deleteMethod(Urls.deleteTaskUrl(id));
@@ -44,7 +46,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
 
           }, child: const Text('Yes')),
           OutlinedButton(onPressed: (){
-            Navigator.pop(context);
+            Get.back();
           }, child: const Text('No')),
 
         ],
@@ -124,10 +126,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
         onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const AddNewTaskScreen()));
+          Get.to(const AddNewTaskScreen());
         },
         child: const Icon(Icons.add),
       ),

@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:softbyhasan/ui/screens/loginScreen.dart';
 import 'package:softbyhasan/ui/screens/update-profile-screen.dart';
 import 'package:softbyhasan/ui/utils/auth-utils.dart';
@@ -21,8 +23,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
   Widget build(BuildContext context) {
     return ListTile(
         onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const UpdateProfileScreen()));
+          Get.to(const UpdateProfileScreen());
         },
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
         leading: CircleAvatar(
@@ -41,10 +42,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
         trailing: IconButton(
           onPressed: () {
             AuthUtils.clearData();
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-                (route) => false);
+            Get.offAll(const LoginScreen(), predicate: (route) => false);
           },
           icon: const Icon(
             Icons.login_outlined,

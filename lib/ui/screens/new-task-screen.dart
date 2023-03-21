@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:softbyhasan/data/models/task-model.dart';
 import 'package:softbyhasan/data/network-utils.dart';
 import 'package:softbyhasan/ui/screens/add-new-task-screen.dart';
@@ -43,7 +45,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
             actions: [
               OutlinedButton(
                   onPressed: () async {
-                    Navigator.pop(context);
+                    Get.back();
                     inProgress = true;
                     setState(() {});
                     await NetworkUtils().deleteMethod(Urls.deleteTaskUrl(id));
@@ -51,12 +53,11 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                     setState(() {});
                     getNewTasks();
                     statusCount();
-                    statusCount();
                   },
                   child: const Text('Yes')),
               OutlinedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Get.back();
                   },
                   child: const Text('No')),
             ],
@@ -194,10 +195,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
         onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const AddNewTaskScreen()));
+         Get.to(const AddNewTaskScreen());
         },
         child: const Icon(Icons.add),
       ),

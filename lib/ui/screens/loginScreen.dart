@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:softbyhasan/data/network-utils.dart';
 import 'package:softbyhasan/ui/screens/main-bottom-navbar.dart';
 import 'package:softbyhasan/ui/screens/sign-up-screen.dart';
@@ -51,10 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       if (mounted) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const MainBottomNavBar()),
-            (route) => false);
+        Get.offAll(const MainBottomNavBar(), predicate: (route) => false);
       }
     }
   }
@@ -125,10 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: TextButton(
                   style: TextButton.styleFrom(padding: EdgeInsets.zero),
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const VerifyWithEmail()));
+                    Get.to(const VerifyWithEmail());
                   },
                   child: const Text(
                     'Forgot Password?',
@@ -140,10 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 text1: "Don't Have an Account?",
                 text2: 'Sign up',
                 ontap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SignUpScreen()));
+                  Get.to(const SignUpScreen());
                 },
               )
             ],

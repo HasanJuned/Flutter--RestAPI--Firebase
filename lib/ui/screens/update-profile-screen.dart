@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:softbyhasan/data/network-utils.dart';
 import 'package:softbyhasan/ui/utils/auth-utils.dart';
@@ -64,7 +66,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       // passwordController.clear();
       if (mounted) {
         showSnackBarMessage(context, 'Profile Updated');
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const MainBottomNavBar()), (route) => false);
+        Get.offAll(const MainBottomNavBar(), predicate: (route) => false);
       }
       setState(() {});
       AuthUtils.saveUserData(
@@ -265,7 +267,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       setState(() {});
                     }
                     if (mounted) {
-                      Navigator.pop(context);
+                      Get.back();
                     }
                   },
                 ),
@@ -279,7 +281,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       setState(() {});
                     }
                     if (mounted) {
-                      Navigator.pop(context);
+                      Get.back();
                     }
                   },
                 )

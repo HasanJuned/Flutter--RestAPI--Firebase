@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:softbyhasan/data/network-utils.dart';
 import 'package:softbyhasan/ui/utils/snackbar-message.dart';
 import 'package:softbyhasan/ui/widgets/app-text-form-field.dart';
@@ -87,11 +89,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           if (mounted) {
                             showSnackBarMessage(
                                 context, 'Password reset success!');
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const LoginScreen()),
-                                (route) => false);
+                            Get.offAll(const LoginScreen(), predicate: (route) => false);
                           }
                         } else{
                           if(mounted){
@@ -109,11 +107,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   text1: "Have account?",
                   text2: 'Sign in',
                   ontap: () {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginScreen()),
-                        (route) => false);
+                    Get.offAll(const LoginScreen(), predicate: (route) => false);
                   },
                 )
               ],
