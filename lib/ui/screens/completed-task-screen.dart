@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:softbyhasan/ui/widgets/screen-Background-images.dart';
-
 import '../../data/models/task-model.dart';
 import '../../data/network-utils.dart';
 import '../../data/urls.dart';
