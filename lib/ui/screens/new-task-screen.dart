@@ -4,7 +4,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:softbyhasan/data/models/task-model.dart';
 import 'package:softbyhasan/data/network-utils.dart';
 import 'package:softbyhasan/ui/screens/add-new-task-screen.dart';
-import 'package:softbyhasan/ui/screens/update-profile-screen.dart';
 import 'package:softbyhasan/ui/utils/snackbar-message.dart';
 import 'package:softbyhasan/ui/widgets/screen-Background-images.dart';
 
