@@ -57,8 +57,6 @@ class _MainBottomNavBarState extends State<MainBottomNavBar> {
           BottomNavigationBarItem(icon: Icon(Icons.downloading), label: 'Progress'),
         ],
       ),
-
-
     );
   }
 }
