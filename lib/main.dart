@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:softbyhasan/ui/getx_controllers/auth_controller.dart';
 import 'package:softbyhasan/ui/screens/SplashScreen.dart';
 import 'package:get/get.dart';
-import 'package:softbyhasan/ui/screens/loginScreen.dart';
-import 'package:softbyhasan/ui/screens/main-bottom-navbar.dart';
-import 'package:softbyhasan/ui/screens/otp-verification-screen.dart';
-import 'package:softbyhasan/ui/screens/sign-up-screen.dart';
-import 'package:softbyhasan/ui/screens/verify-with-email.dart';
 
-main(){
+main() {
   runApp(const TaskManager());
 }
 
@@ -26,6 +22,7 @@ class _TaskManagerState extends State<TaskManager> {
     return GetMaterialApp(
       navigatorKey: TaskManager.globalKey,
       debugShowCheckedModeBanner: false,
+      initialBinding: StoreBindings(),
       home: const SplashScreen(),
       // getPages: [
       //   GetPage(name: '/', page: () => const SplashScreen()),
@@ -35,5 +32,13 @@ class _TaskManagerState extends State<TaskManager> {
       //   GetPage(name: '/Main Bottom NavBar', page: ()=> const MainBottomNavBar()),
       // ],
     );
+  }
+}
+
+class StoreBindings extends Bindings {
+  @override
+  void dependencies() {
+    /// Get.put(AuthController());
+    Get.lazyPut(() => AuthController());
   }
 }

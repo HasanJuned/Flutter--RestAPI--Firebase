@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:softbyhasan/data/network-utils.dart';
+import 'package:softbyhasan/ui/getx_controllers/auth_controller.dart';
 import 'package:softbyhasan/ui/screens/main-bottom-navbar.dart';
 import 'package:softbyhasan/ui/screens/sign-up-screen.dart';
 import 'package:softbyhasan/ui/screens/verify-with-email.dart';
-import 'package:softbyhasan/ui/utils/auth-utils.dart';
-import 'package:softbyhasan/ui/utils/snackbar-message.dart';
 import 'package:softbyhasan/ui/widgets/app-text-button.dart';
 import 'package:softbyhasan/ui/widgets/screen-Background-images.dart';
 
@@ -26,37 +24,8 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passwordTextController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  bool inProgress = false;
+  //final AuthController authController = Get.put(AuthController()); /// main class ey StoreBinding kore felley bar bar put korte hobe na
 
-  Future<void> login() async {
-    inProgress = true;
-    setState(() {});
-    final result = await NetworkUtils()
-        .postMethod('https://task.teamrabbil.com/api/v1/login', body: {
-      'email': emailTextController.text.trim(),
-      'password': passwordTextController.text
-    }, onUnAuthorize: () {
-      showSnackBarMessage(
-          context, 'Email or Password is incorrect. Try again!', true);
-    });
-    inProgress = false;
-    setState(() {});
-    if (result != null && result['status'] == 'success') {
-      /// save user information
-      await AuthUtils.saveUserData(
-        result['data']['firstName'],
-        result['data']['lastName'],
-        result['token'],
-        result['data']['photo'],
-        result['data']['mobile'],
-        result['data']['email'],
-      );
-
-      if (mounted) {
-        Get.offAll(const MainBottomNavBar(), predicate: (route) => false);
-      }
-    }
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,19 +72,30 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 16,
               ),
-              if (inProgress)
-                const Center(
-                  child: CircularProgressIndicator(),
-                )
-              else
-                AppElevatedButton(
+              GetBuilder<AuthController>(builder: (authController) {
+                if (authController.loginInProgress) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return AppElevatedButton(
                   child: const Icon(Icons.arrow_forward_ios),
                   ontap: () async {
                     if (formKey.currentState!.validate()) {
-                      login();
+                      final bool result = await authController.login(
+                          emailTextController.text.trim(),
+                          passwordTextController.text);
+                      if (result) {
+                        Get.offAll(const MainBottomNavBar());
+                      } else {
+                        Get.showSnackbar(const GetSnackBar(
+                          title: 'Login failed. Try again!',
+                        ));
+                      }
                     }
                   },
-                ),
+                );
+              }),
               const SizedBox(
                 height: 16,
               ),
