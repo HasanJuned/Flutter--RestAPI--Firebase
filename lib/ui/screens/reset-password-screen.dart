@@ -4,7 +4,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:softbyhasan/data/network-utils.dart';
 import 'package:softbyhasan/ui/utils/snackbar-message.dart';
 import 'package:softbyhasan/ui/widgets/app-text-form-field.dart';
-
 import '../../data/urls.dart';
 import '../utils/text-styles.dart';
 import '../widgets/app-elevated-button.dart';
