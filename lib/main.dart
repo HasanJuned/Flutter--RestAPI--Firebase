@@ -40,7 +40,7 @@ class _BookListScreenState extends State<BookListScreen> {
   @override
   void initState() {
     super.initState();
-    getBookList();
+    //getBookList();
   }
 
   Future<void> getBookList() async {
