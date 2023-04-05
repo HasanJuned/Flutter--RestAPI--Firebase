@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:get/get.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,22 +33,21 @@ class BookListScreen extends StatefulWidget {
 }
 
 class _BookListScreenState extends State<BookListScreen> {
-
-  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance; /// --> Collection of Database
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   List<Book> books = [];
   bool inProgress = false;
 
   @override
   void initState() {
     super.initState();
-    getBookList();
+    //getBookList();
   }
 
   Future<void> getBookList() async {
     inProgress = true;
     setState(() {});
     books.clear();
-    await firebaseFirestore.collection('books').get().then((documents) { /// access the collection from firebaseFirestore }
+    await firebaseFirestore.collection('books').get().then((documents) {
       for (var doc in documents.docs) {
         books.add(Book(doc.get('name'), doc.get('writter'), doc.get('year')));
       }
@@ -63,15 +63,26 @@ class _BookListScreenState extends State<BookListScreen> {
       appBar: AppBar(
         title: const Text('Books Collection'),
       ),
-      body: inProgress
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : RefreshIndicator(
-              onRefresh: () async {
-                getBookList();
-              },
-              child: ListView.builder(
+      body: StreamBuilder<QuerySnapshot>(
+          stream: firebaseFirestore.collection('books').snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (snapshot.hasError) {
+              return Center(
+                child: Text(snapshot.error.toString()),
+              );
+            }
+
+            if (snapshot.hasData) {
+              books.clear();
+              for (var doc in snapshot.data!.docs) {
+                books.add(Book(doc.get('name'), doc.get('writter'), doc.get('year')));
+              }
+              return ListView.builder(
                   itemCount: books.length,
                   itemBuilder: (context, index) {
                     return ListTile(
@@ -79,8 +90,13 @@ class _BookListScreenState extends State<BookListScreen> {
                       subtitle: Text(books[index].authorName),
                       trailing: Text(books[index].year),
                     );
-                  }),
-            ),
+                  });
+            } else {
+              return const Center(
+                child: Text('No data available'),
+              );
+            }
+          }),
     );
   }
 }
