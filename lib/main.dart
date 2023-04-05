@@ -1,7 +1,12 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:get/get.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,11 +41,12 @@ class _BookListScreenState extends State<BookListScreen> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   List<Book> books = [];
   bool inProgress = false;
+  final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 
   @override
   void initState() {
     super.initState();
-    getBookList();
+    //getBookList();
   }
 
   Future<void> getBookList() async {
@@ -57,11 +63,28 @@ class _BookListScreenState extends State<BookListScreen> {
     setState(() {});
   }
 
+  Future<File> getImageFileFromAssets(String path) async {
+    final byteData = await rootBundle.load('assets/$path');
+
+    final file = File('${(await getTemporaryDirectory()).path}/$path');
+    await file.create(recursive: true);
+    await file.writeAsBytes(byteData.buffer
+        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+    return file;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Books Collection'),
+        actions: [
+          IconButton(onPressed: (){
+            Navigator.push((context),
+                MaterialPageRoute(builder: (context) => ImageScreen()));
+          }, icon: const Icon(Icons.image)),
+        ],
       ),
       body: StreamBuilder<QuerySnapshot>(
           stream: firebaseFirestore.collection('books').snapshots(),
@@ -97,6 +120,17 @@ class _BookListScreenState extends State<BookListScreen> {
               );
             }
           }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          File file = await getImageFileFromAssets('images/image1.png');
+        firebaseStorage.ref('images').child(file.path.split('/').last).putFile(file).then((p0) {
+          log(p0.toString());
+        }).onError((error, stackTrace) {
+          log(error.toString());
+          log(stackTrace.toString());
+        });
+      }
+      ),
     );
   }
 }
@@ -106,3 +140,68 @@ class Book {
 
   Book(this.name, this.authorName, this.year);
 }
+
+class ImageScreen extends StatefulWidget {
+  const ImageScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ImageScreen> createState() => _ImageScreenState();
+}
+
+class _ImageScreenState extends State<ImageScreen> {
+
+  final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+  List<Reference> storageReference = [];
+
+  Future getImages() async{
+    await firebaseStorage.ref('images').listAll().then((value) async {
+      for(var valu in value.items){
+        storageReference = value.items;
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getImages();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Image Screen'),
+      ),
+      body: ListView.builder(
+          itemCount: storageReference.length,
+          itemBuilder: (context, index){
+            return ListTile(
+              onTap: () async {
+                final url = await storageReference[index].getDownloadURL();
+                Navigator.push(
+                    (context),
+                    MaterialPageRoute(
+                        builder: (context) => ImageViewer(url: url)));
+              },
+              title: Text(storageReference[index].name),
+            );
+
+      }),
+    );
+  }
+}
+
+class ImageViewer extends StatelessWidget {
+  final String url;
+
+  const ImageViewer({Key? key, required this.url}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.network(url);
+  }
+}
+
+
