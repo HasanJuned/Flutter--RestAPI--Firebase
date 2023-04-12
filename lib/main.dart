@@ -6,6 +6,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ostad_flutter_batch_two/image_screen.dart';
+
+import 'book.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,7 +78,7 @@ class _BookListScreenState extends State<BookListScreen> {
           IconButton(
               onPressed: () {
                 Navigator.push((context),
-                    MaterialPageRoute(builder: (context) => ImageScreen()));
+                    MaterialPageRoute(builder: (context) => const ImageScreen()));
               },
               icon: const Icon(Icons.image)),
         ],
@@ -164,71 +167,5 @@ class _BookListScreenState extends State<BookListScreen> {
 
       }),
     );
-  }
-}
-
-class Book {
-  final String name, authorName, year;
-
-  Book(this.name, this.authorName, this.year);
-}
-
-class ImageScreen extends StatefulWidget {
-  const ImageScreen({Key? key}) : super(key: key);
-
-  @override
-  State<ImageScreen> createState() => _ImageScreenState();
-}
-
-class _ImageScreenState extends State<ImageScreen> {
-  final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-  List<Reference> storageReference = [];
-
-  Future getImages() async {
-    await firebaseStorage.ref('images').listAll().then((value) async {
-      for (var valu in value.items) {
-        storageReference = value.items;
-        setState(() {});
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getImages();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Image Screen'),
-      ),
-      body: ListView.builder(
-          itemCount: storageReference.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              onTap: () async {
-                final url = await storageReference[index].getDownloadURL();
-                Navigator.push(
-                    (context),
-                    MaterialPageRoute(
-                        builder: (context) => ImageViewer(url: url)));
-              },
-              title: Text(storageReference[index].name),
-            );
-          }),
-    );
-  }
-}
-
-class ImageViewer extends StatelessWidget {
-  final String url;
-  const ImageViewer({Key? key, required this.url}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Image.network(url);
   }
 }
