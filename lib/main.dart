@@ -3,13 +3,23 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ostad_flutter_batch_two/fcm_urils.dart';
+
+@pragma('vm:entry-point')
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("Handling a background message: ${message.messageId}");
+}
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await FCMUtils().initialize();
   runApp(const MyApp());
 }
 
@@ -97,8 +107,7 @@ class _BookListScreenState extends State<BookListScreen> {
             if (snapshot.hasData) {
               books.clear();
               for (var doc in snapshot.data!.docs) {
-                books.add(
-                    Book(doc.get('name'), doc.get('writter'), doc.get('year')));
+                books.add(Book(doc.get('name'), doc.get('writter'), doc.get('year')));
               }
               return ListView.builder(
                   itemCount: books.length,
@@ -115,6 +124,7 @@ class _BookListScreenState extends State<BookListScreen> {
               );
             }
           }),
+
       floatingActionButton: FloatingActionButton(onPressed: () async {
 
           showDialog(
