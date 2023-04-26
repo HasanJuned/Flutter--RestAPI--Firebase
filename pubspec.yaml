@@ -16,15 +16,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  firebase_core: ^2.9.0
-  cloud_firestore: ^4.5.0
-  firebase_storage: ^11.1.0
-  path_provider: ^2.0.14
-  shared_preferences: ^2.0.18
-  image_picker: ^0.8.6+4
-  firebase_messaging: ^14.4.0
-  google_maps_flutter: ^2.2.5
-  geolocator: ^9.0.2
+  get: ^4.6.5
 
 dev_dependencies:
   flutter_test:
