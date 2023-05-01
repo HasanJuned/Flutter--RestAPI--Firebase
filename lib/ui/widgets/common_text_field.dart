@@ -9,12 +9,14 @@ class CommonTextField extends StatelessWidget {
     required this.validator,
     required this.hintText,
     this.textInputType,
+    this.maxLine,
   }) : super(key: key);
 
   final TextEditingController controller;
   final Function(String? ) validator;
   final String hintText;
   final TextInputType? textInputType;
+  final int? maxLine;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class CommonTextField extends StatelessWidget {
               borderSide: BorderSide(color: primaryColor, width: 2)
           )
       ),
+      maxLines: maxLine,
 
     );
   }
