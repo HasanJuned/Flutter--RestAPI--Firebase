@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../utils/app_colors.dart';
 import '../utils/styles.dart';
 import '../widgets/common_elevated_button.dart';
+import 'profile_registration_screen.dart';
 
 class OTPVerificationScreen extends StatefulWidget {
   const OTPVerificationScreen({Key? key}) : super(key: key);
@@ -74,7 +77,9 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
             ),
             CommonElevatedButton(
               title: 'Next',
-              onTap: () {},
+              onTap: () {
+                Get.to(const ProfileRegistrationScreen());
+              },
             ),
             const SizedBox(
               height: 16,
