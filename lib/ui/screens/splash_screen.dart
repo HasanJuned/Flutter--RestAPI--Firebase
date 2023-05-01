@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 2)).then((value) {
-      Get.to(const EmailVerificationScreen());
+      Get.off(const EmailVerificationScreen());
     });
   }
 
