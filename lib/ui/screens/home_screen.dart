@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-
-import '../utils/app_colors.dart';
+import '../widgets/home/appbar_icon_button.dart';
+import '../widgets/home/category_card_widget.dart';
+import '../widgets/home/home_carousel_widget.dart';
+import '../widgets/home/remarks_title_widget.dart';
+import '../widgets/home/search_text_field.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -8,59 +11,77 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Row(
           children: [
             Image.asset('assets/images/logo_nav.png'),
             const Spacer(),
-            AppBarIconButton(
+            AppBarIconButtonWidget(
               iconData: Icons.person_outline_outlined,
-              onTap: (){
-
-              },
+              onTap: () {},
             ),
-            AppBarIconButton(
+            AppBarIconButtonWidget(
               iconData: Icons.call,
-              onTap: (){
-
-              },
+              onTap: () {},
             ),
-            AppBarIconButton(
+            AppBarIconButtonWidget(
               iconData: Icons.notifications_active,
-              onTap: (){
-
-              },
+              onTap: () {},
             ),
-
           ],
         ),
       ),
-    );
-  }
-}
-
-class AppBarIconButton extends StatelessWidget {
-  const AppBarIconButton({
-    Key? key,
-    required this.iconData,
-    required this.onTap,
-  }) : super(key: key);
-
-  final IconData iconData;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(20),
-      splashColor: primaryColor.withOpacity(0.2),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-        child: CircleAvatar(
-          backgroundColor: Colors.grey.shade200,
-          radius: 16,
-          child: Icon(iconData, color: softGreyColor, size: 18),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            const SearchTextField(),
+            const SizedBox(height: 16),
+            HomeCarouselWidget(),
+            const SizedBox(height: 8),
+            RemarksTitleWidget(
+              remarksName: 'All Categories',
+              onTapSeeAll: () {},
+            ),
+            const SizedBox(height: 8),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: const [
+                  CategoryCardWidget(
+                    productName: 'Computer',
+                  ),
+                  CategoryCardWidget(
+                    productName: 'Electronics',
+                  ),
+                  CategoryCardWidget(
+                    productName: 'Clothes',
+                  ),
+                  CategoryCardWidget(
+                    productName: 'Food',
+                  ),
+                  CategoryCardWidget(
+                    productName: 'Computer',
+                  ),
+                  CategoryCardWidget(
+                    productName: 'Computer',
+                  ),
+                  CategoryCardWidget(
+                    productName: 'Computer',
+                  ),
+                  CategoryCardWidget(
+                    productName: 'Computer',
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            RemarksTitleWidget(
+              remarksName: 'Popular',
+              onTapSeeAll: () {},
+            ),
+          ],
         ),
       ),
     );
