@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ostad_flutter_batch_two/ui/state_managers/bottom_navigationBar_controller.dart';
 
 import 'ui/screens/splash_screen.dart';
 import 'ui/utils/app_colors.dart';
@@ -14,6 +15,7 @@ class CraftyBay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      initialBinding: GetXBindings(),
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
       themeMode: ThemeMode.light,
@@ -30,7 +32,12 @@ class CraftyBay extends StatelessWidget {
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
-          elevation: 1
+          elevation: 1,
+          titleTextStyle: TextStyle(
+            color: greyColor,
+            fontSize: 18,
+            fontWeight: FontWeight.w600
+          )
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -42,4 +49,13 @@ class CraftyBay extends StatelessWidget {
       ),
     );
   }
+}
+
+class GetXBindings extends Bindings{
+  @override
+  void dependencies() {
+    Get.put(BottomNavigationBarController());
+    //Get.lazyPut(() => BottomNavigationBarController());
+  }
+  
 }
