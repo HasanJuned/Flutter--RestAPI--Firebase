@@ -13,7 +13,7 @@ class HomeCarouselWidget extends StatelessWidget {
       children: [
         CarouselSlider(
           options: CarouselOptions(
-              height: 180.0,
+              height: 160.0,
               viewportFraction: 1,
               autoPlay: true,
               autoPlayInterval: const Duration(seconds: 3),
@@ -27,14 +27,11 @@ class HomeCarouselWidget extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   margin: const EdgeInsets.symmetric(horizontal: 5.0),
                   decoration: BoxDecoration(
-                    color: Colors.amber,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   alignment: Alignment.center,
-                  child: Text(
-                    'text $i',
-                    style: const TextStyle(fontSize: 16.0),
-                  ),
+                  child: Image.asset('assets/images/sneakers.jpg'),
                 );
               },
             );

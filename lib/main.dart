@@ -18,7 +18,7 @@ class CraftyBay extends StatelessWidget {
       home: const SplashScreen(),
       themeMode: ThemeMode.light,
       darkTheme: ThemeData(
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.yellowAccent,
