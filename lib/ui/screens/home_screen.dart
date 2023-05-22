@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ostad_flutter_batch_two/ui/screens/email_verification_screen.dart';
+import 'package:ostad_flutter_batch_two/ui/state_managers/auth_controller.dart';
+import 'package:ostad_flutter_batch_two/ui/state_managers/bottom_navigationBar_controller.dart';
 import '../widgets/home/appbar_icon_button.dart';
 import '../widgets/home/category_card_widget.dart';
 import '../widgets/home/home_carousel_widget.dart';
 import '../widgets/home/remarks_title_widget.dart';
 import '../widgets/home/search_text_field.dart';
 import '../widgets/product_card_widget.dart';
+import 'profile_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -20,7 +25,17 @@ class HomeScreen extends StatelessWidget {
             const Spacer(),
             AppBarIconButtonWidget(
               iconData: Icons.person_outline_outlined,
-              onTap: () {},
+              onTap: () {
+                Get.find<AuthController>().isLoggedIn().then((value) {
+                  if(value){
+                    Get.to(const ProfileScreen());
+                  } else {
+                    Get.to(const EmailVerificationScreen());
+
+                  }
+                });
+
+              },
             ),
             AppBarIconButtonWidget(
               iconData: Icons.call,
@@ -44,7 +59,9 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 1),
               RemarksTitleWidget(
                 remarksName: 'All Categories',
-                onTapSeeAll: () {},
+                onTapSeeAll: () {
+                  Get.find<BottomNavigationBarController>().changeIndex(1);
+                },
               ),
               const SizedBox(height: 2),
               SingleChildScrollView(
