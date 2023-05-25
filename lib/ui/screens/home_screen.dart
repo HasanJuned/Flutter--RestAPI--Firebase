@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:ostad_flutter_batch_two/ui/screens/email_verification_screen.dart';
 import 'package:ostad_flutter_batch_two/ui/state_managers/auth_controller.dart';
 import 'package:ostad_flutter_batch_two/ui/state_managers/bottom_navigationBar_controller.dart';
+import 'package:ostad_flutter_batch_two/ui/state_managers/home_controller.dart';
 import '../widgets/home/appbar_icon_button.dart';
 import '../widgets/home/category_card_widget.dart';
 import '../widgets/home/home_carousel_widget.dart';
@@ -11,9 +12,14 @@ import '../widgets/home/search_text_field.dart';
 import '../widgets/product_card_widget.dart';
 import 'profile_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,14 +33,12 @@ class HomeScreen extends StatelessWidget {
               iconData: Icons.person_outline_outlined,
               onTap: () {
                 Get.find<AuthController>().isLoggedIn().then((value) {
-                  if(value){
+                  if (value) {
                     Get.to(const ProfileScreen());
                   } else {
                     Get.to(const EmailVerificationScreen());
-
                   }
                 });
-
               },
             ),
             AppBarIconButtonWidget(
@@ -55,7 +59,19 @@ class HomeScreen extends StatelessWidget {
             children: [
               const SearchTextField(),
               const SizedBox(height: 6),
-              HomeCarouselWidget(),
+              GetBuilder<HomeController>(builder: (homeController) {
+                if (homeController.getSliderInProgress) {
+                  return const SizedBox(
+                    height: 180,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+                return HomeCarouselWidget(
+                  homeSliderModel: homeController.homeSliderModel,
+                );
+              }),
               const SizedBox(height: 1),
               RemarksTitleWidget(
                 remarksName: 'All Categories',
@@ -114,7 +130,6 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
               const SizedBox(height: 16),
               RemarksTitleWidget(
                 remarksName: 'Special',
@@ -134,7 +149,6 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
               const SizedBox(height: 16),
               RemarksTitleWidget(
                 remarksName: 'New',
@@ -154,7 +168,6 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
             ],
           ),
         ),
@@ -162,4 +175,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
