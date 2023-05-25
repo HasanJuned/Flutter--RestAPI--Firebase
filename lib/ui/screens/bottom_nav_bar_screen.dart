@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_batch_two/ui/state_managers/category_controller.dart';
 import 'package:ostad_flutter_batch_two/ui/state_managers/home_controller.dart';
 
 import '../state_managers/bottom_navigationBar_controller.dart';
@@ -28,6 +29,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
   void initState() {
     super.initState();
     Get.find<HomeController>().getHomeSlider();
+    Get.find<CategoryController>().getCategory();
   }
 
   @override

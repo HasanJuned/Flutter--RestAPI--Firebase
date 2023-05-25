@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ostad_flutter_batch_two/ui/state_managers/category_controller.dart';
 
 
 import '../state_managers/bottom_navigationBar_controller.dart';
@@ -26,16 +27,32 @@ class CategoriesScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: GridView.builder(
-            itemCount: 60,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-            ),
-            itemBuilder: (context, index) {
-              return const CategoryCardWidget(
-                productName: 'Computer',
+        child: GetBuilder<CategoryController>(
+          builder: (categoryController) {
+            if(categoryController.categoryInProgress){
+              return const Center(
+                child: CircularProgressIndicator(),
               );
-            }),
+            }
+            return RefreshIndicator(
+              onRefresh: () async {
+                Get.find<CategoryController>().getCategory();
+              },
+              child: GridView.builder(
+                  itemCount: categoryController.categoryModel.categories?.length ?? 0,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 4,
+                  ),
+                  itemBuilder: (context, index) {
+                    final category = categoryController.categoryModel.categories![index];
+                    return CategoryCardWidget(
+                      productName: category.categoryName.toString(),
+                      imageUrl: category.categoryImg.toString(),
+                    );
+                  }),
+            );
+          }
+        ),
       ),
     );
   }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ostad_flutter_batch_two/data/models/category_model.dart';
 import 'package:ostad_flutter_batch_two/ui/screens/email_verification_screen.dart';
 import 'package:ostad_flutter_batch_two/ui/state_managers/auth_controller.dart';
 import 'package:ostad_flutter_batch_two/ui/state_managers/bottom_navigationBar_controller.dart';
+import 'package:ostad_flutter_batch_two/ui/state_managers/category_controller.dart';
 import 'package:ostad_flutter_batch_two/ui/state_managers/home_controller.dart';
 import '../widgets/home/appbar_icon_button.dart';
 import '../widgets/home/category_card_widget.dart';
@@ -56,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SearchTextField(),
               const SizedBox(height: 6),
@@ -80,37 +83,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
               const SizedBox(height: 2),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: const [
-                    CategoryCardWidget(
-                      productName: 'Computer',
+              GetBuilder<CategoryController>(builder: (categoryController) {
+                if (categoryController.categoryInProgress) {
+                  return const SizedBox(
+                    height: 90,
+                    child: Center(
+                      child: CircularProgressIndicator(),
                     ),
-                    CategoryCardWidget(
-                      productName: 'Electronics',
-                    ),
-                    CategoryCardWidget(
-                      productName: 'Clothes',
-                    ),
-                    CategoryCardWidget(
-                      productName: 'Food',
-                    ),
-                    CategoryCardWidget(
-                      productName: 'Computer',
-                    ),
-                    CategoryCardWidget(
-                      productName: 'Computer',
-                    ),
-                    CategoryCardWidget(
-                      productName: 'Computer',
-                    ),
-                    CategoryCardWidget(
-                      productName: 'Computer',
-                    ),
-                  ],
-                ),
-              ),
+                  );
+                }
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: categoryController.categoryModel.categories!
+                        .map((e) => CategoryCardWidget(
+                              productName: e.categoryName.toString(),
+                              imageUrl: e.categoryImg.toString(),
+                            ))
+                        .toList(),
+                  ),
+                );
+              }),
               const SizedBox(height: 12),
               RemarksTitleWidget(
                 remarksName: 'Popular',

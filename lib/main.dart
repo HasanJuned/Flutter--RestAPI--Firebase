@@ -6,6 +6,7 @@ import 'package:ostad_flutter_batch_two/ui/state_managers/home_controller.dart';
 
 import 'ui/screens/splash_screen.dart';
 import 'ui/state_managers/auth_controller.dart';
+import 'ui/state_managers/category_controller.dart';
 import 'ui/state_managers/user_auth_controller.dart';
 import 'ui/state_managers/user_profile_controller.dart';
 import 'ui/utils/app_colors.dart';
@@ -64,6 +65,7 @@ class GetXBindings extends Bindings{
     Get.put(AuthController());
     Get.put(UserProfileController());
     Get.put(HomeController());
+    Get.put(CategoryController());
     //Get.lazyPut(() => BottomNavigationBarController());
   }
   

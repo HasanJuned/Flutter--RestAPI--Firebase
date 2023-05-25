@@ -11,7 +11,7 @@ class HomeController extends GetxController {
 
   Future<bool> getHomeSlider() async {
     _getSliderInProgress = true;
-
+    update();
     final response = await NetworkCaller.getRequest(url: '/ListProductSlider');
     _getSliderInProgress = false;
     if (response.isSuccess) {
