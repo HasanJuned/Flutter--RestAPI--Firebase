@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ostad_flutter_batch_two/ui/state_managers/home_controller.dart';
 
 import '../state_managers/bottom_navigationBar_controller.dart';
 import '../utils/app_colors.dart';
@@ -8,15 +9,26 @@ import 'home_screen.dart';
 import 'wish_list_screen.dart';
 import 'package:get/get.dart';
 
-class BottomNavBarScreen extends StatelessWidget {
+class BottomNavBarScreen extends StatefulWidget {
   const BottomNavBarScreen({Key? key}) : super(key: key);
 
+  @override
+  State<BottomNavBarScreen> createState() => _BottomNavBarScreenState();
+}
+
+class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
   final List<Widget> _screens = const [
     HomeScreen(),
     CategoriesScreen(),
     CartScreen(),
     WishlistScreen()
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    Get.find<HomeController>().getHomeSlider();
+  }
 
   @override
   Widget build(BuildContext context) {
