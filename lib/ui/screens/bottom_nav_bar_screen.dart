@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ostad_flutter_batch_two/ui/state_managers/category_controller.dart';
 import 'package:ostad_flutter_batch_two/ui/state_managers/home_controller.dart';
+import 'package:ostad_flutter_batch_two/ui/state_managers/popular_product_by_remark_controller.dart';
 
 import '../state_managers/bottom_navigationBar_controller.dart';
+import '../state_managers/new_product_by_remark_controller.dart';
+import '../state_managers/special_product_by_remark_controller.dart';
 import '../utils/app_colors.dart';
 import 'cart_screen.dart';
 import 'categories_screen.dart';
@@ -30,6 +33,9 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
     super.initState();
     Get.find<HomeController>().getHomeSlider();
     Get.find<CategoryController>().getCategory();
+    Get.find<PopularProductByRemarkController>().getPopularProductsByRemark();
+    Get.find<SpecialProductByRemarkController>().getSpecialProductsByRemark();
+    Get.find<NewProductByRemarkController>().getNewProductsByRemark();
   }
 
   @override

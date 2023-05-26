@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../data/models/product.dart';
 import '../screens/product_details_screen.dart';
 import '../utils/app_colors.dart';
 
 class ProductCardWidget extends StatelessWidget {
   const ProductCardWidget({
-    Key? key,
+    Key? key, required this.product,
   }) : super(key: key);
+
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +28,14 @@ class ProductCardWidget extends StatelessWidget {
           shadowColor: primaryColor.withOpacity(0.2),
           child: Column(
             children: [
-              Image.asset('assets/images/sneakers.jpg',
-                  height: 100, fit: BoxFit.fitWidth),
+              Image.network(product.image ?? '',
+                  height: 100, fit: BoxFit.scaleDown),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
                     Text(
-                      'Apex Casual Sneakers B90X3',
+                      product.title ?? 'Unknown',
                       style: TextStyle(
                           fontSize: 12,
                           letterSpacing: 0.3,
@@ -45,9 +48,9 @@ class ProductCardWidget extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        const Text(
-                          '\$340',
-                          style: TextStyle(
+                        Text(
+                          '${product.price}',
+                          style: const TextStyle(
                               fontWeight: FontWeight.w500,
                               color: primaryColor,
                               fontSize: 12),
@@ -66,7 +69,7 @@ class ProductCardWidget extends StatelessWidget {
                               width: 4,
                             ),
                             Text(
-                              '4.5',
+                              '${product.star ?? 0}',
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,

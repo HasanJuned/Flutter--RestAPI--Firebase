@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ostad_flutter_batch_two/data/models/category_model.dart';
 import 'package:ostad_flutter_batch_two/ui/screens/email_verification_screen.dart';
 import 'package:ostad_flutter_batch_two/ui/state_managers/auth_controller.dart';
 import 'package:ostad_flutter_batch_two/ui/state_managers/bottom_navigationBar_controller.dart';
 import 'package:ostad_flutter_batch_two/ui/state_managers/category_controller.dart';
 import 'package:ostad_flutter_batch_two/ui/state_managers/home_controller.dart';
+import 'package:ostad_flutter_batch_two/ui/state_managers/popular_product_by_remark_controller.dart';
+import '../state_managers/new_product_by_remark_controller.dart';
+import '../state_managers/special_product_by_remark_controller.dart';
 import '../widgets/home/appbar_icon_button.dart';
 import '../widgets/home/category_card_widget.dart';
 import '../widgets/home/home_carousel_widget.dart';
@@ -112,22 +114,57 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 4,
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: const [
-                    ProductCardWidget(),
-                    ProductCardWidget(),
-                    ProductCardWidget(),
-                    ProductCardWidget(),
-                  ],
-                ),
-              ),
+              GetBuilder<PopularProductByRemarkController>(
+                  builder: (popularProductByRemarkController) {
+                if (popularProductByRemarkController
+                    .getPopularProductByRemarkInProgress) {
+                  return const SizedBox(
+                    height: 90,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: popularProductByRemarkController
+                        .popularProductModel.products!
+                        .map((products) => ProductCardWidget(
+                      product: products,
+                    ))
+                        .toList(),
+                  ),
+                );
+              }),
               const SizedBox(height: 16),
               RemarksTitleWidget(
                 remarksName: 'Special',
                 onTapSeeAll: () {},
               ),
+              GetBuilder<SpecialProductByRemarkController>(
+                  builder: (specialProductByRemarkController) {
+                    if (specialProductByRemarkController
+                        .getSpecialProductByRemarkInProgress) {
+                      return const SizedBox(
+                        height: 90,
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: specialProductByRemarkController
+                            .specialProductModel.products!
+                            .map((products) => ProductCardWidget(
+                          product: products,
+                        ))
+                            .toList(),
+                      ),
+                    );
+                  }),
               const SizedBox(
                 height: 8,
               ),
@@ -135,10 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: const [
-                    ProductCardWidget(),
-                    ProductCardWidget(),
-                    ProductCardWidget(),
-                    ProductCardWidget(),
+
                   ],
                 ),
               ),
@@ -150,17 +184,29 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 8,
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: const [
-                    ProductCardWidget(),
-                    ProductCardWidget(),
-                    ProductCardWidget(),
-                    ProductCardWidget(),
-                  ],
-                ),
-              ),
+              GetBuilder<NewProductByRemarkController>(
+                  builder: (newProductByRemarkController) {
+                    if (newProductByRemarkController
+                        .getNewProductByRemarkInProgress) {
+                      return const SizedBox(
+                        height: 90,
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: newProductByRemarkController
+                            .newProductModel.products!
+                            .map((products) => ProductCardWidget(
+                          product: products,
+                        ))
+                            .toList(),
+                      ),
+                    );
+                  }),
             ],
           ),
         ),

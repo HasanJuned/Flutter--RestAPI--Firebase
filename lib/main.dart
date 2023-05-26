@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ostad_flutter_batch_two/ui/state_managers/bottom_navigationBar_controller.dart';
 import 'package:ostad_flutter_batch_two/ui/state_managers/home_controller.dart';
+import 'package:ostad_flutter_batch_two/ui/state_managers/new_product_by_remark_controller.dart';
+import 'package:ostad_flutter_batch_two/ui/state_managers/popular_product_by_remark_controller.dart';
+import 'package:ostad_flutter_batch_two/ui/state_managers/special_product_by_remark_controller.dart';
 
 
 import 'ui/screens/splash_screen.dart';
@@ -66,6 +69,9 @@ class GetXBindings extends Bindings{
     Get.put(UserProfileController());
     Get.put(HomeController());
     Get.put(CategoryController());
+    Get.put(PopularProductByRemarkController());
+    Get.put(NewProductByRemarkController());
+    Get.put(SpecialProductByRemarkController());
     //Get.lazyPut(() => BottomNavigationBarController());
   }
   

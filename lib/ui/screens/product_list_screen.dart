@@ -13,15 +13,15 @@ class ProductListScreen extends StatelessWidget {
             title: const Text('Products'),
             leading: BackButton(
               color: greyColor,
-            )),
-        body: GridView.builder(
-            itemCount: 40,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-              childAspectRatio: 0.7
-        ),
-        itemBuilder: (context, index) {
-          return ProductCardWidget();
-        }),);
+            )),);
+        // body: GridView.builder(
+        //     itemCount: 40,
+        //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        //     crossAxisCount: 3,
+        //       childAspectRatio: 0.7
+        // ),
+        // itemBuilder: (context, index) {
+        //   return ProductCardWidget();
+        // }),);
   }
 }

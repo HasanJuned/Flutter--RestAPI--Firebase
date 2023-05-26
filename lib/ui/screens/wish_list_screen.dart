@@ -21,13 +21,15 @@ class WishlistScreen extends StatelessWidget {
           color: greyColor,
         ),
       ),
-      body: GridView.builder(
-          itemCount: 10,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3, childAspectRatio: 0.7),
-          itemBuilder: (context, index) {
-            return ProductCardWidget();
-          }),
+      // body: GridView.builder(
+      //     itemCount: 10,
+      //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      //         crossAxisCount: 3, childAspectRatio: 0.7),
+      //     itemBuilder: (context, index) {
+      //       return ProductCardWidget(
+      //         product: ,
+      //       );
+      //     }),
     );
   }
 }
