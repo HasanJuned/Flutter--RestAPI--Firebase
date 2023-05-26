@@ -1,15 +1,15 @@
 import 'package:get/get.dart';
 
-import '../../data/models/product_by_remarks_model.dart';
+import '../../data/models/product_by_category_model.dart';
 import '../../data/services/network_caller.dart';
 
 class SpecialProductByRemarkController extends GetxController {
 
   bool _getSpecialProductByRemarkInProgress = false;
-  ProductByRemarksModel _specialProductModel = ProductByRemarksModel();
+  ProductByCategoryModel _specialProductModel = ProductByCategoryModel();
 
   bool get getSpecialProductByRemarkInProgress => _getSpecialProductByRemarkInProgress;
-  ProductByRemarksModel get specialProductModel => _specialProductModel;
+  ProductByCategoryModel get specialProductModel => _specialProductModel;
 
 
 
@@ -21,7 +21,7 @@ class SpecialProductByRemarkController extends GetxController {
     _getSpecialProductByRemarkInProgress = false;
 
     if (response.isSuccess) {
-      _specialProductModel = ProductByRemarksModel.fromJson(response.returnData);
+      _specialProductModel = ProductByCategoryModel.fromJson(response.returnData);
       update();
       return true;
     } else {

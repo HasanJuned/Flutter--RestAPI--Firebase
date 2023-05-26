@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: categoryController.categoryModel.categories!
                         .map((e) => CategoryCardWidget(
                               productName: e.categoryName.toString(),
-                              imageUrl: e.categoryImg.toString(),
+                              imageUrl: e.categoryImg.toString(), id: e.id!,
                             ))
                         .toList(),
                   ),

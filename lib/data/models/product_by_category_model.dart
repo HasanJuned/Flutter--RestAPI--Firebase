@@ -1,13 +1,13 @@
 
 import 'product.dart';
 
-class ProductByRemarksModel {
+class ProductByCategoryModel {
   String? msg;
   List<Product>? products;
 
-  ProductByRemarksModel({this.msg, this.products});
+  ProductByCategoryModel({this.msg, this.products});
 
-  ProductByRemarksModel.fromJson(Map<String, dynamic> json) {
+  ProductByCategoryModel.fromJson(Map<String, dynamic> json) {
     msg = json['msg'];
     if (json['data'] != null) {
       products = <Product>[];

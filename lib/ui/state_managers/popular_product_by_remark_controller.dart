@@ -1,14 +1,14 @@
 import 'package:get/get.dart';
-import 'package:ostad_flutter_batch_two/data/models/product_by_remarks_model.dart';
+import 'package:ostad_flutter_batch_two/data/models/product_by_category_model.dart';
 import 'package:ostad_flutter_batch_two/data/services/network_caller.dart';
 
 class PopularProductByRemarkController extends GetxController {
   bool _getPopularProductByRemarkInProgress = false;
-  ProductByRemarksModel _popularProductModel = ProductByRemarksModel();
+  ProductByCategoryModel _popularProductModel = ProductByCategoryModel();
 
 
   bool get getPopularProductByRemarkInProgress => _getPopularProductByRemarkInProgress;
-  ProductByRemarksModel get popularProductModel => _popularProductModel;
+  ProductByCategoryModel get popularProductModel => _popularProductModel;
 
   Future<bool> getPopularProductsByRemark() async {
     _getPopularProductByRemarkInProgress = true;
@@ -19,7 +19,7 @@ class PopularProductByRemarkController extends GetxController {
 
     if (response.isSuccess) {
       _popularProductModel =
-          ProductByRemarksModel.fromJson(response.returnData);
+          ProductByCategoryModel.fromJson(response.returnData);
       update();
       return true;
     } else {
