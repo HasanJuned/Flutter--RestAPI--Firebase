@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:http/http.dart';
 
-
 import '../../ui/state_managers/auth_controller.dart';
 import '../models/response_model.dart';
 import '../utils/urls.dart';
@@ -37,4 +36,6 @@ class NetworkCaller {
           isSuccess: false, statusCode: -1, returnData: e.toString());
     }
   }
+
+
 }

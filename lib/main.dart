@@ -13,6 +13,7 @@ import 'ui/state_managers/auth_controller.dart';
 import 'ui/state_managers/category_controller.dart';
 import 'ui/state_managers/user_auth_controller.dart';
 import 'ui/state_managers/user_profile_controller.dart';
+import 'ui/state_managers/wish_list_controller.dart';
 import 'ui/utils/app_colors.dart';
 
 void main() {
@@ -74,6 +75,7 @@ class GetXBindings extends Bindings{
     Get.put(NewProductByRemarkController());
     Get.put(SpecialProductByRemarkController());
     Get.put(ProductController());
+    Get.put(WishListController());
     //Get.lazyPut(() => BottomNavigationBarController());
   }
   
