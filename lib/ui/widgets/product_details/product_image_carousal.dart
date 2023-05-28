@@ -6,7 +6,9 @@ import '../../utils/app_colors.dart';
 class ProductImageCarouselWidget extends StatelessWidget {
   final ValueNotifier<int> _currentCarouselIndex = ValueNotifier(0);
 
-  ProductImageCarouselWidget({super.key});
+  final List<String> images;
+
+  ProductImageCarouselWidget({super.key, required this.images});
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +22,18 @@ class ProductImageCarouselWidget extends StatelessWidget {
               onPageChanged: (index, _) {
                 _currentCarouselIndex.value = index;
               }),
-          items: [1, 2, 3, 4, 5].map((i) {
+          items: images.map((imageUrl) {
             return Builder(
               builder: (BuildContext context) {
                 return Container(
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     color: Colors.white,
+                    image: DecorationImage(
+                      image: NetworkImage(imageUrl),
+                    ),
                   ),
                   alignment: Alignment.center,
-                  child: Image.asset('assets/images/sneakers.jpg'),
                 );
               },
             );
@@ -46,7 +50,7 @@ class ProductImageCarouselWidget extends StatelessWidget {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      for (int i = 0; i < 5; i++)
+                      for (int i = 0; i < images.length; i++)
                         Padding(
                           padding: const EdgeInsets.all(2.0),
                           child: Container(
