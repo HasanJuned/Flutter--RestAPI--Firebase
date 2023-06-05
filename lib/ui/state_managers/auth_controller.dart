@@ -11,6 +11,7 @@ class AuthController extends GetxController {
   static ProfileData? _profileData;
 
   static String? get token => _token;
+
   static ProfileData? get profile => _profileData;
 
   Future<bool> isLoggedIn() async {
@@ -29,20 +30,22 @@ class AuthController extends GetxController {
   Future<void> saveProfileData(ProfileData profile) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     _profileData = profile;
-    await sharedPreferences.setString('user_profile', profile.toJson().toString());
+    await sharedPreferences.setString(
+        'user_profile', profile.toJson().toString());
   }
 
-  Future<void> getProfileData() async{
+  Future<void> getProfileData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    _profileData = ProfileData.fromJson(jsonDecode(sharedPreferences.getString('user_profile') ?? '{}'));
+    _profileData = ProfileData.fromJson(
+        jsonDecode(sharedPreferences.getString('user_profile') ?? '{}'));
   }
 
-  Future<void> getToken() async{
+  Future<void> getToken() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     _token = sharedPreferences.getString('crafty_token');
   }
 
-  Future<void> clearUserData() async{
+  Future<void> clearUserData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.clear();
     _token = null;
@@ -55,14 +58,9 @@ class AuthController extends GetxController {
 
   Future<bool> checkAuthValidation() async {
     final authState = await Get.find<AuthController>().isLoggedIn();
-    Get.to(const EmailVerificationScreen());
+    if (authState == false) {
+      Get.to(const EmailVerificationScreen());
+    }
     return authState;
-
-
-
   }
-
-
-
-
 }

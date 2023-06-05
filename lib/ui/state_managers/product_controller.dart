@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:ostad_flutter_batch_two/data/models/product_by_category_model.dart';
 import 'package:ostad_flutter_batch_two/data/models/product_details_model.dart';
@@ -39,6 +41,7 @@ class ProductController extends GetxController {
 
     final response = await NetworkCaller.getRequest(url: '/ProductDetailsById/$productId');
     _getProductsDetailsInProgress = false;
+    log(response.toString());
     if(response.isSuccess){
       _productDetailsModel = ProductDetailsModel.fromJson(response.returnData);
       update();

@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:ostad_flutter_batch_two/ui/state_managers/auth_controller.dart';
+import 'package:ostad_flutter_batch_two/ui/state_managers/cart_controller.dart';
 import 'package:ostad_flutter_batch_two/ui/state_managers/product_controller.dart';
 import 'package:ostad_flutter_batch_two/ui/state_managers/wish_list_controller.dart';
 import 'package:ostad_flutter_batch_two/ui/widgets/common_elevated_button.dart';
@@ -45,12 +49,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       ),
       body: GetBuilder<ProductController>(builder: (productController) {
         if (productController.getProductsDetailsInProgress) {
+          log(productController.getProductsDetailsInProgress.toString());
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
 
-        final productDetails = productController.productDetailsModel.data!.first;
+        final productDetails =
+            productController.productDetailsModel.data!.first;
         sizes = getSizes(productDetails.size ?? '');
         colors = getColors(productDetails.color ?? '');
 
@@ -127,33 +133,36 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           width: 6,
                                         ),
                                         GetBuilder<WishListController>(
-                                          builder: (wishListController) {
-                                            if(wishListController.addNewItemsInProgress){
-                                              return const Center(
-                                                child: CircularProgressIndicator(),
-                                              );
-                                            }
-                                            return InkWell(
-                                              onTap: (){
-                                                Get.find<WishListController>().addWishList(productDetails.productId!);
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                    color: primaryColor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(5)),
-                                                child: const Padding(
-                                                  padding: EdgeInsets.all(4.0),
-                                                  child: Icon(
-                                                    Icons.favorite_border,
-                                                    color: Colors.white,
-                                                    size: 16,
-                                                  ),
-                                                ),
-                                              ),
+                                            builder: (wishListController) {
+                                          if (wishListController
+                                              .addNewItemsInProgress) {
+                                            return const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
                                             );
                                           }
-                                        ),
+                                          return InkWell(
+                                            onTap: () {
+                                              Get.find<WishListController>()
+                                                  .addWishList(productDetails
+                                                      .productId!);
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                  color: primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              child: const Padding(
+                                                padding: EdgeInsets.all(4.0),
+                                                child: Icon(
+                                                  Icons.favorite_border,
+                                                  color: Colors.white,
+                                                  size: 16,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }),
                                       ],
                                     ),
                                   ],
@@ -272,7 +281,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             height: 8,
                           ),
                           Text(
-                            productDetails.product?.shortDes ?? 'Unknown Details',
+                            productDetails.product?.shortDes ??
+                                'Unknown Details',
                             style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w400,
@@ -310,15 +320,55 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         ),
                         Text(
                           '\$${productDetails.product?.price ?? 0}',
-                          style: const TextStyle(fontSize: 18, color: primaryColor),
+                          style: const TextStyle(
+                              fontSize: 18, color: primaryColor),
                         ),
                       ],
                     ),
                     SizedBox(
                       width: 140,
-                      child: CommonElevatedButton(
-                        onTap: () {},
-                        title: "Add to Cart",
+                      child: GetBuilder<CartController>(
+                        builder: (cartController) {
+                          if(cartController.addToCartInProgress){
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          return CommonElevatedButton(
+                            onTap: () async {
+                              final result = await Get.find<AuthController>()
+                                  .checkAuthValidation();
+                              if (result) {
+                                if (_selectedSize != null &&
+                                    _selectedColor != null) {
+                                  Get.find<CartController>().addToCart(
+                                    productDetails.product!.id!,
+                                    _selectedSize!,
+                                    _getHexColorCode(_selectedColor!),
+                                  );
+                                  Get.showSnackbar(
+                                    const GetSnackBar(
+                                      title: 'Success',
+                                      message: 'Added to cart',
+                                      backgroundColor: primaryColor,
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                } else {
+                                  Get.showSnackbar(
+                                    const GetSnackBar(
+                                      title: 'Failed to load!',
+                                      message: 'Select color and size',
+                                      backgroundColor: Colors.red,
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                }
+                              }
+                            },
+                            title: "Add to Cart",
+                          );
+                        }
                       ),
                     )
                   ],
@@ -345,5 +395,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       hexColors.add(Color(int.parse(c)));
     }
     return hexColors;
+  }
+
+  String _getHexColorCode(Color color) {
+    return color.toString().replaceAll('0xff', '#').replaceAll('Color(', '').replaceAll(')', '');
   }
 }

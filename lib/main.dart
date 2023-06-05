@@ -10,6 +10,7 @@ import 'package:ostad_flutter_batch_two/ui/state_managers/special_product_by_rem
 
 import 'ui/screens/splash_screen.dart';
 import 'ui/state_managers/auth_controller.dart';
+import 'ui/state_managers/cart_controller.dart';
 import 'ui/state_managers/category_controller.dart';
 import 'ui/state_managers/user_auth_controller.dart';
 import 'ui/state_managers/user_profile_controller.dart';
@@ -76,6 +77,7 @@ class GetXBindings extends Bindings{
     Get.put(SpecialProductByRemarkController());
     Get.put(ProductController());
     Get.put(WishListController());
+    Get.put(CartController());
     //Get.lazyPut(() => BottomNavigationBarController());
   }
   
