@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ostad_flutter_batch_two/ui/utils/app_colors.dart';
 
 class ProductStepperWidget extends StatefulWidget {
-  const ProductStepperWidget({Key? key}) : super(key: key);
+  final Function(int currentValue) onDecrement, onIncrement;
+  ProductStepperWidget({Key? key, required this.onDecrement, required this.onIncrement}) : super(key: key);
 
   @override
   State<ProductStepperWidget> createState() => _ProductStepperWidgetState();
@@ -25,6 +26,7 @@ class _ProductStepperWidgetState extends State<ProductStepperWidget> {
               if (currentValue > 1) {
                 currentValue--;
                 stepperController.text = currentValue.toString();
+                widget.onDecrement(currentValue);
               }
             },
             child: Container(
@@ -57,6 +59,7 @@ class _ProductStepperWidgetState extends State<ProductStepperWidget> {
               if (currentValue <20) {
                 currentValue++;
                 stepperController.text = currentValue.toString();
+                widget.onIncrement(currentValue);
               }
             },
             child: Container(

@@ -171,7 +171,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               const SizedBox(
                                 height: 8,
                               ),
-                              ProductStepperWidget(),
+                              ProductStepperWidget(
+                                onDecrement: (int currentValue) {},
+                                onIncrement: (int currentValue) {},
+                              ),
                             ],
                           ),
                           const SizedBox(
