@@ -3,7 +3,6 @@ import 'package:ostad_flutter_batch_two/data/models/cart_list_model.dart';
 import 'package:ostad_flutter_batch_two/data/services/network_caller.dart';
 import 'package:ostad_flutter_batch_two/ui/state_managers/auth_controller.dart';
 
-import '../widgets/carts/card_product_item_widget.dart';
 
 class CartController extends GetxController {
   bool _addToCartInProgress = false;
