@@ -21,6 +21,8 @@ dependencies:
   carousel_slider: ^4.2.1
   http: ^0.13.5
   shared_preferences: any
+  firebase_core: ^2.9.0
+  firebase_auth: ^4.6.3
 
 dev_dependencies:
   flutter_test:
