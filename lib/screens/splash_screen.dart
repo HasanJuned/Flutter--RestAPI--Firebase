@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ostad_flutter_batch_two/screens/auth_screens/choose_auth_screen.dart';
+import 'package:ostad_flutter_batch_two/screens/auth_screens/teacher_login_screen.dart';
+import 'package:ostad_flutter_batch_two/screens/teacher_home_page_screen.dart';
 
 import 'sign_screen.dart';
 
@@ -17,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 1)).then((value) {
-      return Get.to(const SignScreen());
+      return Get.to(const ChooseAuthScreen());
     });
   }
 

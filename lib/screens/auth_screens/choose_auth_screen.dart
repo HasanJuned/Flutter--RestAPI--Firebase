@@ -1,15 +1,21 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ostad_flutter_batch_two/screens/auth_screens/student_registration_screen.dart';
+import 'package:ostad_flutter_batch_two/screens/auth_screens/student_register_screen.dart';
+import 'package:ostad_flutter_batch_two/screens/auth_screens/teacher_login_screen.dart';
 import 'package:ostad_flutter_batch_two/screens/auth_screens/teacher_registration_screen.dart';
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+import 'package:ostad_flutter_batch_two/screens/teacher_home_page_screen.dart';
+
+import 'student_login_screen.dart';
+
+class ChooseAuthScreen extends StatefulWidget {
+  const ChooseAuthScreen({Key? key}) : super(key: key);
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<ChooseAuthScreen> createState() => _ChooseAuthScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _ChooseAuthScreenState extends State<ChooseAuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,12 +25,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'Register as : ',
+              const SizedBox(
+                height: 30,
+              ),
+              Text(
+                'Login as : ',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
               ),
               const SizedBox(
-                height: 30,
+                height: 18,
               ),
               Container(
                 height: 40,
@@ -32,10 +41,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 color: Colors.blue,
                 child: TextButton(
                   onPressed: () {
-                    Get.to(TeacherRegistrationScreen());
+                    Get.to(StudentLoginScreen());
                   },
                   child: const Text(
-                    'Teacher',
+                    'Student',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -49,10 +58,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 color: Colors.blue,
                 child: TextButton(
                   onPressed: () {
-                    Get.to(StudentRegistrationScreen());
+                    Get.to(TeacherLoginScreen());
                   },
                   child: const Text(
-                    'Student',
+                    'Teacher',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),

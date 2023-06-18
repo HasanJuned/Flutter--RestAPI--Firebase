@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "184408772174",
-    "project_id": "learn-firebase-with-hasan",
-    "storage_bucket": "learn-firebase-with-hasan.appspot.com"
+    "project_number": "1053493376716",
+    "project_id": "quiz-app-15f7c",
+    "storage_bucket": "quiz-app-15f7c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:184408772174:android:1dd708bae36d5798b93d1f",
+        "mobilesdk_app_id": "1:1053493376716:android:3da85cc84eab97195b3469",
         "android_client_info": {
           "package_name": "com.example.softbyhasan"
         }
       },
       "oauth_client": [
         {
-          "client_id": "184408772174-nelbm7mld5oprvanatl4hk7i19nr0cbo.apps.googleusercontent.com",
+          "client_id": "1053493376716-n81sfcetjdh2lbdtqqlkkt7fbo8hdqp5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCq3tJ94HhjCKX4PqUpMtjW3h-BFlOK9_M"
+          "current_key": "AIzaSyAwIDagYO2wYm-oilDBhmYpLZsXQNu7iys"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "184408772174-nelbm7mld5oprvanatl4hk7i19nr0cbo.apps.googleusercontent.com",
+              "client_id": "1053493376716-n81sfcetjdh2lbdtqqlkkt7fbo8hdqp5.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -1,24 +1,26 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ostad_flutter_batch_two/screens/student_home_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+import '../teacher_home_screen.dart';
+
+class StudentRegisterScreen extends StatefulWidget {
+  const StudentRegisterScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<StudentRegisterScreen> createState() => _StudentRegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _StudentRegisterScreenState extends State<StudentRegisterScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  Future login() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim()
-    );
+  Future register() async {
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text, password: passwordController.text);
+    Get.to(StudentHomeScreen());
   }
 
   @override
@@ -34,17 +36,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Student Login',
+                    'Student Registration',
                     style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   TextFormField(
                     controller: emailController,
                     validator: (String? value) {
                       if (value?.trim().isEmpty ?? true) {
-                        return 'Enter Email';
+                        return 'Enter email';
                       }
                       return null;
                     },
@@ -61,10 +63,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: passwordController,
                     validator: (String? value) {
                       if (value?.trim().isEmpty ?? true) {
-                        return 'Enter Password';
+                        return 'Enter password';
                       }
                       return null;
                     },
+                    obscureText: true,
                     decoration: InputDecoration(
                         hintText: 'Password',
                         border: OutlineInputBorder(
@@ -72,21 +75,25 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderSide: const BorderSide(color: Colors.green))),
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
-                  ElevatedButton(
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          login();
-                          Get.showSnackbar(
-                            const GetSnackBar(
-                              title: 'Welcome',
-                              message: 'Successfully Registered',
-                            ),
-                          );
-                        }
-                      },
-                      child: const Text('Next'))
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            register();
+                            Get.showSnackbar(
+                              const GetSnackBar(
+                                title: 'Welcome',
+                                message: 'Successfully Registered',
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          }
+                        },
+                        child: const Text('Next', style: TextStyle(fontSize: 16),)),
+                  )
                 ],
               ),
             ),

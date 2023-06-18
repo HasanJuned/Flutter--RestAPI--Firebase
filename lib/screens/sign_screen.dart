@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ostad_flutter_batch_two/screens/auth_screens/register_screen.dart';
+import 'package:ostad_flutter_batch_two/screens/auth_screens/choose_auth_screen.dart';
 
-import 'auth_screens/login_screen.dart';
+import 'auth_screens/student_login_screen.dart';
 
 class SignScreen extends StatefulWidget {
   const SignScreen({Key? key}) : super(key: key);
@@ -30,7 +30,7 @@ class _SignScreenState extends State<SignScreen> {
                 color: Colors.blue,
                 child: TextButton(
                   onPressed: () {
-                    Get.to(RegisterScreen());
+                    Get.to(ChooseAuthScreen());
                   },
                   child: const Text(
                     'Register',
@@ -47,7 +47,7 @@ class _SignScreenState extends State<SignScreen> {
                 color: Colors.blue,
                 child: TextButton(
                   onPressed: () {
-                    Get.to(LoginScreen());
+                    Get.to(StudentLoginScreen());
 
                   },
                   child: const Text(

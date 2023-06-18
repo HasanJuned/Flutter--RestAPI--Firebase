@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ostad_flutter_batch_two/screens/teacher_home_screen.dart';
 
 class TeacherRegistrationScreen extends StatefulWidget {
   const TeacherRegistrationScreen({Key? key}) : super(key: key);
@@ -10,11 +12,15 @@ class TeacherRegistrationScreen extends StatefulWidget {
 }
 
 class _TeacherRegistrationScreenState extends State<TeacherRegistrationScreen> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController idController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  Future register() async {
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text, password: passwordController.text);
+    Get.to(TeacherHomeScreen());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,40 +37,6 @@ class _TeacherRegistrationScreenState extends State<TeacherRegistrationScreen> {
                   const Text(
                     'Teacher Registration',
                     style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                    controller: nameController,
-                    validator: (String? value) {
-                      if (value?.trim().isEmpty ?? true) {
-                        return 'Enter name';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                        hintText: 'Full Name',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(color: Colors.green))),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                    controller: idController,
-                    validator: (String? value) {
-                      if (value?.trim().isEmpty ?? true) {
-                        return 'Enter teacher ID';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                        hintText: 'Teacher ID',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(color: Colors.green))),
                   ),
                   const SizedBox(
                     height: 10,
@@ -107,10 +79,12 @@ class _TeacherRegistrationScreenState extends State<TeacherRegistrationScreen> {
                   ElevatedButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
+                          register();
                           Get.showSnackbar(
                             const GetSnackBar(
                               title: 'Welcome',
                               message: 'Successfully Registered',
+                              duration: Duration(seconds: 2),
                             ),
                           );
                         }
