@@ -1,18 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ostad_flutter_batch_two/screens/student_home_screen.dart';
+import 'package:ostad_flutter_batch_two/modules/teacher_module/teacher_auth/teacher_login_screen.dart';
 
-import '../teacher_home_screen.dart';
-
-class StudentRegisterScreen extends StatefulWidget {
-  const StudentRegisterScreen({Key? key}) : super(key: key);
+class TeacherRegistrationScreen extends StatefulWidget {
+  const TeacherRegistrationScreen({Key? key}) : super(key: key);
 
   @override
-  State<StudentRegisterScreen> createState() => _StudentRegisterScreenState();
+  State<TeacherRegistrationScreen> createState() =>
+      _TeacherRegistrationScreenState();
 }
 
-class _StudentRegisterScreenState extends State<StudentRegisterScreen> {
+class _TeacherRegistrationScreenState extends State<TeacherRegistrationScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -20,7 +19,6 @@ class _StudentRegisterScreenState extends State<StudentRegisterScreen> {
   Future register() async {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text, password: passwordController.text);
-    Get.to(StudentHomeScreen());
   }
 
   @override
@@ -36,7 +34,7 @@ class _StudentRegisterScreenState extends State<StudentRegisterScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Student Registration',
+                    'Teacher Registration',
                     style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
                   ),
                   const SizedBox(
@@ -83,6 +81,7 @@ class _StudentRegisterScreenState extends State<StudentRegisterScreen> {
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             register();
+                            Get.offAll(const TeacherLoginScreen());
                             Get.showSnackbar(
                               const GetSnackBar(
                                 title: 'Welcome',
@@ -92,7 +91,7 @@ class _StudentRegisterScreenState extends State<StudentRegisterScreen> {
                             );
                           }
                         },
-                        child: const Text('Next', style: TextStyle(fontSize: 16),)),
+                        child: const Text('Next')),
                   )
                 ],
               ),

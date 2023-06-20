@@ -1,17 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ostad_flutter_batch_two/screens/teacher_home_screen.dart';
+import 'package:ostad_flutter_batch_two/modules/student_module/student_auth/student_login_screen.dart';
 
-class TeacherRegistrationScreen extends StatefulWidget {
-  const TeacherRegistrationScreen({Key? key}) : super(key: key);
+import '../screens_student/get_quiz_screen.dart';
+
+class StudentRegisterScreen extends StatefulWidget {
+  const StudentRegisterScreen({Key? key}) : super(key: key);
 
   @override
-  State<TeacherRegistrationScreen> createState() =>
-      _TeacherRegistrationScreenState();
+  State<StudentRegisterScreen> createState() => _StudentRegisterScreenState();
 }
 
-class _TeacherRegistrationScreenState extends State<TeacherRegistrationScreen> {
+class _StudentRegisterScreenState extends State<StudentRegisterScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -19,7 +20,7 @@ class _TeacherRegistrationScreenState extends State<TeacherRegistrationScreen> {
   Future register() async {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text, password: passwordController.text);
-    Get.to(TeacherHomeScreen());
+    Get.to(const StudentLoginScreen());
   }
 
   @override
@@ -35,7 +36,7 @@ class _TeacherRegistrationScreenState extends State<TeacherRegistrationScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Teacher Registration',
+                    'Student Registration',
                     style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
                   ),
                   const SizedBox(
@@ -76,20 +77,26 @@ class _TeacherRegistrationScreenState extends State<TeacherRegistrationScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  ElevatedButton(
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          register();
-                          Get.showSnackbar(
-                            const GetSnackBar(
-                              title: 'Welcome',
-                              message: 'Successfully Registered',
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
-                        }
-                      },
-                      child: const Text('Next'))
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            register();
+                            Get.showSnackbar(
+                              const GetSnackBar(
+                                title: 'Welcome',
+                                message: 'Successfully Registered',
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          }
+                        },
+                        child: const Text(
+                          'Next',
+                          style: TextStyle(fontSize: 16),
+                        )),
+                  )
                 ],
               ),
             ),

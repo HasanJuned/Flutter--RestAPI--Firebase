@@ -1,12 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ostad_flutter_batch_two/screens/auth_screens/student_register_screen.dart';
-import 'package:ostad_flutter_batch_two/screens/auth_screens/teacher_registration_screen.dart';
-import 'package:ostad_flutter_batch_two/screens/student_home_screen.dart';
-import 'package:ostad_flutter_batch_two/screens/teacher_home_screen.dart';
+import 'package:ostad_flutter_batch_two/modules/teacher_module/teacher_auth/teacher_registration_screen.dart';
 
-import 'choose_auth_screen.dart';
+import '../screens_teacher/teacher_dashboard_screen.dart';
 
 class TeacherLoginScreen extends StatefulWidget {
   const TeacherLoginScreen({Key? key}) : super(key: key);
@@ -27,7 +24,13 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
       email: emailController.text,
       password: passwordController.text,
     );
-    Get.to(const TeacherHomeScreen());
+    Get.off(const TeacherDashboardScreen());
+    Get.showSnackbar(const GetSnackBar(
+      title: 'Success Login',
+      message: ' ',
+      backgroundColor: Colors.green,
+      duration: Duration(seconds: 2),
+    ));
   }
 
   @override
@@ -74,6 +77,7 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
                     height: 10,
                   ),
                   TextFormField(
+                    obscureText: true,
                     controller: passwordController,
                     validator: (String? value) {
                       if (value?.trim().isEmpty ?? true) {
@@ -118,7 +122,7 @@ class _TeacherLoginScreenState extends State<TeacherLoginScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          Get.to(const TeacherRegistrationScreen());
+                          Get.offAll(const TeacherRegistrationScreen());
                         },
                         child: const Text(
                           'Register',

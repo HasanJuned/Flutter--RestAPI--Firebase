@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ostad_flutter_batch_two/screens/auth_screens/choose_auth_screen.dart';
+import '../teacher_module/teacher_auth/teacher_login_screen.dart';
 
-import 'auth_screens/student_login_screen.dart';
 
-class SignScreen extends StatefulWidget {
-  const SignScreen({Key? key}) : super(key: key);
+import '../student_module/student_auth/student_login_screen.dart';
+
+class ChooseAuthScreen extends StatefulWidget {
+  const ChooseAuthScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignScreen> createState() => _SignScreenState();
+  State<ChooseAuthScreen> createState() => _ChooseAuthScreenState();
 }
 
-class _SignScreenState extends State<SignScreen> {
+class _ChooseAuthScreenState extends State<ChooseAuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,16 +25,23 @@ class _SignScreenState extends State<SignScreen> {
               const SizedBox(
                 height: 30,
               ),
+              const Text(
+                'Login as : ',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(
+                height: 18,
+              ),
               Container(
                 height: 40,
                 width: 200,
                 color: Colors.blue,
                 child: TextButton(
                   onPressed: () {
-                    Get.to(ChooseAuthScreen());
+                    Get.off(const StudentLoginScreen());
                   },
                   child: const Text(
-                    'Register',
+                    'Student',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -47,11 +55,10 @@ class _SignScreenState extends State<SignScreen> {
                 color: Colors.blue,
                 child: TextButton(
                   onPressed: () {
-                    Get.to(StudentLoginScreen());
-
+                    Get.off(const TeacherLoginScreen());
                   },
                   child: const Text(
-                    'Login',
+                    'Teacher',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
