@@ -16,11 +16,17 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  get: ^4.6.5
+  get: any
   pin_code_fields: ^7.4.0
   carousel_slider: ^4.2.1
   http: ^0.13.5
   shared_preferences: any
+  firebase_core: ^2.9.0
+  firebase_auth: ^4.6.3
+  cloud_firestore: any
+  image_picker: ^0.8.9
+  firebase_storage: ^11.1.0
+  path_provider: ^2.0.14
 
 dev_dependencies:
   flutter_test:
