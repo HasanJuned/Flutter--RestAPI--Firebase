@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'customer_login_screen.dart';
+import 'package:ostad_flutter_batch_two/modules/customer_module/customer_auth/customer_information_screen.dart';
 
 
 class CustomerRegisterScreen extends StatefulWidget {
@@ -16,11 +15,32 @@ class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool inProgress = false;
 
   Future register() async {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text, password: passwordController.text);
-    Get.to(const CustomerLoginScreen());
+    inProgress = true;
+    setState(() {
+
+    });
+    await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+        email: emailController.text, password: passwordController.text)
+        .then((value) {
+      setState(() {
+        inProgress = false;
+        Get.to(CustomerInformationScreen(email: emailController.text.toString(),));
+      });
+    }).onError((error, stackTrace) {
+      Get.showSnackbar(const GetSnackBar(
+        title: 'User Already Registered',
+        message: 'Please try different account',
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 2),
+      ));
+      setState(() {
+        inProgress = false;
+      });
+    });
   }
 
   @override
@@ -100,13 +120,6 @@ class _CustomerRegisterScreenState extends State<CustomerRegisterScreen> {
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               register();
-                              Get.showSnackbar(
-                                const GetSnackBar(
-                                  title: 'Welcome',
-                                  message: 'Successfully Registered',
-                                  duration: Duration(seconds: 2),
-                                ),
-                              );
                             }
                           },
                           child: const Text(

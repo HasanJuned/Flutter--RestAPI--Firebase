@@ -6,9 +6,12 @@ import '../../auth_screens/choose_auth_screen.dart';
 import '../../foods/chikcken/chicken_screen.dart';
 import '../../foods/drinks/drinks_screen.dart';
 import '../../foods/mutton/mutton_screen.dart';
+import '../customer_checkout/cart_screen.dart';
 
 class CustomerHomeMenuScreen extends StatefulWidget {
-  const CustomerHomeMenuScreen({Key? key}) : super(key: key);
+  final String? email;
+
+  const CustomerHomeMenuScreen({Key? key, this.email}) : super(key: key);
 
   @override
   State<CustomerHomeMenuScreen> createState() => _CustomerHomeMenuScreenState();
@@ -26,11 +29,12 @@ class _CustomerHomeMenuScreenState extends State<CustomerHomeMenuScreen> {
         backgroundColor: Colors.redAccent,
         actions: [
           IconButton(
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-                Get.off(const ChooseAuthScreen());
-              },
-              icon: const Icon(Icons.logout_outlined))
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+              Get.offAll(const ChooseAuthScreen());
+            },
+            icon: const Icon(Icons.logout_outlined),
+          ),
         ],
       ),
       body: Stack(
@@ -61,7 +65,9 @@ class _CustomerHomeMenuScreenState extends State<CustomerHomeMenuScreen> {
                     children: [
                       InkWell(
                         onTap: () {
-                          Get.to(ChickenScreen());
+                          Get.to(ChickenScreen(
+                            email: widget.email.toString(),
+                          ));
                         },
                         child: Container(
                           height: 100,
@@ -84,7 +90,9 @@ class _CustomerHomeMenuScreenState extends State<CustomerHomeMenuScreen> {
                               const Text(
                                 'Chicken',
                                 style: TextStyle(
-                                    color: Colors.black, letterSpacing: 1,fontSize: 16),
+                                    color: Colors.black,
+                                    letterSpacing: 1,
+                                    fontSize: 16),
                               ),
                             ],
                           ),
@@ -95,7 +103,9 @@ class _CustomerHomeMenuScreenState extends State<CustomerHomeMenuScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          Get.to(DrinksScreen());
+                          Get.to(DrinksScreen(
+                            email: widget.email.toString(),
+                          ));
                         },
                         child: Container(
                           height: 100,
@@ -118,7 +128,9 @@ class _CustomerHomeMenuScreenState extends State<CustomerHomeMenuScreen> {
                               const Text(
                                 'Drinks',
                                 style: TextStyle(
-                                    color: Colors.black, letterSpacing: 1,fontSize: 16),
+                                    color: Colors.black,
+                                    letterSpacing: 1,
+                                    fontSize: 16),
                               ),
                             ],
                           ),
@@ -129,7 +141,9 @@ class _CustomerHomeMenuScreenState extends State<CustomerHomeMenuScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          Get.to(MuttonScreen());
+                          Get.to(MuttonScreen(
+                            email: widget.email.toString(),
+                          ));
                         },
                         child: Container(
                           height: 100,
@@ -153,7 +167,9 @@ class _CustomerHomeMenuScreenState extends State<CustomerHomeMenuScreen> {
                               const Text(
                                 'Mutton',
                                 style: TextStyle(
-                                    color: Colors.black, letterSpacing: 1, fontSize: 16),
+                                    color: Colors.black,
+                                    letterSpacing: 1,
+                                    fontSize: 16),
                               ),
                             ],
                           ),

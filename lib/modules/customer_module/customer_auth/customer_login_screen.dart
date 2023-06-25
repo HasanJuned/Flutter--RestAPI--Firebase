@@ -26,7 +26,7 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen>
       email: emailController.text,
       password: passwordController.text,
     );
-    Get.off(CustomerHomeMenuScreen());
+    Get.off(CustomerHomeMenuScreen(email: emailController.text,));
     Get.showSnackbar(const GetSnackBar(
       title: 'Success',
       message: ' ',

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ostad_flutter_batch_two/modules/seller_module/seller_auth/seller_information_screen.dart';
 import 'package:ostad_flutter_batch_two/modules/seller_module/seller_auth/seller_login_screen.dart';
 
 class SellerRegistrationScreen extends StatefulWidget {
@@ -15,10 +16,32 @@ class _SellerRegistrationScreenState extends State<SellerRegistrationScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool inProgress = false;
 
   Future register() async {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text, password: passwordController.text);
+    inProgress = true;
+    setState(() {
+
+    });
+    await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+            email: emailController.text, password: passwordController.text)
+        .then((value) {
+      setState(() {
+        inProgress = false;
+        Get.to(SellerInformationScreen(email: emailController.text.toString()));
+      });
+    }).onError((error, stackTrace) {
+      Get.showSnackbar(const GetSnackBar(
+        title: 'User Already Registered',
+        message: 'Please try different account',
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 2),
+      ));
+      setState(() {
+        inProgress = false;
+      });
+    });
   }
 
   @override
@@ -44,7 +67,10 @@ class _SellerRegistrationScreenState extends State<SellerRegistrationScreen> {
                   children: [
                     const Text(
                       'Seller Registration',
-                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24, color: Colors.white),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 24,
+                          color: Colors.white),
                     ),
                     const SizedBox(
                       height: 10,
@@ -64,7 +90,8 @@ class _SellerRegistrationScreenState extends State<SellerRegistrationScreen> {
                           hintText: 'Email',
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(color: Colors.green))),
+                              borderSide:
+                                  const BorderSide(color: Colors.green))),
                     ),
                     const SizedBox(
                       height: 10,
@@ -85,7 +112,8 @@ class _SellerRegistrationScreenState extends State<SellerRegistrationScreen> {
                           hintText: 'Password',
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(color: Colors.green))),
+                              borderSide:
+                                  const BorderSide(color: Colors.green))),
                     ),
                     const SizedBox(
                       height: 20,
@@ -98,14 +126,7 @@ class _SellerRegistrationScreenState extends State<SellerRegistrationScreen> {
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
                               register();
-                              Get.offAll(const SellerLoginScreen());
-                              Get.showSnackbar(
-                                const GetSnackBar(
-                                  title: 'Welcome',
-                                  message: 'Successfully Registered',
-                                  duration: Duration(seconds: 2),
-                                ),
-                              );
+
                             }
                           },
                           child: const Text('Next')),

@@ -5,7 +5,8 @@ import 'package:get/get.dart';
 import 'chicken_screen_details.dart';
 
 class ChickenScreen extends StatefulWidget {
-  const ChickenScreen({Key? key}) : super(key: key);
+  final String? email;
+  const ChickenScreen({Key? key, this.email}) : super(key: key);
 
   @override
   State<ChickenScreen> createState() => _ChickenScreenState();
@@ -63,6 +64,9 @@ class _ChickenScreenState extends State<ChickenScreen> {
                   onTap: () {
                     Get.to(
                       ChickenScreenDetails(
+                        title: foodDetails[index].title,
+                        price: foodDetails[index].price,
+                        email: widget.email.toString(),
                         url: foodDetails[index].image.toString(),
                       ),
                     );

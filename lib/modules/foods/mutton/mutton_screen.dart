@@ -5,15 +5,19 @@ import 'package:get/get.dart';
 import 'mutton_screen_details.dart';
 
 class MuttonScreen extends StatefulWidget {
-  const MuttonScreen({Key? key}) : super(key: key);
+  final String? email;
+
+  const MuttonScreen({Key? key, this.email}) : super(key: key);
 
   @override
   State<MuttonScreen> createState() => _MuttonScreenState();
 }
 
 class _MuttonScreenState extends State<MuttonScreen> {
+
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   List<FoodDetails> foodDetails = [];
+
   //var title = foodDetails[index].image.toString();
 
   @override
@@ -63,6 +67,9 @@ class _MuttonScreenState extends State<MuttonScreen> {
                   onTap: () {
                     Get.to(
                       MuttonScreenDetails(
+                        title: foodDetails[index].title,
+                        email: widget.email.toString(),
+                        price: foodDetails[index].price,
                         url: foodDetails[index].image.toString(),
                       ),
                     );
