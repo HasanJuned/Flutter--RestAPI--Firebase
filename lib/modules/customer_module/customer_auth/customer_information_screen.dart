@@ -44,7 +44,7 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
             TextButton(
                 onPressed: () async {
                   await FirebaseFirestore.instance
-                      .collection(numberController.text)
+                      .collection(emailController.text)
                       .add({
                     'name': nameController.text,
                     'address': addressController.text,
@@ -59,7 +59,7 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
                       backgroundColor: Colors.green,
                     ),
                   );
-                  Get.off(const CustomerLoginScreen());
+                  Get.off(CustomerLoginScreen(email: emailController.text, mobile: numberController.text,));
                 },
                 child: const Text('Yes', style: TextStyle(color: Colors.redAccent),)),
           ],

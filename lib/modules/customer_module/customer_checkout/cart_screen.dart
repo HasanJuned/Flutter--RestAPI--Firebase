@@ -6,10 +6,10 @@ import 'package:ostad_flutter_batch_two/modules/customer_module/screens_customer
 import 'package:ostad_flutter_batch_two/modules/widgets/app_elevated_button.dart';
 
 class CartScreen extends StatefulWidget {
-  final String? title, price, imageUrl, email;
+  final String? title, price, imageUrl, email, mobile;
 
   const CartScreen(
-      {Key? key, this.title, this.price, this.imageUrl, this.email})
+      {Key? key, this.title, this.price, this.imageUrl, this.email, this.mobile})
       : super(key: key);
 
   @override
@@ -20,12 +20,13 @@ class _CartScreenState extends State<CartScreen> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   List<CartFood> cartFood = [];
 
-  //var title = foodDetails[index].image.toString();
+  int getTotalPrice = 0;
 
   @override
   void initState() {
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +36,8 @@ class _CartScreenState extends State<CartScreen> {
         centerTitle: true,
         backgroundColor: Colors.redAccent,
         actions: [
-          IconButton(onPressed: (){
-            Get.offAll(CustomerHomeMenuScreen(email: widget.email.toString(),));
+          IconButton(onPressed: () {
+            Get.offAll(CustomerHomeMenuScreen(email: widget.email.toString(), mobile: widget.mobile.toString(),));
           }, icon: const Icon(Icons.add, size: 28,))
         ],
       ),
@@ -44,7 +45,7 @@ class _CartScreenState extends State<CartScreen> {
         padding: const EdgeInsets.all(8.0),
         child: StreamBuilder<QuerySnapshot>(
           stream:
-              firebaseFirestore.collection(widget.email.toString()).snapshots(),
+          firebaseFirestore.collection(widget.mobile.toString()).snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -66,8 +67,10 @@ class _CartScreenState extends State<CartScreen> {
                     doc.get('image'),
                   ),
                 );
+                getTotalPrice += int.parse(doc.get('price'));
               }
             }
+            //getTotalPrice = 0;
             return Column(
               children: [
                 Expanded(
@@ -75,7 +78,9 @@ class _CartScreenState extends State<CartScreen> {
                     itemCount: cartFood.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        onTap: () {},
+                        onTap: () {
+
+                        },
                         title: Text(
                           cartFood[index].title.toString(),
                           style: const TextStyle(
@@ -101,7 +106,8 @@ class _CartScreenState extends State<CartScreen> {
                             ),
                           ],
                         ),
-                        trailing: Image.network(cartFood[index].image.toString()),
+                        trailing: Image.network(cartFood[index].image
+                            .toString()),
                       );
                     },
                     separatorBuilder: (BuildContext context, int index) {
@@ -111,9 +117,10 @@ class _CartScreenState extends State<CartScreen> {
                     },
                   ),
                 ),
-                AppElevatedButton(text: 'Checkout', onTap: (){
-                  Get.to(CustomerCheckoutScreen(price: '1020', email: widget.email.toString()));
-
+                AppElevatedButton(text: 'Checkout', onTap: () {
+                  Get.to(CustomerCheckoutScreen(
+                    mobile: widget.mobile.toString(),
+                      price: getTotalPrice.toString(), email: widget.email.toString()));
                 }),
                 const SizedBox(height: 16,)
               ],

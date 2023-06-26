@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'drinks_screen_details.dart';
 
 class DrinksScreen extends StatefulWidget {
-  final String? email;
-  const DrinksScreen({Key? key, this.email}) : super(key: key);
+  final String? email, mobile;
+  const DrinksScreen({Key? key, this.email, this.mobile}) : super(key: key);
 
   @override
   State<DrinksScreen> createState() => _DrinksScreenState();
@@ -68,6 +68,7 @@ class _DrinksScreenState extends State<DrinksScreen> {
                         email: widget.email.toString(),
                         price: foodDetails[index].price,
                         url: foodDetails[index].image.toString(),
+                        mobile: widget.mobile.toString(),
                       ),
                     );
                   },

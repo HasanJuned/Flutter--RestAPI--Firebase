@@ -6,10 +6,15 @@ import 'package:ostad_flutter_batch_two/modules/widgets/app_elevated_button.dart
 import 'package:get/get.dart';
 
 class ChickenScreenDetails extends StatefulWidget {
-  final String? title, url, price, email;
+  final String? title, url, price, email, mobile;
 
   const ChickenScreenDetails(
-      {Key? key, required this.url, this.title, this.price, this.email})
+      {Key? key,
+      required this.url,
+      this.title,
+      this.price,
+      this.email,
+      this.mobile})
       : super(key: key);
 
   @override
@@ -17,6 +22,30 @@ class ChickenScreenDetails extends StatefulWidget {
 }
 
 class _ChickenScreenDetailsState extends State<ChickenScreenDetails> {
+  bool inProgress = false;
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  List<UserNumberFromFirebase> userNumberFromFirebase = [];
+
+  Future<void> getUserNumber() async {
+    inProgress = true;
+    setState(() {});
+    userNumberFromFirebase.clear();
+    await firebaseFirestore.collection(widget.email.toString()).get().then(
+          (documents) {
+        for (var doc in documents.docs) {
+          userNumberFromFirebase.add(
+            UserNumberFromFirebase(
+              doc.get('mobile number'),
+            ),
+          );
+        }
+      },
+    );
+
+    inProgress = false;
+    setState(() {});
+  }
+
   Future addDetailsToDatabase() async {
     showDialog(
       context: context,
@@ -33,13 +62,14 @@ class _ChickenScreenDetailsState extends State<ChickenScreenDetails> {
             TextButton(
                 onPressed: () async {
                   await FirebaseFirestore.instance
-                      .collection(widget.email.toString())
-                      .add({
-                    'title': widget.title.toString(),
-                    'price': widget.price.toString(),
-                    'image': widget.url.toString()
-                  });
-
+                      .collection(userNumberFromFirebase[0].number.toString())
+                      .add(
+                    {
+                      'title': widget.title.toString(),
+                      'price': widget.price.toString(),
+                      'image': widget.url.toString()
+                    },
+                  );
                   Get.showSnackbar(
                     const GetSnackBar(
                       title: 'Successfully added!',
@@ -53,6 +83,7 @@ class _ChickenScreenDetailsState extends State<ChickenScreenDetails> {
                     price: widget.price.toString(),
                     imageUrl: widget.url.toString(),
                     email: widget.email.toString(),
+                    mobile: userNumberFromFirebase[0].number.toString(),
                   ));
                 },
                 child: const Text('Yes')),
@@ -60,6 +91,12 @@ class _ChickenScreenDetailsState extends State<ChickenScreenDetails> {
         );
       },
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserNumber();
   }
 
   @override
@@ -120,4 +157,10 @@ class _ChickenScreenDetailsState extends State<ChickenScreenDetails> {
       ),
     );
   }
+}
+
+class UserNumberFromFirebase {
+  final String number;
+
+  UserNumberFromFirebase(this.number);
 }

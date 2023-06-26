@@ -6,14 +6,14 @@ import '../../customer_module/customer_checkout/cart_screen.dart';
 import '../../widgets/app_elevated_button.dart';
 
 class DrinksScreenDetails extends StatefulWidget {
-  final String? title, url, price, email;
+  final String? title, url, price, email, mobile;
 
   const DrinksScreenDetails({
     Key? key,
     required this.title,
     required this.price,
     required this.url,
-    this.email,
+    this.email, this.mobile,
   }) : super(key: key);
 
   @override
@@ -21,6 +21,30 @@ class DrinksScreenDetails extends StatefulWidget {
 }
 
 class _DrinksScreenDetailsState extends State<DrinksScreenDetails> {
+  bool inProgress = false;
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  List<UserNumberFromFirebase> userNumberFromFirebase = [];
+
+  Future<void> getUserNumber() async {
+    inProgress = true;
+    setState(() {});
+    userNumberFromFirebase.clear();
+    await firebaseFirestore.collection(widget.email.toString()).get().then(
+          (documents) {
+        for (var doc in documents.docs) {
+          userNumberFromFirebase.add(
+            UserNumberFromFirebase(
+              doc.get('mobile number'),
+            ),
+          );
+        }
+      },
+    );
+
+    inProgress = false;
+    setState(() {});
+  }
+
   Future addDetailsToDatabase() async {
     showDialog(
       context: context,
@@ -37,13 +61,14 @@ class _DrinksScreenDetailsState extends State<DrinksScreenDetails> {
             TextButton(
                 onPressed: () async {
                   await FirebaseFirestore.instance
-                      .collection(widget.email.toString())
-                      .add({
-                    'title': widget.title.toString(),
-                    'price': widget.price.toString(),
-                    'image': widget.url.toString()
-                  });
-
+                      .collection(userNumberFromFirebase[0].number.toString())
+                      .add(
+                    {
+                      'title': widget.title.toString(),
+                      'price': widget.price.toString(),
+                      'image': widget.url.toString()
+                    },
+                  );
                   Get.showSnackbar(
                     const GetSnackBar(
                       title: 'Successfully added!',
@@ -53,11 +78,11 @@ class _DrinksScreenDetailsState extends State<DrinksScreenDetails> {
                     ),
                   );
                   Get.to(CartScreen(
-                      title: widget.title.toString(),
-                      price: widget.price.toString(),
-                      imageUrl: widget.url.toString(),
+                    title: widget.title.toString(),
+                    price: widget.price.toString(),
+                    imageUrl: widget.url.toString(),
                     email: widget.email.toString(),
-
+                    mobile: userNumberFromFirebase[0].number.toString(),
                   ));
                 },
                 child: const Text('Yes')),
@@ -65,6 +90,12 @@ class _DrinksScreenDetailsState extends State<DrinksScreenDetails> {
         );
       },
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserNumber();
   }
 
   @override
@@ -125,4 +156,10 @@ class _DrinksScreenDetailsState extends State<DrinksScreenDetails> {
       ),
     );
   }
+}
+
+class UserNumberFromFirebase {
+  final String number;
+
+  UserNumberFromFirebase(this.number);
 }

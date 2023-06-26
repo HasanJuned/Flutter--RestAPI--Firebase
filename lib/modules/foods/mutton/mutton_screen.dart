@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'mutton_screen_details.dart';
 
 class MuttonScreen extends StatefulWidget {
-  final String? email;
+  final String? email, mobile;
 
-  const MuttonScreen({Key? key, this.email}) : super(key: key);
+  const MuttonScreen({Key? key, this.email, this.mobile}) : super(key: key);
 
   @override
   State<MuttonScreen> createState() => _MuttonScreenState();
@@ -71,6 +71,8 @@ class _MuttonScreenState extends State<MuttonScreen> {
                         email: widget.email.toString(),
                         price: foodDetails[index].price,
                         url: foodDetails[index].image.toString(),
+                        mobile: widget.mobile.toString(),
+
                       ),
                     );
                   },

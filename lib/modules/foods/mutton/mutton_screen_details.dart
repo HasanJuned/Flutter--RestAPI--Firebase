@@ -2,12 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../customer_module/customer_checkout/CustomerCheckoutScreen.dart';
 import '../../customer_module/customer_checkout/cart_screen.dart';
 import '../../widgets/app_elevated_button.dart';
 
 class MuttonScreenDetails extends StatefulWidget {
-  final String? title, url, price, email;
+  final String? title, url, price, email, mobile;
 
   const MuttonScreenDetails({
     Key? key,
@@ -15,6 +14,7 @@ class MuttonScreenDetails extends StatefulWidget {
     required this.price,
     required this.url,
     this.email,
+    this.mobile,
   }) : super(key: key);
 
   @override
@@ -22,6 +22,30 @@ class MuttonScreenDetails extends StatefulWidget {
 }
 
 class _MuttonScreenDetailsState extends State<MuttonScreenDetails> {
+  bool inProgress = false;
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  List<UserNumberFromFirebase> userNumberFromFirebase = [];
+
+  Future<void> getUserNumber() async {
+    inProgress = true;
+    setState(() {});
+    userNumberFromFirebase.clear();
+    await firebaseFirestore.collection(widget.email.toString()).get().then(
+      (documents) {
+        for (var doc in documents.docs) {
+          userNumberFromFirebase.add(
+            UserNumberFromFirebase(
+              doc.get('mobile number'),
+            ),
+          );
+        }
+      },
+    );
+
+    inProgress = false;
+    setState(() {});
+  }
+
   Future addDetailsToDatabase() async {
     showDialog(
       context: context,
@@ -38,13 +62,14 @@ class _MuttonScreenDetailsState extends State<MuttonScreenDetails> {
             TextButton(
                 onPressed: () async {
                   await FirebaseFirestore.instance
-                      .collection(widget.email.toString())
-                      .add({
-                    'title': widget.title.toString(),
-                    'price': widget.price.toString(),
-                    'image': widget.url.toString()
-                  });
-
+                      .collection(userNumberFromFirebase[0].number.toString())
+                      .add(
+                    {
+                      'title': widget.title.toString(),
+                      'price': widget.price.toString(),
+                      'image': widget.url.toString()
+                    },
+                  );
                   Get.showSnackbar(
                     const GetSnackBar(
                       title: 'Successfully added!',
@@ -58,6 +83,7 @@ class _MuttonScreenDetailsState extends State<MuttonScreenDetails> {
                     price: widget.price.toString(),
                     imageUrl: widget.url.toString(),
                     email: widget.email.toString(),
+                    mobile: userNumberFromFirebase[0].number.toString(),
                   ));
                 },
                 child: const Text('Yes')),
@@ -65,6 +91,12 @@ class _MuttonScreenDetailsState extends State<MuttonScreenDetails> {
         );
       },
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserNumber();
   }
 
   @override
@@ -125,4 +157,10 @@ class _MuttonScreenDetailsState extends State<MuttonScreenDetails> {
       ),
     );
   }
+}
+
+class UserNumberFromFirebase {
+  final String number;
+
+  UserNumberFromFirebase(this.number);
 }

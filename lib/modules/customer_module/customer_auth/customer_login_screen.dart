@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ostad_flutter_batch_two/modules/customer_module/screens_customer/customer_home_menu_screen.dart';
 
-import '../screens_customer/seller_dashboard_screen.dart';
 import 'customer_register_screen.dart';
 
 
 class CustomerLoginScreen extends StatefulWidget {
-  const CustomerLoginScreen({Key? key}) : super(key: key);
+  final String? email, mobile;
+  const CustomerLoginScreen({Key? key, this.email, this.mobile}) : super(key: key);
 
   @override
   State<CustomerLoginScreen> createState() => _CustomerLoginScreenState();
@@ -25,14 +25,24 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen>
     await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: emailController.text,
       password: passwordController.text,
-    );
-    Get.off(CustomerHomeMenuScreen(email: emailController.text,));
-    Get.showSnackbar(const GetSnackBar(
-      title: 'Success',
-      message: ' ',
-      backgroundColor: Colors.green,
-      duration: Duration(seconds: 2),
-    ));
+    ).then((value) {
+      Get.showSnackbar(const GetSnackBar(
+        title: 'Success',
+        message: ' ',
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 2),
+      ));
+      Get.off(CustomerHomeMenuScreen(email: emailController.text, mobile: widget.mobile.toString(),));
+
+    }).onError((error, stackTrace) {
+      Get.showSnackbar(const GetSnackBar(
+        title: 'Invalid Email or Password',
+        message: 'Try again',
+        backgroundColor: Colors.redAccent,
+        duration: Duration(seconds: 2),
+      ));
+    });
+
   }
 
   @override

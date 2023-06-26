@@ -5,11 +5,11 @@ import 'package:ostad_flutter_batch_two/modules/customer_module/screens_customer
 import 'package:ostad_flutter_batch_two/modules/widgets/app_elevated_button.dart';
 
 class CustomerCheckoutScreen extends StatefulWidget {
-  final String? price, email;
+  final String? price, email, mobile;
 
   const CustomerCheckoutScreen({
     Key? key,
-    this.price, this.email,
+    this.price, this.email, this.mobile,
   }) : super(key: key);
 
   @override
@@ -44,7 +44,7 @@ class _CustomerCheckoutScreenState extends State<CustomerCheckoutScreen> {
                 child: Center(
                   child: StreamBuilder<QuerySnapshot>(
                       stream: firebaseFirestore
-                          .collection('01812848136')
+                          .collection(widget.email.toString())
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
@@ -150,7 +150,7 @@ class _CustomerCheckoutScreenState extends State<CustomerCheckoutScreen> {
                                   )),
                               TextButton(
                                   onPressed: () {
-                                    Get.offAll(CustomerHomeMenuScreen(email: widget.email.toString(),));
+                                    Get.offAll(CustomerHomeMenuScreen(email: widget.email.toString(), mobile: widget.mobile.toString(),));
                                   },
                                   child: const Text(
                                     'Yes',
