@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ostad_flutter_batch_two/modules/customer_module/customer_auth/customer_login_screen.dart';
 
+import '../../../fcm_utils.dart';
 import '../../auth_screens/choose_auth_screen.dart';
 import '../../foods/chikcken/chicken_screen.dart';
 import '../../foods/drinks/drinks_screen.dart';
@@ -12,7 +14,9 @@ import '../customer_checkout/cart_screen.dart';
 
 class CustomerHomeMenuScreen extends StatefulWidget {
   final String? email, mobile;
-  const CustomerHomeMenuScreen({Key? key, this.email, this.mobile}) : super(key: key);
+
+  const CustomerHomeMenuScreen({Key? key, this.email, this.mobile})
+      : super(key: key);
 
   @override
   State<CustomerHomeMenuScreen> createState() => _CustomerHomeMenuScreenState();
@@ -21,6 +25,24 @@ class CustomerHomeMenuScreen extends StatefulWidget {
 class _CustomerHomeMenuScreenState extends State<CustomerHomeMenuScreen> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   List<UserDetails> userDetails = [];
+  NotificationServices notificationServices = NotificationServices();
+
+  @override
+  void initState() {
+    super.initState();
+    notificationServices.requestNotificationPermission();
+    notificationServices.forgroundMessage();
+    notificationServices.firebaseInit(context);
+    notificationServices.setupInteractMessage(context);
+    notificationServices.isTokenRefresh();
+
+    notificationServices.getDeviceToken().then((value) {
+      if (kDebugMode) {
+        print('device token');
+        print(value);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,10 +130,12 @@ class _CustomerHomeMenuScreenState extends State<CustomerHomeMenuScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          Get.to(DrinksScreen(
-                            email: widget.email.toString(),
-                            mobile: widget.mobile.toString(),
-                          ));
+                          Get.to(
+                            DrinksScreen(
+                              email: widget.email.toString(),
+                              mobile: widget.mobile.toString(),
+                            ),
+                          );
                         },
                         child: Container(
                           height: 100,
@@ -194,7 +218,8 @@ class _CustomerHomeMenuScreenState extends State<CustomerHomeMenuScreen> {
         ],
       ),
       drawer: StreamBuilder<QuerySnapshot>(
-          stream: firebaseFirestore.collection(widget.email.toString()).snapshots(),
+          stream:
+              firebaseFirestore.collection(widget.email.toString()).snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
