@@ -141,6 +141,7 @@ class _MuttonScreenDetailsState extends State<MuttonScreenDetails> {
                 SizedBox(
                   width: double.infinity,
                   child: AppElevatedButton(
+                    color: Colors.redAccent,
                     text: 'Add to Cart',
                     onTap: () {
                       addDetailsToDatabase();

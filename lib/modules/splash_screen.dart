@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> with WidgetsBindingObserver
     WidgetsBinding.instance?.addObserver(this);
     super.initState();
     Future.delayed(const Duration(seconds: 2)).then((value) {
-      return Get.off(const CheckAuthorizationScreen());
+      return Get.off(const ChooseAuthScreen());
     });
   }
 

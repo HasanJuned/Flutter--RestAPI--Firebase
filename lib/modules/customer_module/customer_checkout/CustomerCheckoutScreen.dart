@@ -22,6 +22,10 @@ class _CustomerCheckoutScreenState extends State<CustomerCheckoutScreen> {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   List<CustomerIdentity> customerIdentity = [];
 
+  String? customerName;
+  String? customerAddress;
+  String? customerCall;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +73,9 @@ class _CustomerCheckoutScreenState extends State<CustomerCheckoutScreen> {
                               doc.get('mobile number'),
                             ),
                           );
+                          customerName = doc.get('name').toString();
+                          customerAddress = doc.get('address').toString();
+                          customerCall = doc.get('mobile number').toString();
                         }
                       }
                       return ListView.separated(
@@ -141,37 +148,60 @@ class _CustomerCheckoutScreenState extends State<CustomerCheckoutScreen> {
                 height: 50,
               ),
               AppElevatedButton(
+                color: Colors.redAccent,
                   text: 'Confirm Order',
                   onTap: () {
                     showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text('Confirmation'),
-                            content: const Text('Are you sure for submission?'),
-                            actions: [
-                              TextButton(
-                                  onPressed: () {
-                                    Get.back();
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Confirmation'),
+                          content: const Text('Are you sure for submission?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              child: const Text(
+                                'No',
+                                style: TextStyle(color: Colors.redAccent),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                await firebaseFirestore
+                                    .collection('order list')
+                                    .doc(customerCall.toString())
+                                    .set(
+                                  {
+                                    'name': customerName.toString(),
+                                    'total price': widget.price,
+                                    'location': customerAddress.toString(),
+                                    'call': customerCall.toString(),
                                   },
-                                  child: const Text(
-                                    'No',
-                                    style: TextStyle(color: Colors.redAccent),
-                                  )),
-                              TextButton(
-                                  onPressed: () {
-                                    Get.offAll(CustomerHomeMenuScreen(
-                                      email: widget.email.toString(),
-                                      mobile: widget.mobile.toString(),
-                                    ));
-                                  },
-                                  child: const Text(
-                                    'Yes',
-                                    style: TextStyle(color: Colors.redAccent),
-                                  )),
-                            ],
-                          );
-                        });
+                                );
+                                Get.showSnackbar(
+                                  const GetSnackBar(
+                                    title: 'Order Done!',
+                                    message: 'Waiting for confirmation',
+                                    duration: Duration(seconds: 2),
+                                    backgroundColor: Colors.green,
+                                  ),
+                                );
+                                Get.offAll(CustomerHomeMenuScreen(
+                                  email: widget.email.toString(),
+                                  mobile: widget.mobile.toString(),
+                                ));
+                              },
+                              child: const Text(
+                                'Yes',
+                                style: TextStyle(color: Colors.redAccent),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   }),
               const SizedBox(
                 height: 50,

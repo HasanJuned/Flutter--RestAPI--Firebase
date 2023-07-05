@@ -52,7 +52,7 @@ class _ChickenScreenDetailsState extends State<ChickenScreenDetails> {
       builder: (context) {
         return AlertDialog(
           title: const Text('Confirmation'),
-          content: const Text('Are you sure for submission?'),
+          content: const Text('Are you sure for add to cart?'),
           actions: [
             TextButton(
                 onPressed: () {
@@ -141,6 +141,7 @@ class _ChickenScreenDetailsState extends State<ChickenScreenDetails> {
                 SizedBox(
                   width: double.infinity,
                   child: AppElevatedButton(
+                    color: Colors.redAccent,
                     text: 'Add to Cart',
                     onTap: () {
                       addDetailsToDatabase();

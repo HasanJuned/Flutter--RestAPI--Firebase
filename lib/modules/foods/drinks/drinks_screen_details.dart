@@ -140,6 +140,7 @@ class _DrinksScreenDetailsState extends State<DrinksScreenDetails> {
                 SizedBox(
                   width: double.infinity,
                   child: AppElevatedButton(
+                    color: Colors.redAccent,
                     text: 'Add to Cart',
                     onTap: () {
                       addDetailsToDatabase();

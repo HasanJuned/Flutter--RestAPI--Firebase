@@ -25,11 +25,11 @@ class _SellerRegistrationScreenState extends State<SellerRegistrationScreen> {
     });
     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(
-            email: emailController.text, password: passwordController.text)
+        email: emailController.text, password: passwordController.text)
         .then((value) {
       setState(() {
         inProgress = false;
-        Get.to(SellerInformationScreen(email: emailController.text.toString()));
+        Get.to(SellerInformationScreen(email: emailController.text.toString(),));
       });
     }).onError((error, stackTrace) {
       Get.showSnackbar(const GetSnackBar(

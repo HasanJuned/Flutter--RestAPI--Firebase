@@ -117,7 +117,9 @@ class _CartScreenState extends State<CartScreen> {
                     },
                   ),
                 ),
-                AppElevatedButton(text: 'Checkout', onTap: () {
+                AppElevatedButton(
+                    color: Colors.redAccent,
+                    text: 'Checkout', onTap: () {
                   Get.to(CustomerCheckoutScreen(
                     mobile: widget.mobile.toString(),
                       price: getTotalPrice.toString(), email: widget.email.toString()));

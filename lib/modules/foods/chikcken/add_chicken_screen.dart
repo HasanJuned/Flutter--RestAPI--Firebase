@@ -45,7 +45,7 @@ class _AddChickenScreenState extends State<AddChickenScreen> {
                   leading: const Icon(Icons.image),
                   onTap: () async {
                     pickedImage = await ImagePicker()
-                        .pickImage(source: ImageSource.gallery);
+                        .pickImage(source: ImageSource.camera);
                     log(pickedImage!.path);
 
                     if (pickedImage == null) {
@@ -208,6 +208,7 @@ class _AddChickenScreenState extends State<AddChickenScreen> {
                         height: 10,
                       ),
                       AppElevatedButton(
+                        color: Colors.redAccent,
                         text: 'Submit',
                         onTap: () async {
                           if (formKey.currentState!.validate()) {

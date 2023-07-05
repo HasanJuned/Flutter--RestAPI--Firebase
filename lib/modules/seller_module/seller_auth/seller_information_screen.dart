@@ -45,7 +45,7 @@ class _SellerInformationScreenState extends State<SellerInformationScreen> {
             TextButton(
                 onPressed: () async {
                   await FirebaseFirestore.instance
-                      .collection(numberController.text)
+                      .collection(emailController.text)
                       .add({
                     'owner name': nameController.text,
                     'address': addressController.text,
@@ -192,6 +192,7 @@ class _SellerInformationScreenState extends State<SellerInformationScreen> {
                             height: 40,
                             width: double.infinity,
                             child: AppElevatedButton(
+                              color: Colors.redAccent,
                                 text: 'Submit',
                                 onTap: () {
                                   if (formKey.currentState!.validate()) {

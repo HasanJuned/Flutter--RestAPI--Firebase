@@ -23,14 +23,24 @@ class _SellerLoginScreenState extends State<SellerLoginScreen> {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: emailController.text,
       password: passwordController.text,
-    );
-    Get.off(const SellerHomeScreen());
-    Get.showSnackbar(const GetSnackBar(
-      title: 'Success Login',
-      message: ' ',
-      backgroundColor: Colors.green,
-      duration: Duration(seconds: 2),
-    ));
+    ).then((value) {
+      Get.showSnackbar(const GetSnackBar(
+        title: 'Success',
+        message: ' ',
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 2),
+      ));
+      Get.off(SellerHomeScreen(email: emailController.text));
+
+    }).onError((error, stackTrace) {
+      Get.showSnackbar(const GetSnackBar(
+        title: 'Invalid Email or Password',
+        message: 'Try again',
+        backgroundColor: Colors.redAccent,
+        duration: Duration(seconds: 2),
+      ));
+    });
+
   }
 
   @override

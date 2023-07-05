@@ -198,6 +198,8 @@ class _AddMuttonScreenState extends State<AddMuttonScreen> {
                     height: 10,
                   ),
                   AppElevatedButton(
+                    color: Colors.redAccent,
+
                     text: 'Submit',
                     onTap: () async {
                       if (formKey.currentState!.validate()) {

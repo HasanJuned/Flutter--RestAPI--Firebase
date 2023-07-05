@@ -2,12 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ostad_flutter_batch_two/modules/seller_module/screens_seller/show_result_screen.dart';
+import 'package:ostad_flutter_batch_two/modules/seller_module/screens_seller/order_list_screen.dart';
 import '../../auth_screens/choose_auth_screen.dart';
 import 'types_of_food_screen.dart';
 
 class SellerHomeScreen extends StatefulWidget {
-  const SellerHomeScreen({Key? key}) : super(key: key);
+  final String? email;
+  const SellerHomeScreen({Key? key, this.email}) : super(key: key);
 
   @override
   State<SellerHomeScreen> createState() => _SellerHomeScreenState();
@@ -23,19 +24,19 @@ class _SellerHomeScreenState extends State<SellerHomeScreen>
 
   @override
   void initState() {
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
 
   @override
   void deactivate() {
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     super.deactivate();
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     super.dispose();
   }
 
@@ -135,7 +136,8 @@ class _SellerHomeScreenState extends State<SellerHomeScreen>
         ],
       ),
       drawer: StreamBuilder<QuerySnapshot>(
-          stream: firebaseFirestore.collection('01812848136').snapshots(),
+          stream:
+          firebaseFirestore.collection(widget.email.toString()).snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -153,39 +155,199 @@ class _SellerHomeScreenState extends State<SellerHomeScreen>
                 sellerDetails.add(
                   SellerInformation(
                     doc.get('owner name'),
-                    doc.get('mobile number'),
                     doc.get('address'),
+                    doc.get('mobile number'),
                     doc.get('email'),
                   ),
                 );
               }
             }
-            return ListView.separated(
-              itemCount: sellerDetails.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  onTap: () {
-                    // Get.to(
-                    //   ChickenScreenDetails(
-                    //     title: foodDetails[index].title,
-                    //     price: foodDetails[index].price,
-                    //     url: foodDetails[index].image.toString(),
-                    //   ),
-                    //);
-                  },
-                  title: Text(''),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [],
+            return SafeArea(
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                    bottomRight: Radius.circular(20),
+                    topRight: Radius.circular(20)),
+                child: Drawer(
+                  backgroundColor: Colors.white,
+                  child: ListView.separated(
+                    itemCount: sellerDetails.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          DrawerHeader(
+                              padding: const EdgeInsets.all(0),
+                              child: UserAccountsDrawerHeader(
+                                currentAccountPicture: const Icon(
+                                  Icons.person,
+                                  size: 60,
+                                  color: Colors.blueGrey,
+                                ),
+                                decoration:
+                                const BoxDecoration(color: Colors.green),
+                                accountName: Text(
+                                  sellerDetails[index].name.toString(),
+                                  style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      letterSpacing: 0.9),
+                                ),
+                                accountEmail: Text(
+                                    sellerDetails[index].email.toString(),
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17,
+                                        letterSpacing: 0.9)),
+                                currentAccountPictureSize:
+                                const Size.square(50),
+                              )),
+                          ListTile(
+                            leading: const Icon(
+                              Icons.home,
+                              color: Colors.redAccent,
+                            ),
+                            title: const Text(
+                              'Home',
+                              style: TextStyle(
+                                  letterSpacing: 1,
+                                  color: Colors.black,
+                                  fontSize: 17),
+                            ),
+                            hoverColor: Colors.grey,
+                            onTap: () {
+                              Get.back();
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(
+                              Icons.person,
+                              color: Colors.redAccent,
+                            ),
+                            title: const Text(
+                              'Admin Profile',
+                              style: TextStyle(
+                                  letterSpacing: 1,
+                                  color: Colors.black,
+                                  fontSize: 17),
+                            ),
+                            hoverColor: Colors.grey,
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Column(
+                                        children: [
+                                          Text(sellerDetails[index]
+                                              .name
+                                              .toString()),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            sellerDetails[index]
+                                                .address
+                                                .toString(),
+                                            style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            sellerDetails[index]
+                                                .mobile
+                                                .toString(),
+                                            style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400,
+                                                letterSpacing: 0.7),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            sellerDetails[index].email.toString(),
+                                            style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400,
+                                                letterSpacing: 0.7),
+                                          ),
+                                        ],
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Get.back();
+                                            },
+                                            child: const Text(
+                                              'Ok',
+                                              style: TextStyle(
+                                                  color: Colors.redAccent),
+                                            )),
+                                      ],
+                                    );
+                                  });
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(
+                              Icons.question_mark,
+                              color: Colors.redAccent,
+                            ),
+                            title: const Text(
+                              'About Us',
+                              style: TextStyle(
+                                  letterSpacing: 1,
+                                  color: Colors.black,
+                                  fontSize: 17),
+                            ),
+                            hoverColor: Colors.grey,
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Column(
+                                        children: const [
+                                          Text('Food Company Name'),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            'We serve food for you!',
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        ],
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Get.back();
+                                            },
+                                            child: const Text(
+                                              'Ok',
+                                              style: TextStyle(
+                                                  color: Colors.redAccent),
+                                            )),
+                                      ],
+                                    );
+                                  });
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return const Divider(
+                        thickness: 3,
+                      );
+                    },
                   ),
-                  //trailing: Image.network(foodDetails[index].image.toString()),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return const Divider(
-                  thickness: 3,
-                );
-              },
+                ),
+              ),
             );
           }),
     );

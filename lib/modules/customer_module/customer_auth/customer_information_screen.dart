@@ -191,6 +191,7 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
                             height: 40,
                             width: double.infinity,
                             child: AppElevatedButton(
+                              color: Colors.redAccent,
                                 text: 'Submit',
                                 onTap: () {
                                   if (formKey.currentState!.validate()) {
