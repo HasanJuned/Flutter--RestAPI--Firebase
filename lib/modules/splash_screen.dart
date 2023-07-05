@@ -21,6 +21,9 @@ class _SplashScreenState extends State<SplashScreen> with WidgetsBindingObserver
     super.initState();
     Future.delayed(const Duration(seconds: 2)).then((value) {
       return Get.off(const ChooseAuthScreen());
+
+      /// ..
+      /// return Get.off(const CheckAuthorizationScreen()); /// ---> if I write this code, so using it we can check if' customer or admin is already login or not '
     });
   }
 
