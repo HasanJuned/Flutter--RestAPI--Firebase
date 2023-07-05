@@ -18,11 +18,11 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  runApp(const QuizApp());
+  runApp(const FoodApp());
 }
 
-class QuizApp extends StatelessWidget {
-  const QuizApp({Key? key}) : super(key: key);
+class FoodApp extends StatelessWidget {
+  const FoodApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
