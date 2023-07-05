@@ -45,7 +45,7 @@ class _AddChickenScreenState extends State<AddChickenScreen> {
                   leading: const Icon(Icons.image),
                   onTap: () async {
                     pickedImage = await ImagePicker()
-                        .pickImage(source: ImageSource.camera);
+                        .pickImage(source: ImageSource.gallery);
                     log(pickedImage!.path);
 
                     if (pickedImage == null) {
