@@ -70,7 +70,7 @@ class _CartScreenState extends State<CartScreen> {
                 getTotalPrice += int.parse(doc.get('price'));
               }
             }
-            //getTotalPrice = 0;
+            //getTotalPrice = 0;'
             return Column(
               children: [
                 Expanded(
